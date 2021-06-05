@@ -1,0 +1,35 @@
+
+    GestureDetectorCompat gestureDetectorCompat;
+
+        setContentView(R.layout.activity_main);
+        gestureDetectorCompat = new GestureDetectorCompat(getApplicationContext(), new GestureListener());
+
+
+-- CREATE CLASS WITHIN SAME JAVA CLASS AS SHOWN (NB: Override methods as you require (ie. onSingleTapConfirmed, onFling, onDoubleTap etc)) --
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            Toast.makeText(MainActivity.this, "Single Tapped", Toast.LENGTH_SHORT).show();
+            return super.onSingleTapConfirmed(e);
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            Toast.makeText(MainActivity.this, "Flung", Toast.LENGTH_SHORT).show();
+            return super.onFling(e1, e2, velocityX, velocityY);
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            Toast.makeText(MainActivity.this, "Double tapped", Toast.LENGTH_SHORT).show();
+            return super.onDoubleTap(e);
+        }
+    }
+
+------ OVERRIDE THIS METHOD OUTSIDE OF THE ABOVE CLASS -----
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        gestureDetectorCompat.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }

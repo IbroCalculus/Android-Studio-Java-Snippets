@@ -1,0 +1,118 @@
+
+THE 3 CATEGORIES OF SENSORS ARE:
+1-MOTION SENSORS:
+	These sensors measure acceleration forces and rotational forces along three axis. ie:
+	-Accelerometers, gravity sensors, gyroscopes, rotational vector sensors.
+
+2-ENVIRONMENTAL SENSORS:
+	These sensors measure various environmental parameters, such as ambient air temperature and pressure,
+	illumination and humidity. ie: Barometers, Thermometers and Photometers.
+
+3-POSITION SENSORS:
+	These sensors measure the physical position of a device. i.e Orientation sensors, magnetometers.
+
+=============================	IDENTIFY SENSORS IN A DEVICE	==============================
+
+    private SensorManager sensorManager;
+    private List<Sensor> deviceSensors;
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+
+====================== GET LIST OF SENSORS ======================================
+    private void showSensors() {
+        deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        //deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
+        //deviceSensors = sensorManager.getSensorList(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        tv_Display.setText(deviceSensors.toString());
+    }
+
+
+==================== FUNCTION TO DISPLAY ONLY THE NAMES OF THE LIST OF SENSORS ================================
+
+    private void showSensorsNamesOnly() {
+        deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        for(Sensor sensor : deviceSensors)
+        {
+            tv_Display.setText(tv_Display.getText() + "\n" + sensor.getName());
+        }
+    }
+
+
+======================== FUNCTION TO CHECK FOR SPECIFIC SENSOR ===============================
+
+    private void checkSpecificSensor() {
+        if(sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null)
+        {
+            Toast.makeText(this, "Proximity sensor is available on this device", Toast.LENGTH_SHORT).show();
+        }else
+            {
+                Toast.makeText(this, "Proximity sensor is unavailable on this device", Toast.LENGTH_SHORT).show();
+            }
+    }
+
+
+
+============	USE GOOGLE PLAY FILTERS TO TARGET DEVICES WITH SPECIFIED SENSORS ON PLAY STORE	=============
+in manifest, use: 
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true"/>
+
+	//i.e Users will see your application on Google play store only if their device has an accelerometer
+
+
+
+=====================	CAPABILITIES AND ATTRIBUTES OF ANDROID SENSORS	=====================
+
+    private SensorManager sensorManager;
+    private Sensor sensor;
+
+
+    private void getSomeProximitySensorProperties() {
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
+        String power_consumption = String.valueOf(sensor.getPower());
+        String name = String.valueOf(sensor.getName());
+        String version = String.valueOf(sensor.getVersion());
+        tv_Display.setText("Power consumption: " + power_consumption + "\nName: " + name + "\nVersion: " + version);
+    }
+
+
+ 
+================================  MONITORING SENSOR EVENTS FOR CHANGES  =================================
+
+    private SensorManager sensorManager;
+    private float changeValue;
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+
+IMPLEMENT SENSOR EVENT LISTENER AND IMPLEMENT THE TWO METHODS:
+
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        changedValue = sensorEvent.values[0];	//values is an array of upto 3 values depending on sensor. Some sensors send upto to 3 values, ie Position x,y,z.
+        tv_Display.setText(String.valueOf(changedValue));
+    }
+
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+----------------- Always copy and paste the below, changing the Sensor.TYPE_LIGHT to meet your requirement --------------------
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+

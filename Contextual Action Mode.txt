@@ -1,0 +1,96 @@
+
+NOTE ALSO; Floating Context Menu
+
+NB: Contextual action mode works by LONG-CLICKING on the widget
+    Display menu items in the toolBar
+
+
+CREATE MENU RESOURCE (context_menu) WITH MENU ITEMS.
+This should contain these 2 properties; id and title. Can also contain icons as well
+
+
+==== JAVA =====
+
+    Button button;
+    private androidx.appcompat.view.ActionMode mActionMode;
+
+        setContentView(R.layout.activity_main);
+        button = findViewById(R.id.button);
+
+        button.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                if(mActionMode != null){
+                    return false;
+                }
+                mActionMode = startSupportActionMode(mActionModeCallback);
+                return true;
+
+            }
+        });
+
+ = OUTSIDE MAIN, Type "private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {" to generate below; and replace as required
+
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+            mode.getMenuInflater().inflate(R.menu.context_menu, menu);
+            mode.setTitle("Choose your option");
+            return true;
+
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
+            switch (item.getItemId()){
+                case R.id.item1:
+                    Toast.makeText(MainActivity.this, "ITEM 1 Selected", Toast.LENGTH_SHORT).show();
+                    mode.finish();
+                    return true;
+
+                case R.id.item2:
+                    Toast.makeText(MainActivity.this, "ITEM 2 Selected", Toast.LENGTH_SHORT).show();
+                    mode.finish();
+                    return true;
+
+                case R.id.item3:
+                    Toast.makeText(MainActivity.this, "ITEM 3 Selected", Toast.LENGTH_SHORT).show();
+                    mode.finish();
+                    return true;
+
+                case R.id.item4:
+                    Toast.makeText(MainActivity.this, "ITEM 4 Selected", Toast.LENGTH_SHORT).show();
+                    mode.finish();
+                    return true;
+
+                default:
+                    return false;
+
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+        }
+    };
+
+
+==== CHANGE ACTION MODE BACKGROUND COLOR ====
+Go to Colors:    <color name="actionModeBgColor">#123456</color>
+Go to styles:    <item name="actionModeBackground">@color/actionModeBgColor</item>
+
+
+
+=== NB: When using custom toolbar with this, custom toolbar will be pushed below, unless DO as below =====
+Go to Styles:    <item name="windowActionBarOverlay">true</item>
+
+

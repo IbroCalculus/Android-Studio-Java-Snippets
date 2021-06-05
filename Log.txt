@@ -1,0 +1,21 @@
+
+public class MainActivity extends AppCompatActivity {
+    private static final String TAG1 = "Event monitor";
+
+        //Log.i(TAG1, "Oncreate method invoked");
+        Log.d(TAG1, "Entered on create method");
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG1, "You clicked on a button");                
+            }
+        });
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG1, "OnStop method invoked");
+    }

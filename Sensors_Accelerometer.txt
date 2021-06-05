@@ -1,0 +1,100 @@
+
+	Constant for the Sensor: TYPE_ACCELEROMETER
+	Unit of the Value: m/s^2
+	Type of Sensor: Physical Sensor
+	Type of Sensor Value: Raw
+
+ It returns 3 float values
+	currentX = sensorEvent.values[0];
+	currentY = sensorEvent.values[1];
+	currentZ = sensorEvent.values[2];
+
+ Also, lastX, lastY, lastZ.
+
+	If difference between any lastValue and CurrentValue >5, Shake occured
+
+======================================================================================================
+----------------- Develop a shake detector using the Acceleremoter -----------------------
+
+
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+
+    TextView X_Pos, Y_Pos, Z_Pos;
+    private SensorManager sensorManager;
+    private Sensor accelerometerSensor;
+    private Boolean isAccelerometerAvailable, itIsNotFirstTime = false;
+    private float currentX, currentY, currentZ, lastX, lastY, lastZ;
+    private float xDifference, yDifference, zDifference;
+    private float shakeThreshold = 5f;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        X_Pos = findViewById(R.id.X_Pos);
+        Y_Pos = findViewById(R.id.Y_Pos);
+        Z_Pos = findViewById(R.id.Z_Pos);
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        if(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null)
+        {
+            accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            isAccelerometerAvailable = true;
+        }else
+        {
+            Toast.makeText(this, "TYPE_ACCELEROMETER is unavailable on this device", Toast.LENGTH_SHORT).show();
+            isAccelerometerAvailable = false;
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        currentX = sensorEvent.values[0];
+        currentY = sensorEvent.values[1];
+        currentZ = sensorEvent.values[2];
+
+        X_Pos.setText(String.valueOf(currentX) + " m/s2");
+        Y_Pos.setText(String.valueOf(currentY) + " m/s2");
+        Z_Pos.setText(String.valueOf(currentZ) + " m/s2");
+
+        if(itIsNotFirstTime){
+            xDifference = Math.abs(lastX - currentX);
+            yDifference = Math.abs(lastY - currentY);
+            zDifference = Math.abs(lastZ - currentZ);
+
+            if((xDifference > shakeThreshold && yDifference > shakeThreshold) ||
+                    (xDifference > shakeThreshold && zDifference > shakeThreshold) ||
+                    (yDifference > shakeThreshold && zDifference > shakeThreshold)){
+                Toast.makeText(this, "Device shaked", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        lastX = currentX;
+        lastY = currentY;
+        lastZ = currentZ;
+        itIsNotFirstTime = true;
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
+
+
+

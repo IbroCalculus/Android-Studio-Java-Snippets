@@ -1,0 +1,14 @@
+FOR Also Night Mode and co, check about 08:34:00
+
+=============== LANDSCAPE OR PORTRAIT VIEW ONLY ============
+Within Manifest -> activity tag; add android:sreenOrientation... as shown
+
+        <activity android:name=".MainActivity"
+
+            android:screenOrientation="landscape">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+============== CREATE LAYOUT VARIATION ===================
+Select Create landscape variation

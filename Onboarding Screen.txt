@@ -1,0 +1,44 @@
+
+There are libraries that can do this, likewise, using viewpager etc.
+
+
+==== USING LIBRARAY "msayan" from github (https://github.com/msayan/tutorial-view) ====
+NB: Angga Risky
+
+			maven { url 'https://jitpack.io' }
+		implementation 'com.github.msayan:tutorial-view:v1.0.10'
+
+
+CREATE EMPTY ACTIVITY (i.e OnboardingScreen2), DO NOT GENERATE layout (Uncheck generate), implement the 2 methods
+
+--- JAVA (NB: ... extends TutorialActivity) ----
+
+public class OnboardingScreen2 extends TutorialActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        addFragment(new Step.Builder().setTitle("This is header")
+                .setContent("This is content")
+                .setBackgroundColor(Color.parseColor("#FF0957")) // int background color
+                .setDrawable(R.drawable.onbaording_img_1) // int top drawable
+                .setSummary("This is summary")
+                .build());
+    }
+
+    @Override
+    public void currentFragmentPosition(int position) {
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public void finishTutorial() {
+        Intent intent = new Intent(getApplicationContext(), PinSetup.class);
+        startActivity(intent);
+    }
