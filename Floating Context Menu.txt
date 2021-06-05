@@ -1,0 +1,49 @@
+
+NOTE ALSO; Contextual Menu
+
+NB: Floating context menu works by LONG-CLICKING on the widget
+    Displays menu item on a pop-up
+
+CREATE MENU RESOURCE (context_menu) WITH MENU ITEMS.
+This should contain just 2 properties; id and title. Does not display icons
+
+
+JAVA
+	Button btn_Context_menu;
+
+        btn_Context_menu = findViewById(R.id.btn_Context_menu);
+        registerForContextMenu(btn_Context_menu);
+	
+	}
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        menu.setHeaderTitle("Floating Context Menu Header");
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.context_menu, menu);
+    }
+
+
+*HANDLE THE CLICK EVENT OF A FLOATING ACTION MENU
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.item1:
+                Toast.makeText(this, "You clicked On Item 1", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.item2:
+                Toast.makeText(this, "You clicked on  Item 2", Toast.LENGTH_SHORT).show();
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+
+        }
+    }

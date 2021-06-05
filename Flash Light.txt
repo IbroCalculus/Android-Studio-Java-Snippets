@@ -1,0 +1,40 @@
+public class MainActivity extends AppCompatActivity {
+
+	private CameraManager cameraManager;
+    	private String backCamerID;
+    	private String frontCameraID;
+
+
+setContentView(R.layout.activity_main);
+
+        cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try {
+            backCamerID = cameraManager.getCameraIdList()[0]; // 0 is for back camera, 1 front.
+            //frontCameraID = cameraManager.getCameraIdList()[1];
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+
+
+
+button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    cameraManager.setTorchMode(backCamerID, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    cameraManager.setTorchMode(backCameraID, false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });

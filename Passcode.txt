@@ -1,0 +1,41 @@
+
+ NB: There are different passcode views libraries, google.
+
+1.
+ USING: hanks-zyh/PasscodeView
+
+    implementation 'com.hanks:passcodeview:0.1.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+//XML
+    <com.hanks.passcodeview.PasscodeView
+        android:id="@+id/passcodeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#222222"
+        app:firstInputTip="Enter a passcode of 5 digits "
+        app:correctStateColor="#71bb4d"
+        app:wrongStateColor="#ea2b46"
+        app:normalStateColor="#ffffff"
+        app:numberTextColor="#222222"
+        app:passcodeLength="5"
+        app:passcodeViewType="set_passcode"/>
+
+
+// JAVA
+    PasscodeView passcodeView;
+        passcodeView = findViewById(R.id.passcodeView);
+
+        passcodeView.setPasscodeLength(5)
+                .setLocalPasscode("12345")
+                .setListener(new PasscodeView.PasscodeViewListener() {
+                    @Override
+                    public void onFail() {
+                        Toast.makeText(MainActivity.this, "Passcode Error", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSuccess(String number) {
+                        Toast.makeText(MainActivity.this, "Passcode successful", Toast.LENGTH_SHORT).show();
+                    }
+                });

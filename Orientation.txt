@@ -1,0 +1,7 @@
+
+================ ENABLE ONLY LANDSCAPE MODE ================
+Create Landscape variation
+
+INSIDE Manifest, add android:screenOrientation="landscape" add as shown;
+        <activity android:name=".MainActivity" android:screenOrientation="landscape">
+            <intent-filter>

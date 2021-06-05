@@ -1,0 +1,23 @@
+<TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Designed and developed by Ibrahim Musa Suleiman. Contact me on 08168194237. my email is ibrahimsmusa9@gmail.com"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        
+	android:singleLine="true"
+        android:scrollHorizontally="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        />
+
+Text textView;
+textView = findViewById(R.id.textView)
+textView.setSelected(true);
+
+NB: android:marqueeRepeatLimit="1"

@@ -1,0 +1,7 @@
+	//IN PIXELS
+	setContentView(R.layout.activity_main);
+
+	DisplayMetrics displayMetrics =new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int deviceHeight = displayMetrics.heightPixels;
+        int deviceWidth = displayMetrics.widthPixels;

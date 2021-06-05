@@ -1,0 +1,42 @@
+Create menu resource file with menu items and IDs. i.e bottom_nav_menu
+
+XML
+ <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:menu="@menu/bottom_nav_menu"
+        app:itemTextColor="#fff"
+        app:itemIconTint="#fff"
+        android:foregroundTint="#ff0000"
+        android:background="#654321"
+        />
+
+JAVA
+public class MainActivity extends AppCompatActivity {
+    BottomNavigationView bottom_nav;
+
+bottom_nav = findViewById(R.id.bottom_nav);
+
+#NOTE, TO-DO: Check ...ItemSelectedListener against ItemReselectedListener
+bottom_nav.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                switch(item.getItemId())
+                {
+                    case R.id.list:
+                        getSupportActionBar().setTitle("List Clicked");
+                        break;
+                    case R.id.search:
+                        getSupportActionBar().setTitle("Search clicked");
+                        break;
+                    case R.id.home:
+                        getSupportActionBar().setTitle("Home clicked");
+                        break;
+                }
+            }
+        });

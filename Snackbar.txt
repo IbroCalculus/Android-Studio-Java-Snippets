@@ -1,0 +1,32 @@
+
+ NB: CHECK: "Material Design" for the latest version of the dependency, OR google it.
+Use dependency:
+implementation 'com.google.android.material:material:1.1.0'  // 1.1.0 is not the latest anymore
+
+
+    ConstraintLayout constraintLayout;
+
+NB: INDEFINITE SNACKBAR -> USE: Snackbar.LENGTH_INDEFINITE
+
+
+button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Snackbar.make(constraintLayout, "Snackbar created", Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(MainActivity.this, "You clicked UNDO", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        //.setActionTextColor(getResources().getColor(R.color.colorAccent)) 	//Deprecated Color mode as of API 23
+                	.setActionTextColor(getColor(R.color.colorAccent))			//Support API 23 and Above
+                        //.setTextColor(getResources().getColor(R.color.colorPrimaryDark))
+                        //.setTextColor(Color.parseColor("#00ff00"))
+                	.setTextColor(getColor(R.color.colorPrimaryDark))
+                        .show();
+
+
+            }
+        });

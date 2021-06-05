@@ -1,0 +1,237 @@
+By Sarthi Technology
+
+CONTENT:
+ - ENABLE GPS IN PHONE
+ - GET LAST LOCATION
+ - GET CURRENT LOCATION (USING GPS PROVIDER)
+ - GET CURRENT LOCATION (USING FUSED LOCATION PROVIDER)
+
+
+NB: Cellphones can be located using 3 types of signals:
+	1- GPS Satellite location (The most precise, but also uses the most battery power)
+	2- Cell tower location
+	3- WIFI location
+
+ALWAYS DO THESE TWO:
+-SET UP GOOGLE PLAY SERVICES USING THE DEPENDENCY: implementation 'com.google.android.gms:play-services-location:17.1.0'
+
+-IN MANIFEST FILE, USE PERMISSION:
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+=======================================	  ENABLE GPS IN PHONE	==============================================
+2 METHODS:
+
+-1 Via opening setting activity
+-2 Without opening setting activity
+
+1. OPENING SETTING ACTIVITY:
+
+        btn_Open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+
+2. OPENING WITHOUT OPENING SETTINGS (i.e ONLAUNCH APP):
+
+    private static final int REQUEST_CHECK_CODE = 23;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
+
+        setContentView(R.layout.activity_main);
+
+        LocationRequest locationRequest = new LocationRequest()
+                .setFastestInterval(1500)
+                .setInterval(3000)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
+
+        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                try {
+                    task.getResult(ApiException.class);
+                } catch (ApiException e) {
+                    switch (e.getStatusCode())
+                    {
+                        case LocationSettingsStatusCodes
+                                .RESOLUTION_REQUIRED:
+                            try {
+                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                                resolvableApiException.startResolutionForResult(MainActivity.this, REQUEST_CHECK_CODE);
+                            } catch (IntentSender.SendIntentException ex) {
+                                ex.printStackTrace();
+                            }catch (ClassCastException ex){
+
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+
+==================================== GET LAST LOCATION ===================================================
+*IN JAVA, DO AS SHOWN:
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
+        setContentView(R.layout.activity_main);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+
+METHOD TO HANDLE THE GPS LAST LOCATION
+
+    private void displayLocation() {
+        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},1);
+        }
+
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if(location != null){
+                    tv_Latitude.setText(String.valueOf(location.getLatitude()));
+                    tv_Longitute.setText(String.valueOf(location.getLongitude()));
+                }else{
+                    Toast.makeText(MainActivity.this, "Location is null", Toast.LENGTH_SHORT).show();
+                }
+            }
+          });
+    }
+
+======================================= GET CURRENT LOCATION (USING GPS PROVIDER) ==============================================
+NB: Difference btw gps provider and fused location provider(flp) is that flp is more accurate
+
+    private LocationManager locationManager;
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+
+        btn_Open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+                if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},1);
+                }
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
+                    @Override
+                    public void onLocationChanged(@NonNull Location location) {
+                        tv_longitude.setText(String.valueOf(location.getLongitude()));
+                        tv_latitude.setText(String.valueOf(location.getLatitude()));
+                    }
+                });
+                
+            }
+        });
+
+
+======================================= GET CURRENT LOCATION (USING FUSED LOCATION PROVIDER) ====================================
+
+    private static final int REQUEST_CHECK_CODE = 23;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private LocationRequest locationRequest;
+    LocationCallback locationCallback;
+
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        locationRequest = new LocationRequest()
+                .setFastestInterval(300)
+                .setInterval(300)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
+
+        result.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if(e instanceof ResolvableApiException){
+                    try {
+                        ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                        resolvableApiException.startResolutionForResult(MainActivity.this, REQUEST_CHECK_CODE);
+                    } catch (IntentSender.SendIntentException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+ 
+        locationCallback = new LocationCallback(){
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if(locationResult == null){
+                    tv_latitude.setText("Null");
+                    tv_longitude.setText("Null");
+                    return;
+                }
+                for (Location location : locationResult.getLocations())
+                {
+                    tv_longitude.setText(String.valueOf(location.getLongitude()));
+                    tv_latitude.setText(String.valueOf(location.getLatitude()));
+                }
+            }
+        };
+
+//Create the method below
+
+    private void startLocationUpdates() {
+        if (fusedLocationProviderClient != null) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
+        }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        startLocationUpdates();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
+
+
+//Event for calling the gps:
+        btn_Open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startLocationUpdates();
+
+            }
+        });
+

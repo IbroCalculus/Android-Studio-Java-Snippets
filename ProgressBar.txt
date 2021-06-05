@@ -1,0 +1,65 @@
+
+THERE ARE TWO TYPES OF PROGRESS BARS, ONE IS CIRCULAR & INDETERMINATE BY DEFAULT
+THE OTHER IS LINEAR & CAN BE EITHER DETERMINATE OR INDETERMINATE
+
+Check Seekbar for linear(horizontal/vertical) progress bar
+
+-- DEFAULT STYLE ---
+        style="?android:attr/progressBarStyle"
+
+-- CHANGE FROM DEFAULT STYLE (Circular) TO HORIZONTAL --
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+
+---- SET PROGRESS BETWEEN 0 AND 100 -----
+
+
+============ DETERMINATE PROGRESS BAR ===========
+
+SET PROGRESS BETWEEN RANGE 0 - 100
+
+*METHOD 1; USING THREAD
+
+    private void runProgressBar() {
+
+        progressBar.setProgress(0);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(int i=0; i<=100; i++)
+                {
+                    progressBar.incrementProgressBy(1);
+                    //Thread.sleep(100);
+                    SystemClock.sleep(100);
+                }
+            }
+        });
+        thread.start();
+
+    }
+
+	progressBar.getProgress()
+
+NOTE: FOR THE ABOVE METHOD, WITHIN THE THREAD, I OBSERVED I CANNOT USE THE .getProgress() to display on a textView. SAME WITH THE BELOW
+
+*METHOD 2; USING TIMER
+
+    private void runProgressBar2() {
+        progressBar.setProgress(0);
+        counter = 0;
+        final Timer t = new Timer();
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                progressBar.setProgress(counter);
+                counter++;
+                if(counter == 100)
+                {
+                    t.cancel();
+                }
+            }
+        };
+        t.schedule(tt,0,100); //Every 100ms, do something
+    }
+
+======================== CIRCULAR PROGRESSBAR ========================
+CREATE new drawable resource file "circle_progress_bar", with root element "rotate"

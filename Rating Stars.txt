@@ -1,0 +1,58 @@
+place RatingBar widget in app with ID. i.e: ratingBar.
+
+
+XML
+<RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#00ff00"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:progressBackgroundTint="#ff0000"
+        android:progressTint="#fff"
+        android:rating="3"
+        android:stepSize=".5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+
+NB: android:isIndicator="true" makes the rating bar uneditable
+
+Java:
+RatingBar ratingbar;
+Button button5;
+
+
+	button5 = findViewById(R.id.button5);
+        ratingBar = findViewById(R.id.ratingBar);
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                int rating = (int) v;
+                switch (rating)
+                {
+                    case 1:
+                        Toast.makeText(MainActivity.this, "VALUE IS: "+ 1, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 5:
+                        Toast.makeText(MainActivity.this, "YOU GAVE A 5 star rating", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(MainActivity.this, "You gave a "+ rating + " star rating", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+ button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                float getRatingBarValue = ratingBar.getRating();
+                Toast.makeText(MainActivity.this, "VALUE IS: " + getRatingBarValue, Toast.LENGTH_SHORT).show();
+            }
+        });

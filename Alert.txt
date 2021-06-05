@@ -1,0 +1,61 @@
+
+ CHECK: Dialog, for customizeable pop up and similar
+
+
+NB: You can easily follow the android documentation guidelines. After creating a Fragment class (ie MyCustomDialogFrag) and Pasting their codes; within the onclick listener, do; 
+                new MyCustomDialogFrag().show(getSupportFragmentManager(), "dialog1"); 	// "dialog1" is just any String
+
+
+
+====================== DISPLAY DIALOG WITH YES, NO Option =================================
+
+    private void showAlert() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("This is the title")
+                .setMessage("This is the message")
+                .setPositiveButton("Positive", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Agreed", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Negative", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Disgreed", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .create();
+        alertDialog.show();
+    }
+
+
+
+====================== DISPLAY DIALOG WITH LIST OF ITEMS =================================
+
+    private void showAlertList(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        final CharSequence[] itemList = {"One","Two","Three","Four"};
+        alertDialog.setTitle("Select Item from List")
+                .setItems(itemList, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, "Clicked on: " + itemList[i].toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        AlertDialog myDialog = alertDialog.create();
+        myDialog = alertDialog.show();
+    }
+
+
+====================== DISPLAY DIALOG WITH CHECK BOX ITEMS =================================
+
+
+====================== DISPLAY DIALOG WITH CUSTOM LAYOUT =================================
+
+
+
+
+
+

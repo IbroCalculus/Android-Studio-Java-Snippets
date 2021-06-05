@@ -1,0 +1,25 @@
+=============== CHECK IF READABLE =========================
+
+    private void isExternalStorageWriteable() {
+        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))
+        {
+            Toast.makeText(this, "SD CARD WRITEABLE", Toast.LENGTH_SHORT).show();
+        }else
+        {
+            Toast.makeText(this, "SD CARD NOT WRITEABLE", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+=============== CHECK IF WRITEABLE=========================
+
+    private void isExternalStorageReadable() {
+        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(Environment.getExternalStorageState()))
+        {
+            Toast.makeText(this, "SD CARD READABLE", Toast.LENGTH_SHORT).show();
+        }else
+        {
+            Toast.makeText(this, "SD CARD NOT READABLE", Toast.LENGTH_SHORT).show();
+        }
+    }
