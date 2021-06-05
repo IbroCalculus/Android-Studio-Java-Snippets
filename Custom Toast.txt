@@ -1,0 +1,139 @@
+
+ CHECK: Coding in Flow; Toast
+
+1. USING TOASTY DEPENDENCY (NB: 4. STYLABLE TOAST)
+ You can use "Toasty" library for custom toasts for 'success', 'info', 'error', 'warning', 'normal', 'custom'. VISIT toasty github repo for usage.
+ ALSO, CHECK: Coding in flow.
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+        maven { url "https://jitpack.io" }
+    }
+
+	implementation 'com.github.GrenderG:Toasty:1.5.0'
+
+NOTE THE USAGE: Not properly explained in the github repo
+Toasty.normal(yourContext, "Normal toast w/ icon", yourIconDrawable).show();
+Toasty.normal(getApplicationContext(), "Normal toast w/ icon", Toast.LENGTH_LONG, ContextCompat.getDrawable(this, R.drawable.ic_baseline)).show();
+
+
+
+2. USING CUSTOM TOAST LAYOUT
+==== CREATE CUSTOM TOAST LAYOUT (ie custom_toast_layout), GIVE THE ROOT LAYOUT AN ID (ie custom_toast_constraint_layout), AS WELL AS THE VIEWS WITHING THE CUSTOM TOAST LAYOUT (ie custom_toast_imageView, and custom_toast_textview) ====
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/custom_toast_constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00BCD4"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/custom_toast_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/custom_toast_textview"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_smiley" />
+
+    <TextView
+        android:id="@+id/custom_toast_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is a custom toast"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/custom_toast_imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+==== IN JAVA ====
+
+    private void showCustomToast() {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast_layout, (ViewGroup) findViewById(R.id.custom_toast_constraint_layout));
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
+    }
+
+
+
+
+===== INSTEAD OF HARD-CODING THE IMAGE AND TEXT WITHIN THE CUSTOM LAYOUT, THERE'S AN ALTERNATIVE (enables re-usability of the custom layout) ====
+---- CREATE CUSTOM TOAST LAYOUT (ie custom_toast_layout), GIVE THE ROOT LAYOUT AN ID (ie custom_toast_constraint_layout), AS WELL AS THE VIEWS WITHING THE CUSTOM TOAST LAYOUT (ie custom_toast_imageView, and custom_toast_textview); DELETE the "imageView's src" and the "textView's text" ----
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/custom_toast_constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00BCD4"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/custom_toast_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/custom_toast_textview"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/custom_toast_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/custom_toast_imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+------ IN JAVA ----------
+
+    private void showCustomToast() {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast_layout, (ViewGroup) findViewById(R.id.custom_toast_constraint_layout));
+
+
+        ImageView custom_toast_imageView1 = layout.findViewById(R.id.custom_toast_imageView);
+        TextView custom_toast_textView1 = layout.findViewById(R.id.custom_toast_textview);
+
+        custom_toast_imageView1.setImageResource(R.drawable.ic_store);
+        custom_toast_textView1.setText("This is a custom Store Toast");
+
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
+    }
+
+
+
+3. CHANGE POSITION OF TOAST. CHECK: Coding in Flow
+
+4. STYLABLE TOAST: CHECK: Coding in Flow

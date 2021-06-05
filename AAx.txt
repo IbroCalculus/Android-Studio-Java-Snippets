@@ -1,0 +1,6 @@
+This is just for practice
+This is the second line just for practice
+This is the third line just for practice purpose
+And the 4th line
+<html>This is an html tag </html>
+

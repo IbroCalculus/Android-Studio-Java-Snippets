@@ -1,0 +1,48 @@
+
+	Place a ButtonGroup and edit orientation via XML
+	place the radio buttons within the ButtonGroup
+
+	user orientation
+        	android:orientation="horizontal" or "vertical"
+
+    RadioGroup radioGroup;
+    RadioButton rbtn1, rbtn2, rbtn3;
+
+
+        radioGroup = findViewById(R.id.radioGroup);
+        rbtn1 = findViewById(R.id.rbtn1);
+        rbtn2 = findViewById(R.id.rbtn2);
+        rbtn3 = findViewById(R.id.rbtn3);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i)
+                {
+                    case R.id.rbtn1:
+                        Toast.makeText(MainActivity.this, "Rbtn1 Selected", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.rbtn2:
+                        Toast.makeText(MainActivity.this, "Rbtn2 Selected", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.rbtn3:
+                        Toast.makeText(MainActivity.this, "Rbtn3 Selected", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(MainActivity.this, "Default", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+--------
+                if(rbtn1.isChecked()){
+                    Toast.makeText(this, "Rbtn1 is Checked", Toast.LENGTH_SHORT).show();
+                }
+--------
+
+                rbtn1.setChecked(true);
+--------
+                int getCheckedRbtnID = radioGroup.getCheckedRadioButtonId();
+
+

@@ -1,0 +1,5 @@
+HIDE SOFTKEYBOARD
+
+call the method hide()
+
+public void hide(){}

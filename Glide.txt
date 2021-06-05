@@ -1,0 +1,94 @@
+
+Supports animated GIFs
+
+DEPENDENCIES
+  implementation 'com.github.bumptech.glide:glide:4.12.0'
+  annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+
+
+*LOAD IMAGE INTO GLIDE
+
+First, place an imageView.
+
+Glide images can be loaded from either of 3 sources:
+1. Drawable resource (R.drawable.img)
+2. URL		     https://www.wertsdfg.com/img.jpg
+3. Phone memory      File file = new File(Environment.getExternalStorageDirectory(), "Images/img.jpg");
+
+Load images into imageView via glide using the syntax:
+Glide.with(this)
+    .load(*********)
+    .into(imageView)
+
+Pass either 1,2 or 3 into .load(******)
+
+1. Drawable resource:
+JAVA
+ ImageView imageView
+
+        imageView = findViewById(R.id.imageView);
+        Glide.with(this)
+                .load(R.drawable.ic_baseline_accessibility_new_24)
+                .into(imageView);
+
+2. URL
+Uses internet permission
+
+String url = "https://www.wertsdfg.com/img.jpg"
+
+        imageView = findViewById(R.id.imageView);
+        Glide.with(this)
+                .load(url)
+                .into(imageView);
+
+3. Phone memory
+Uses external storage permission i.e
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+Allow permission in phone
+
+File file = new File(Environment.getExternalStorageDirectory(), "Images/img.jpg");
+
+        imageView = findViewById(R.id.imageView);
+        Glide.with(this)
+                .load(file)
+                .into(imageView);
+
+CENTER CROP, FIT CENTER AND CIRCLE CROP
+-CENTER CROP -> Crops and fits image to its center
+
+        imageView = findViewById(R.id.imageView);
+        Glide.with(this)
+                .load(R.drawable.ic_baseline_accessibility_new_24)
+                .centerCrop()
+                .into(imageView);
+
+-FIT CENTER -> Fits the whole image in the center of the imageView. Some empty spaces may be seen.
+
+        Glide.with(this)
+                .load(R.drawable.ic_baseline_accessibility_new_24)
+                .fitCenter()
+                .into(imageView);
+
+-CIRCLE CROP -> Circle imageView
+
+        Glide.with(this)
+                .load(R.drawable.ic_baseline_accessibility_new_24)
+                .circleCrop()
+                .into(imageView);
+
+*PLACEHOLDER, ERROR AND FALLBACK
+-placeholder -> Image to show while loading and trying to access image on a website
+-error -> Image to shown when we are unable to access the image specified in the url
+-fallback -> if String url = null; fallback image will be shown (i.e no picture on whatsapp dp)
+
+
+        Glide.with(this)
+                .load(R.drawable.me)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_baseline_accessibility_new_24)
+                .fallback(R.drawable.ic_launcher_background)
+                .circleCrop()
+                .into(imageView);
+
+

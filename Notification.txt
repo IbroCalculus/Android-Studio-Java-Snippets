@@ -1,0 +1,296 @@
+HEADS UP NOTIFICATION:
+* Beginning with Android 5.0, notifications can briefly appear in a floating window called a heads-up notification.
+* This behaviour is normally for important notifications that the user should know about immediately, and it appears only if the device in unlocked.
+* The heads-up notification appears the moment your app issues the notification and it disappears after a moment, but remains visible in the notification drawer as usual.
+
+LOCK SCREEN NOTIFICATION:
+* Beginning with Android 5.0, notifications can appear on the lockscreen.
+* You can programmatically set the level of detail visible in notifications posted by your app on a secure lock screen.
+* Users can use the system settings to choose the level of detail visible in the lock screen notifications, including the option to disable all lock screen notifications.
+* Starting with Android 8.0, users can choose to disable or enable lock screen notifications for each notification channel.
+
+APP ICON BADGE LAUNCHER
+* In supported launchers on devices running Android 8.0 and higher, app icons indicate new notifications with a colored badge (also known as notification dot) on the corresponding app launcher icon.
+* Users can long-press on an app icon to see the notifications for that app. Users can then dismiss or act on notifications from that menu, similar to the notification drawer.
+
+
+1. FOR ANDROID <8.0
+
+private static final String CHANNEL_ID = "first_notification";
+private static final int NOTIFICATION_ID = 001;
+
+private void showNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.sms_icon);
+        builder.setContentTitle("SMS NOTIFICATION TITLE");
+        builder.setContentText("This is the content of the notification");
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        //Display for android < 8.0
+	NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+        Toast.makeText(this, "You clicked on a button ", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+2. FOR ANDROID ALL VERSIONS:
+
+private static final String CHANNEL_ID = "first_notification";
+private static final int NOTIFICATION_ID = 001;
+
+private void showNotification2() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            CharSequence channel_name = "Personal notification";
+            String channel_description = "Include all the personal notifications";
+            int channel_importance  = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,channel_name,channel_importance);
+            notificationChannel.setDescription(channel_description);
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.sms_icon);
+        builder.setContentTitle("SMS NOTIFICATION TITLE");
+        builder.setContentText("This is the content of the notification");
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+        Toast.makeText(this, "You clicked on a button ", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+3. HANDLE TAP ACTION OF NOTIFICATION
+
+Create new Activity. i.e MainActivity2
+
+Above NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID); DO AS SHOWN
+
+	Intent landingIntent = new Intent(this, MainActivity2.class);
+        landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent landingPendingIntent = PendingIntent.getActivity(this,0, landingIntent,PendingIntent.FLAG_ONE_SHOT);
+
+	NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+
+THEN BELOW  builder.setPriority(NotificationCompat.PRIORITY_DEFAULT); DO AS SHOWN:
+
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+	builder.setAutoCancel(true);        
+	builder.setContentIntent(landingPendingIntent);
+
+
+4. ADDING ACTION BUTTONS TO NOTIFICATION
+A maximum of 3 action buttons can be added to a notification
+Create 2 additional activities. i.e MainActivity3 and MainActivity4
+
+BELOW PendingIntent landingPendingIntent = PendingIntent.getActivity(this,0, landingIntent,PendingIntent.FLAG_ONE_SHOT); DO AS SHOWN:
+
+        PendingIntent landingPendingIntent = PendingIntent.getActivity(this,0, landingIntent,PendingIntent.FLAG_ONE_SHOT);
+
+        Intent threeIntent = new Intent(this, MainActivity3.class);
+        threeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent threePendingIntent = PendingIntent.getActivity(this, 0, threeIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        Intent fourIntent = new Intent(this, MainActivity4.class);
+        fourIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent fourPendingIntent = PendingIntent.getActivity(this, 0, fourIntent, PendingIntent.FLAG_ONE_SHOT);
+
+
+BELOW builder.setContentIntent(landingPendingIntent); DO AS SHOWN:
+	
+	builder.setContentIntent(landingPendingIntent);
+
+        builder.addAction(R.drawable.cart_icon, "THREE", threePendingIntent);
+        builder.addAction(R.drawable.sms_icon, "FOUR", fourPendingIntent);
+	//NB: Notification would not be cancelled automatically, unless if specified in MainActivity3 and MainActivity4;
+
+
+TO AUTO CANCEL NOTIFICATION WITH ACTION BUTTONS; DO AS SHOWN:
+* Go to the activitIES, i.e MainActivity3 and MainActivity4, in which DO AS SHOWN:
+
+        setContentView(R.layout.activity_main3);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancel(MainActivity.NOTIFICATION_ID);
+
+
+
+TO ADD DIRECT REPLY ACTION ON NOTIFICATION (UNTIL FURTHER NOTICE)
+Create activity to receive reply. I.e We use MainActivity3
+Create textView on MainActivity3 to receive and display the reply.
+
+ON MainActivity, DO AS SHOWN:
+
+    public static final String REPLY_TEXT = "Reply text";
+
+ABOVE NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this); DO AS SHOWN:
+	ON HOLD FOR NOW.
+
+
+
+TO ADD A PROGRESS BAR TO NOTIFICATION BAR
+
+* Assume downloading:
+  BELOW NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID); DO AS SHOWN:
+	builder.setSmallIcon(R.drawable.download);
+        builder.setContentTitle("Image download");
+        builder.setContentText("Downloading in progress");
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+//For determinate progress bar
+BELOW NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this); DO AS SHOWN:
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
+        
+	int max_progress = 100;
+        int current_progress = 0;
+        builder.setProgress(max_progress, current_progress, false); // True -> Indeterminate, False -> Determinate
+
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+
+
+BELOW notificationManagerCompat.notify(NOTIFICATION_ID, builder.build()); DO AS SHOWN: NOTE: Implement the final keyword
+
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+
+        Thread thread = new Thread()
+        {
+            @Override
+            public void run() {
+               int count = 0;
+
+               try {
+                   while (count <= 100) {
+                       count += 10;
+                       sleep(1000);
+                       builder.setProgress(max_progress,count,false);
+                       notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+                   }
+                   builder.setContentText("Download Completed");
+                   builder.setProgress(0, 0, false);
+                   notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+
+               }catch (InterruptedException e){}
+            }
+        };
+        thread.start();
+
+
+//For Indeterminate progress bar
+BELOW NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this); DO AS SHOWN:
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
+        
+	int max_progress = 100;
+        int current_progress = 0;
+        builder.setProgress(0, 0, true); // True -> Indeterminate, False -> Determinate
+
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+
+
+BELOW notificationManagerCompat.notify(NOTIFICATION_ID, builder.build()); DO AS SHOWN: NOTE: Implement the final keyword
+
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+
+        Thread thread = new Thread()
+        {
+            @Override
+            public void run() {
+               int count = 0;
+
+               try {
+                   while (count <= 100) {
+                       count += 10;
+                       sleep(1000);
+                       //builder.setProgress(max_progress,count,false);
+                       //notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+                   }
+                   builder.setContentText("Download Completed");
+                   builder.setProgress(0, 0, false);
+                   notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+
+               }catch (InterruptedException e){}
+            }
+        };
+        thread.start();
+
+
+
+EXPANDABLE NOTIFICATION
+
+1. WITH IMAGE
+Place picture in drawable folder. ie dsk.jpg
+
+    private void showNotification2() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            CharSequence channel_name = "Personal notification";
+            String channel_description = "Include all the personal notifications";
+            int channel_importance  = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,channel_name,channel_importance);
+            notificationChannel.setDescription(channel_description);
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.sms_icon);
+        builder.setContentTitle("SMS NOTIFICATION TITLE");
+        builder.setContentText("This is the content of the notification");
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dsk);
+        builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap));
+
+
+        //To display Image as thumbnail view when collapsed; DO AS 3 LINES BELOW, OVERRIDE THE TWO LINES ABOVE
+        
+        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dsk);
+        //builder.setLargeIcon(bitmap);
+        //builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null));
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+        Toast.makeText(this, "You clicked on a button ", Toast.LENGTH_SHORT).show();
+    }
+
+
+2. WITH TEXT
+Place lengthy text in Strings.xml with name = "notification_text"
+    private void showNotification2() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            CharSequence channel_name = "Personal notification";
+            String channel_description = "Include all the personal notifications";
+            int channel_importance  = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,channel_name,channel_importance);
+            notificationChannel.setDescription(channel_description);
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.sms_icon);
+        builder.setContentTitle("SMS NOTIFICATION TITLE");
+        builder.setContentText("This is the content of the notification");
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.notification_text)));
+
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+        Toast.makeText(this, "You clicked on a button ", Toast.LENGTH_SHORT).show();
+    }

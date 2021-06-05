@@ -1,0 +1,5 @@
+THE INTENT TO VIEW MAP
+
+        String address = "No.27, small street, Bauchi State, Nigeria";
+        Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + address));
+        startActivity(intent1);

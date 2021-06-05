@@ -1,0 +1,11 @@
+
+        cardView = findViewById(R.id.cardView);
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "CardView Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+NB: REMEMBER cardRadius and CardElevation

@@ -1,0 +1,107 @@
+
+Helps run applications in background.
+
+Android service is a component that runs in the background in order to perform long-running operatoins without interacting with the user and it works even if the application is destroyed.
+
+USING ALARM AS A CASE STUDY IN THIS SERVICES EXAMPLE
+
+-METHOD TO PLAY ALARM:
+
+    private void playAlarm() {
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_ALARM_ALERT_URI);
+        //MediaPlayer mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_NOTIFICATION_URI);
+        //MediaPlayer mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+    }
+
+*PROCEDURE:
+-CREATE NEW JAVA CLASS. ie: AndroidServices AND EXTEND Service. Then implement method as shown below:
+
+public class AndroidServices extends Service {
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+}
+
+
+-OVERRIDE TWO METHODS: onStartCommand and onDestroy:
+
+public class AndroidServices extends Service {
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+}
+
+
+-WITHIN public class AndroidServices extends Service {, DO AS SHOWN: THEN CREATE THE METHOD FOR PLAYING ALARM BEFORE LAST } AND CALL THE METHOD WITHIN onStartCommand(Intent ... OVERRIDING THE return super.onStartCommand(intent, flags, startId); within it. always return START_STICKY; as shown
+
+ public class AndroidServices extends Service {
+    private MediaPlayer mediaPlayer;
+
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        playAlarm();
+        return START_STICKY;
+
+
+    private void playAlarm() {
+        mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_ALARM_ALERT_URI);
+        //mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_NOTIFICATION_URI);
+        //mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+    }
+
+
+-WITHIN onDestroy, do as shown:
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mediaPlayer.stop();
+    }
+
+
+IN MAIN JAVA. Assuming two buttons btnStartAlarm and btnStopAlarm
+
+
+        startAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startService(new Intent(MainActivity.this, AndroidServices.class));
+            }
+        });
+
+
+        btnStopAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopService(new Intent(getApplicationContext(), AndroidServices.class));
+            }
+        });
+
+WITHIN THE MANIFEST FILE, DO AS SHOWN;
+
+        </activity>
+
+        <service android:name=".AndroidServices"/>
+
+    </application>

@@ -1,0 +1,46 @@
+
+    String versionName, versionCode, apiLevel;
+
+	versionName = Build.VERSION_CODES.class.getFields()[Build.VERSION.SDK_INT].getName();
+        apiLevel = String.valueOf(Build.VERSION.SDK_INT);
+        versionCode = Build.VERSION.RELEASE;
+
+
+    private void showInfo() {
+        Toast.makeText(this, "versionName = "+ versionName + "\napiLevel = "+ apiLevel + "\nVersionCode = " + versionCode, Toast.LENGTH_SHORT).show();
+    }
+
+SIMILARLY;
+
+    Build build;
+    Build.VERSION version;
+    String info;
+
+    private void showInfo() {
+        info = "Brand: " + build.BRAND + "\n" +
+                "Product: " + build.PRODUCT + "\n" +
+                "Hardware: " + build.HARDWARE + "\n" +
+                "Device: " + build.DEVICE + "\n" +
+                "Manufacturer: " + build.MANUFACTURER + "\n" +
+                "Model: " + build.MODEL + "\n" +
+                "Security Patch: " + version.SECURITY_PATCH + "\n" +
+                "Release: " + version.RELEASE + "\n" +
+                "SDK: " + version.SDK_INT + "\n";
+        tv_Display.setText(info);
+    }
+
+//OUTPUT1: versionName = P
+	  apiLevel = 28
+	  VersionCode = 9
+
+//OUTPUT2: 	Brand: TECNO
+		Product: H617
+		Hardware: mt6761
+		Device: TECNO-LC6
+		Manufacturer: TECNO MOBILE LIMETED
+		Model: TECNO LC6
+		Security Patch: 2020-09-05
+		Release: 9
+		SDK: 28
+
+CHECK DEVELOPER SITE FOR MORE i.e version./// or build.///
