@@ -1,5 +1,5 @@
 
- CHECK: Dialog, for customizeable pop up and similar
+ CHECKK: Dialog, for customizeable pop up and similar
 
 
 NB: You can easily follow the android documentation guidelines. After creating a Fragment class (ie MyCustomDialogFrag) and Pasting their codes; within the onclick listener, do; 

@@ -1,9 +1,0 @@
-
-====================== COPY MESSAGE TO CLIPBOARD ============================
-    private void copyMessageToClipBoard() {
-        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText("copiedText", et_Message.getText().toString());
-        clipboardManager.setPrimaryClip(clipData);
-        String description = clipData.getDescription().toString();
-        Toast.makeText(this, "DESCRIPTION: " + description, Toast.LENGTH_SHORT).show();
-    }

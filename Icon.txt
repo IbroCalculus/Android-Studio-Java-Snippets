@@ -1,7 +1,0 @@
-
-CHECK: Stevdza-San; Design and import app icon
-       Coding In Flow; How to change App Icon...
-
- Use dimension; 512 x 512 px in Adobe XD
- 2 basic artboards; 1.Background, 2.Foreground, maybe 3.Background + foreground combined.
- Export as svg, png, jpg etc (Observed foreground.svg did not work, rather .png)

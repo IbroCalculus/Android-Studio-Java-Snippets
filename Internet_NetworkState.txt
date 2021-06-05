@@ -1,7 +1,0 @@
-permissions
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
-========================= CHECK IF DEVICE IS CONNECTED TO WIFI IN MOBILE NETWORK ================================
-

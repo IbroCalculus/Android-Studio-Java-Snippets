@@ -1,4 +1,0 @@
-
-This manager is used to get Phone details such as; Phone Network Type, IMEI, Number, Subscriber ID, SIM Serial Number etc.
-
-CHECK: IMEI for example

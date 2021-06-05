@@ -1,8 +1,0 @@
-
-This is used to filter elements by name from a list
-
-
-1. Create a recyclerView follow steps in "RecyclerView3_2"
-2. Create a search view in the toolbar, follow steps in "Menu" under "Search Action View
-
- ERROR! I HAVE TO CHECK AGAIN, UNTIL NEXT TIME WHEN I DO

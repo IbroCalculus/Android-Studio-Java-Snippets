@@ -1,3 +1,0 @@
-CHECK: 
--External Storage
--Internal storage

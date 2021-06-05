@@ -1,6 +1,0 @@
-
-==== SETTING IMAGE RESOURCE ==========
-
-int image = R.drawable.pic1;
-imageView.setImageResource(image);
-
