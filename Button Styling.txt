@@ -1,0 +1,9 @@
+
+ CHECK: "Yours Truly": 'Button Styling in Android'
+
+IN XML:
+        style="@style/Widget.AppCompat.Button.VALUE"
+
+	E.g: style="@style/Widget.AppCompat.Button.Colored"	//The color is value of color accent
+
+ .Colored, .Borderless, .Borderless.Colored

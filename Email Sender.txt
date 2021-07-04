@@ -1,4 +1,6 @@
 
+ NB: The method "sendEmail2", is more explained, better, for that; CHECK: "Yours Truly":'Send Email from Android Application'
+
     EditText et_To;
     EditText et_Subject;
     EditText et_Message;
@@ -23,4 +25,21 @@
         intent.putExtra(Intent.EXTRA_SUBJECT, et_Subject.getText().toString());
         intent.putExtra(Intent.EXTRA_TEXT, et_Message.getText().toString());
         startActivity(intent);
+    }
+
+    private void sendEmail2() {
+        String[] TO_EMAILS = {"firstemail@email.com", "secondemail@email.com"};
+        String[] TO_CC_EMAILS = {"firstCCemail@email.com", "secondCCemail@email.com"};
+        String[] TO_BCC_EMAILS = {"firstBCCemail@email.com", "secondBCCemail@email.com"};
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, TO_EMAILS);
+        intent.putExtra(Intent.EXTRA_CC, TO_CC_EMAILS);
+        intent.putExtra(Intent.EXTRA_BCC, TO_BCC_EMAILS);
+
+        intent.putExtra(Intent.EXTRA_SUBJECT, "This is the Email Subject");
+        intent.putExtra(Intent.EXTRA_TEXT, "This is the Email Message or body");
+
+        startActivity(Intent.createChooser(intent, "Select Mailing App"));
     }

@@ -1,0 +1,8 @@
+
+ This sizes the texts automatically based on material design guidelines. i.e: Heading, body, title etc
+
+ CHECK: 'Yours Truly'; Text Appearance Android Studio
+
+        android:textAppearance="@style/TextAppearance.AppCompat.VALUE"
+
+   E.g: android:textAppearance="@style/TextAppearance.AppCompat.Headline"

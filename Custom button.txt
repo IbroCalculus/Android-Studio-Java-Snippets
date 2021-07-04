@@ -1,4 +1,7 @@
 
+ CHECK ALSO: "Button Styling"
+
+========== 1. USING DRAWABLE RESOURCE FILE ==========
 Create drawable resource file, i.e "custom_button"
 inside custom_button, change <selector .. to <shape
 fill properties, set to background of button or textview etc
@@ -15,3 +18,8 @@ E.g
 
 Google search android button maker
 link: https://angrytools.com/android/button/
+
+===== 2. USING IMAGES IN BUTTONS ===============
+ CHECK: Buttons
+ CHECK ALSO: "Yours Truly": 'Custom buttons in Android for images'
+

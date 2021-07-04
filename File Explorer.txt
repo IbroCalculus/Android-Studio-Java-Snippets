@@ -1,6 +1,6 @@
 
 
-========================== SELECT ANYs DOCUMENT FROM FOLDER ===============================
+========================== SELECT ANY DOCUMENT FROM FOLDER ===============================
 
 CREATE private static final int FILE_EXPLORER_REQUEST_CODE = 1;
 
