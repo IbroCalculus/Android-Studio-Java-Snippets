@@ -1,0 +1,50 @@
+
+ CHECK: "Yours Truly": 'Night Mode Dark Mode Android'
+
+ There a 4 modes:
+ 1 - .MODE_NIGHT_YES: Night mode
+ 2 - .MODE_NIGHT_NO: Light mode
+ 3 - .MODE_NIGHT_FOLLOW_SYSTEM: Depends on the default phone setting, night or light
+ 4 - .MODE_NIGHT_AUTO: Depends on the time of day, daytime or night.
+
+===  TO APPLY NIGHT MODE TO THE APP BY DEFAULT =====
+
+ IN styles.xml
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">		
+//NB: This by default change the UI to dark mode on start, use code to alternate dark/light mode
+
+
+ IN JAVA
+    int currentDayNight; 		//On mainActivity
+
+        currentDayNight = AppCompatDelegate.getDefaultNightMode();	//On mainActivity
+
+
+        switch1 = findViewById(R.id.switch1);
+
+        switch1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(switch1.isChecked())
+                {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    getDelegate().applyDayNight();
+                }
+                else if(!switch1.isChecked())
+                {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    getDelegate().applyDayNight();
+                }
+            }
+        });
+
+OVERRIDE: 
+NB: On MainActivity;
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(currentDayNight != AppCompatDelegate.getDefaultNightMode()){
+            recreate();
+        }
+    }

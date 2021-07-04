@@ -1,15 +1,24 @@
 
+Log.e(String, String) (error)
+Log.w(String, String) (warning)
+Log.i(String, String) (information)
+Log.d(String, String) (debug)
+Log.v(String, String) (verbose)
+
+DEFAULT: Log.d
+
+
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG1 = "Event monitor";
+    private static final String TAG1 = "Event monitor";		//SHORTCUT: logt + Enter
 
         //Log.i(TAG1, "Oncreate method invoked");
-        Log.d(TAG1, "Entered on create method");
+        Log.d(TAG1, "Entered on create method");	//SHORTCUT: logd + Enter
 
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG1, "You clicked on a button");                
+                Log.d(TAG1, "You clicked on a button");               
             }
         });
 

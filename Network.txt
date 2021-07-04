@@ -1,0 +1,61 @@
+
+ CHECK: "Yours Truly": 'Determine and monitor the connectivity status...'
+
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+
+    private static final String TAG1 = "TAG1";
+
+        btn_NetworkState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                checkConnection();
+
+            }
+        });
+
+
+    private void checkConnection() {
+        Log.d(TAG1, "checkConnection: " + isNetworkConnected());
+
+    }
+
+    public boolean isNetworkConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);
+        if(connectivityManager != null){
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if(networkInfo != null){
+                Log.d(TAG1, "CONNECTED OR CONNECTING: " + networkInfo.isConnectedOrConnecting());
+                Log.d(TAG1, "NETWORK TYPE: " + networkInfo.getTypeName());
+                Log.d(TAG1, "isNetworkConnected: " + networkInfo.getState());
+                return networkInfo.isConnectedOrConnecting();
+            }
+        }
+        return false;
+    }
+
+ ============ OR SIMPLY; =============
+    private void CheckNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);
+        if(connectivityManager != null){
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if(networkInfo != null){
+                Log.d(TAG1, "CONNECTED OR CONNECTING: " + networkInfo.isConnectedOrConnecting());	//returns (boolean) true or false
+                Log.d(TAG1, "NETWORK TYPE: " + networkInfo.getTypeName());	//returns WIFI or MOBILE
+                Log.d(TAG1, "isNetworkConnected: " + networkInfo.getState());	//returns CONNECTED or otherwise
+            }else{
+                Log.d(TAG1, "CONNECTED OR CONNECTING: False");
+                Log.d(TAG1, "NETWORK TYPE: None");
+                Log.d(TAG1, "isNetworkConnected: No, not connected");
+            }
+        }
+
+    }
+
+
+
+
+
+

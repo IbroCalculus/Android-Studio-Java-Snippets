@@ -1,0 +1,21 @@
+
+ CHECK ALSO: "Yours Truly": 'Custom buttons in Android for images'; TO USE IMAGE IN 'Button' AND 'togglebutton
+
+1. ImageButton
+
+============== 1. ImageButton ===================
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (toggleState){
+                    case 0:
+                        imageButton.setImageResource(R.drawable.button_on);
+                        toggleState = 1;
+                        break;
+                    case 1:
+                        imageButton.setImageResource(R.drawable.button_off);
+                        toggleState = 0;
+                        break;
+                }
+            }

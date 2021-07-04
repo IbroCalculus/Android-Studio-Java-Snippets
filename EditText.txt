@@ -1,0 +1,8 @@
+
+ TO ADD IMAGE TO EDITTEXT (ie userIcon, PasswordLock etc)
+
+ In XML 
+        android:drawableLeft="@drawable/ic_baseline_visibility_24"
+        android:drawablePadding="10dp"
+
+ OTHERS: drawableTop, drawableBottom, drawableRight
