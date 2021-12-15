@@ -1,4 +1,7 @@
+
+
 Create menu resource file with menu items and IDs. i.e bottom_nav_menu
+Also, add icons to each of the menu items
 
 XML
  <com.google.android.material.bottomnavigation.BottomNavigationView

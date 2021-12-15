@@ -56,6 +56,6 @@ BELOW kbv = findViewById(R.id.kbv); DO AS SHOWN:
 
         AccelerateDecelerateInterpolator adi = new AccelerateDecelerateInterpolator();
         RandomTransitionGenerator generator = new RandomTransitionGenerator(2000, adi); //Transition duration in ms
-        kbv.setTransitionGenerator(generator)
+        kbv.setTransitionGenerator(generator);
 
 NB: There are different interpolators, in this case we used Accelerate.... Check for more or create yours.

@@ -1,0 +1,38 @@
+
+NB: For multiple rotations, set angles to above 360 degrees. ie .rotationX(720)
+
+ ======= CHECK Udemy Course; "The Complete Android Oreo Developer Course": 45. Fading Animations
+
+        imageView = findViewById(R.id.imageView);
+        imageView2 = findViewById(R.id.imageView2);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView.animate().alpha(0).setDuration(2000);
+            }
+        });
+
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int duration = 1000;
+                if(state){
+                    imageView.animate().alpha(0).setDuration(duration);
+                    imageView2.animate().alpha(1).setDuration(duration);
+                    state = false;
+                }else{
+                    imageView.animate().alpha(1).setDuration(duration);
+                    imageView2.animate().alpha(0).setDuration(duration);
+                    state = true;
+                }
+            }
+        });
+
+OTHERS:
+                    imageView.animate().alpha(0).setDuration(duration);
+                    imageView.animate().rotationX(rotAngle).setDuration(duration);
+                    imageView.animate().translationY(100).setDuration(duration);
+                    imageView.animate().scaleX(0.5f).scaleY(0.5f).setDuration(duration);
+

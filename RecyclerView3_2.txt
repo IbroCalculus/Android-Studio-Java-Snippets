@@ -39,7 +39,7 @@ CREATE LAYOUT RESOURCE FILE FOR RECYCLERVIEW i.e recycler_layout. Contains: imag
 public class RecyclerModel {
     private String firstNameM;
     private String surNameM;
-    private String imageM;
+    private String imageM;		//If image from internet; use string, else if image files embedded; use int.
 }
 
 
@@ -175,7 +175,7 @@ WITHIN public void onBindViewHolder(@NonNull ViewHolder holder, int position) {;
                 .load(recyclerModel.get(position).getImage())
                 .into(holder.img_Photo);
 
-==== IN JAV CLASS ====
+==== IN JAVA CLASS ====
 
         ArrayList<RecyclerModal> recyclerModal = new ArrayList<>();	//Exactly how it is in Adapter Class, without the "private"
 

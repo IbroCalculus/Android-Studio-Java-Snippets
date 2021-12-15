@@ -1,0 +1,160 @@
+
+CHECK: CodingSTUFF: JSON and API Folder
+
+Json is a lightweight data format for communicating between the app and the server.
+
+E.g 1 {
+	"name":"Ibrahim",
+	"surname": "Suleiman",
+	"age": 26
+}
+
+E.g 2
+{
+ "student":
+ [
+	{
+		"name": "Ibrahim",
+		"email": "ibrahim@email.com",
+		"age": 26
+	},
+
+	{
+		"name": "Musa",
+		"email": "Musa@email.com",
+		"age": 27
+	},
+
+	{
+		"name": "Suleiman",
+		"email": "Suleiman@email.com",
+		"age": 28
+	}
+ ]
+}
+
+
+========= WORKING WITH JSON IN ANDROID STUDIO ==============
+
+TERMS: 
+ Gson is a Java library that can be used to convert Java Objects into their JSON string reprensentation.
+ It can also be used to convert a JSON string to an equivalent Java object.
+
+ 1-- Serialization: Converting java object to json
+ 2-- Deserialization: Converting json string to java object
+
+
+
+  implementation 'com.google.code.gson:gson:2.8.8'
+
+1. =========== SERIALIZATION AND DESIRIALIZATION OF JSON OBJECT. ie E.g 1 =================
+
+ ========= CREATE A JAVA MODEL CLASS (ie: StudentModel) =============
+
+public class StudentModel {
+    private String name;
+    private String email;
+    private int age;
+
+    public StudentModel(String name, String email, int age) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+    }
+}
+
+ ======== JAVA =======
+
+    private static final String TAG = "MainActivity";	//For debugging purpose
+
+        Gson gson = new Gson(); // JSON object
+        StudentModel studentModel = new StudentModel("Ibrahim", "Ibrahim@gmail.com", 19); //Java object
+
+//        "Serialization - Converting Java object to json string"
+//        String json = gson.toJson(studentModel);
+//        Log.d(TAG, "json");
+
+-----------------------------------------------------------
+
+//        "Deserialization - Converting json string to java object"
+//        String data = "{\"age\":19,\"email\":\"Ibrahim@gmail.com\",\"name\":\"Ibrahim\"}";
+//        StudentModel studentModel1 = gson.fromJson(data, StudentModel.class);
+//        Log.d(TAG, studentModel1.toString());
+
+
+
+2. =========== SERIALIZATION AND DESIRIALIZATION OF JSON OBJECT-INSIDE-THE-OBJECT. ie E.g 2 =================
+
+ ========= CREATE A JAVA MODEL CLASS (ie: StudentModel) =============
+
+public class StudentModel {
+
+    @SerializedName("name")
+    private String mName;
+
+    @SerializedName("email")
+    private String mNmail;
+
+    @SerializedName("age")
+    private int mAge;
+
+    public StudentModel(String mName, String mNmail, int mAge) {
+        this.mName = mName;
+        this.mNmail = mNmail;
+        this.mAge = mAge;
+    }
+}
+
+ ========= CREATE ANOTHER JAVA MODEL CLASS (ie: CourseModel) =============
+
+public class CourseModel {
+
+    @SerializedName("course_name")
+    private String mCoursename;
+
+    @SerializedName("fees")
+    private String mFees;
+
+    public CourseModel(String mCoursename, String mFees) {
+        this.mCoursename = mCoursename;
+        this.mFees = mFees;
+    }
+}
+
+
+========= BACK IN THE CLASS "StudentModel", make the additions as shown: =================
+
+    CourseModel courseModel;	// Addition
+    public StudentModel(String mName, String mNmail, int mAge, CourseModel courseModel) { //Addition Cou...
+        this.mName = mName;
+        this.mNmail = mNmail;
+        this.mAge = mAge;
+        this.courseModel = courseModel;		//Addition
+
+ ======== JAVA =======
+
+        Gson gson = new Gson(); // JSON object
+
+        CourseModel courseModel = new CourseModel("Java", "299");
+        StudentModel studentModel = new StudentModel("Ibrahim", "Ibrahim@email.com", 20, courseModel);
+
+
+//        Serialization - Converting Java object to JSON String
+//        String json = gson.toJson(studentModel);
+//        Log.d(TAG, "MainActivity");
+
+//        Deserialization - Converting JSON String to Java Objec
+//        String data = "{\"courseModel\":{\"course_name\":\"Java\",\"fees\":\"299\"},\"age\":20,\"email\":\"Ibrahim@email.com\",\"name\":\"Ibrahim\"}";
+//        StudentModel studentModel1 = gson.fromJson(data, StudentModel.class);
+//        Log.d(TAG, studentModel1.toString());
+
+
+
+3. =========== SERIALIZATION AND DESIRIALIZATION OF JSON ARRAYS INSIDE OBJECT. ie E.g 2 =================
+
+
+
+
+
+
+

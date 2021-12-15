@@ -1,0 +1,65 @@
+ CHECK: Coding in Flow: " TextSwitch with Animation"
+ NB: Do not create the textView on the xml file.
+
+
+    <TextSwitcher
+        android:id="@+id/textSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
+
+        app:layout_constraintBottom_toTopOf="@+id/btnNext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+JAVA
+    TextSwitcher textSwitcher;
+    TextView textView;
+    Button btnNext;
+    private int stringIndex = 0;
+    private String[] row = {"One", "Two", "Three", "Four","Five", "Six"};
+
+
+        textSwitcher = findViewById(R.id.textSwitcher);
+        //textSwitcher.setBackgroundColor(Color.RED);
+        btnNext = findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(stringIndex == row.length-1){
+                    stringIndex = 0;
+                    textSwitcher.setText(row[0]);
+                } else{
+                    textSwitcher.setText(row[++stringIndex]);
+                }
+            }
+        });
+
+        textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                textView = new TextView(getApplicationContext());
+                textView.setTextColor(Color.BLACK);
+                textView.setTextSize(60);
+                textView.setGravity(Gravity.CENTER);
+                return textView;
+            }
+        });
+
+        textSwitcher.setText(row[stringIndex]);

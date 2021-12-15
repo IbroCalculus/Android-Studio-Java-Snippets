@@ -8,3 +8,5 @@ Inside Manifest file
 
     <application
         android:allowBackup="true"
+
+THERE'S ALSO PERMISSION AT RUNTIME; CHECK: "Android Application Development Tutorial For Beginners": 01:30:00

@@ -1,0 +1,37 @@
+
+ CHECK: "Johan Jurrius"
+
+ NB: In the Fragment for list, do not include listview in the xml. All is done in the java
+
+
+public class ListFrag extends ListFragment {
+
+    public ListFrag() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add("1. This is item 1");
+        data.add("2. This is item 2");
+        data.add("3. This is item 3");
+
+        String options [] = {"A","B","C","D"};
+
+        setListAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, options));
+    }
+
+    @Override
+    public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
+        Toast.makeText(getContext(), "You Clicked ON: "+position, Toast.LENGTH_SHORT).show();
+        super.onListItemClick(l, v, position, id);
+    }
+}

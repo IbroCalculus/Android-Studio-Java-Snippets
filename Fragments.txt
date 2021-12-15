@@ -1,4 +1,6 @@
 
+ CHECK: "Small Academy": Android Bottom Navigation... This is Using Fragment and Bottom Nav
+
 Create main activity to place fragment on FrameLayout (Give framelayout ID. i.e; frameLayout)
 Create fragments. i.e; firstFrag, secondFrag, thirdFrag
 Create fragments event handlers; buttons, tabs, viewPager etc. i.e btn_Frag1, btn_Frag2, btn_Frag3, TabItem1, TabItem2, TabItem3

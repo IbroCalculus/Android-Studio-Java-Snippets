@@ -1,4 +1,7 @@
 
+CHECK ALSO; Custom Switch
+
+
 	Switch switch1;
 
         switch1 = findViewById(R.id.switch1);

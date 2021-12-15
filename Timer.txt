@@ -38,4 +38,34 @@ NB: For now, seem to work well only with open another intent after delay. Even t
         t.schedule(tt,0,100); //Every 100ms, do something
     }
 
+* THIRD WAY: it keeps looping
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "5 seconds gone", Toast.LENGTH_SHORT).show();
 
+                handler.postDelayed(this, 5000);
+            }
+        };
+        handler.post(runnable);
+
+* FOURTH WAY: (countdown timer)
+
+        new CountDownTimer(20000, 5000){
+            int x = 0;
+            @Override
+            public void onTick(long l) {
+                x ++;
+                String v = String.valueOf(x);
+                String v2 = String.valueOf(l/1000);
+                String disp = "Interval NO. " + v + ": SECONDS LEFT: " + v2;
+                Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFinish() {
+                Toast.makeText(getApplicationContext(), "Iteration completed", Toast.LENGTH_SHORT).show();
+            }   //duration, interval
+
+        }.start();

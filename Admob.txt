@@ -1,0 +1,131 @@
+
+ CHECK: "For Banner ads, Master Coding"
+ Check also; developers website, it's step-by-step
+
+NB: ALWAYS TEST WITH THE TEST ID
+
+
+
+  implementation 'com.google.android.gms:play-services-ads:20.2.0
+
+=== WITHIN MANIFEST FILE ===
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+<manifest>
+    <application>
+
+        <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy"/>
+
+
+    </application>
+</manifest>
+
+
+========================== 1. BANNER ADS ===============================
+
+===== XML ===
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"	//This is the demo banner Ad ID
+        ads:adSize="BANNER"/>
+
+
+==== JAVA =====
+
+        setContentView(R.layout.activity_main);
+
+	//This part is valid for all types of ads.
+	//This creates personalised (target) ads. CHECK: "Admob Interstitial Ad Tutorial 2021" to Create non-targeted ads
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+	
+	//---- For Banner ads ----
+        adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+
+
+
+=====================	2. INTERSTITIAL ADS	=======================
+NB: CHECK: "Admob Interstitial Ad Tutorial 2021"
+NB: The Manifest and Java part from Banner ads above applies to this as well
+
+====== JAVA ==============
+    private InterstitialAd mInterstitialAd;
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        createInterstitialAd(adRequest);
+
+        btn_Interstitial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(MainActivity.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                }
+            }
+        });
+
+    }
+
+    private void createInterstitialAd(AdRequest adRequest) {
+        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i(TAG, "onAdLoaded");
+
+                        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+                            @Override
+                            public void onAdDismissedFullScreenContent() {
+                                // Called when fullscreen content is dismissed.
+                                Log.d("TAG", "The ad was dismissed.");
+                            }
+
+                            @Override
+                            public void onAdFailedToShowFullScreenContent(AdError adError) {
+                                // Called when fullscreen content failed to show.
+                                Log.d("TAG", "The ad failed to show.");
+                            }
+
+                            @Override
+                            public void onAdShowedFullScreenContent() {
+                                // Called when fullscreen content is shown.
+                                // Make sure to set your reference to null so you don't
+                                // show it a second time.
+                                mInterstitialAd = null;
+                                Log.d("TAG", "The ad was shown.");
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i(TAG, loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+
+    }

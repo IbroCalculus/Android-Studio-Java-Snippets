@@ -1,0 +1,34 @@
+
+ Similar to floating context menu.
+ Floating context menu, you long click, while here you click to pop up a menu.
+
+
+ 
+Create menu resource file, of File name, menubar and resource type, Menu
+
+Place menu items as needed and give titles and IDs
+
+================== JAVA ======================
+NB: Note that you pass in v when I called showPopUpMenu(v)
+
+        btnClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopUpMenu(v);
+            }
+        });
+
+
+    private void showPopUpMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(getApplicationContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.menubar, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Toast.makeText(MainActivity.this, "You clicked on Item" + item.getTitle(), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+        popupMenu.show();
+    }

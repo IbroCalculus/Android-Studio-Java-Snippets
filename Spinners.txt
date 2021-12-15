@@ -1,4 +1,6 @@
 
+CHECK: CodingSTUFF:"Dependent Spinner", If interested on dependent spinner.
+
 
 ===================================== METHOD 1 (Easier/Better for dynamic data)	========================================
 
@@ -9,10 +11,12 @@
         countries.add("Angola");
         countries.add("Ghana");
 
+	string [] countries = {"Nigerial", "Angola", "Ghana"}
+
         ArrayAdapter<String> countriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countries);
         spinner.setAdapter(countriesAdapter);
 
-NB: There are multiple types of adapters. But we work with arrayAdapter in this case
+NB: There are multiple types of adapters. But we work with arrayAdapter in this case.
     android.R.layout.simple_spinner_dropdown_item -> A built in layout, we can customize personal layout if need be.
     To view the simple_spinner... layout, click down ctrl and click the ..simple.spinner..., but NOTE, the layout is not editable.
 

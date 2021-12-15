@@ -1,0 +1,266 @@
+
+ CHECK: "CodingSTUFF": Lecture 27
+
+
+Place RecyclerView on main with ID, i.e recyclerView.
+
+
+IN MAIN JAVA CLASS
+
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+
+        setContentView(R.layout.activity_main);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(this);  //Vertical recyclerview layout
+        recyclerView.setLayoutManager(layoutManager);
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);  //Horizontal recyclerview layout
+        recyclerView.setLayoutManager(layoutManager);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+
+
+CREATE LAYOUT RESOURCE FILE FOR RECYCLERVIEW i.e recycler_layout. Contains: imageView1, tv_firstName, tv_surName.
+
+
+=========== CREATE MODEL CLASS FOR THE ADAPTER ie: RecyclerModel ===========
+---------- Generate Constructor and generate getters and setters ----------
+
+
+public class RecyclerModel {
+    private String firstNameM;
+    private String surNameM;
+    private String imageM;		//If image from internet; use string, else if image files embedded; use int.
+}
+
+
+========== CREATE RECYCLERVIEW ADAPTER ===========
+
+--STEP 1:
+public class RecyclerAdapter extends RecyclerView.Adapter {
+    
+}
+
+
+--STEP 2: Within STEP 1, make the below addition as shown:
+
+public class RecyclerAdapter extends RecyclerView.Adapter {
+
+	public static class ViewHolder extends RecyclerView.ViewHolder{        
+    	}
+   
+}
+
+
+--STEP 3: Press ALT + Enter over the 'public static class ViewHolder....' and create constructor matching super:
+
+public class RecyclerAdapter extends RecyclerView.Adapter {
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+}
+
+
+--STEP 4: Above 'public ViewHolder(@NonNull View itemView) {...', initials views from the recycler_layout:
+
+        TextView tv_Surname;
+        TextView tv_firstName;
+        ImageView imageView;
+        
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+
+--STEP 5: Within 'public ViewHolder(@NonNull View ItemView) {...', find the IDs of the initialized views:
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            tv_Surname = itemView.findViewById(R.id.tv_Surname);
+            tv_firstName = itemView.findViewById(R.id.tv_firstName);
+            imageView = itemView.findViewById(R.id.imageView);
+
+
+--STEP 6: Go back to the top, at 'public class RecyclerAdapter extends RecyclerView.Adapter {' and add '<RecyclerAdapter.ViewHolder>':
+
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+
+
+--STEP 7: Press ALT + Enter over STEP 6 and implement the 3 methods:
+
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+
+--STEP 8: Go to the top and create an arraylist as depicted:
+
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+    ArrayList<RecyclerModel> arrayList;
+
+--STEP 9: Create a constructor for the arraylist by pressing ALT + ins, on the next line below the arraylist:
+
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+    
+    ArrayList<RecyclerModel> arrayList;
+
+    public RecyclerAdapter(ArrayList<RecyclerModel> arrayList) {
+        this.arrayList = arrayList;
+    }
+
+
+--STEP 10: Within 'public ViewHolder onCreateViewHolder(@NonNull...', include inflator as shown, and replace R.layout.... with your layout:
+
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_layout, parent, false);
+        return new ViewHolder(view);
+    }
+
+--STEP 11: Within 'public void onBindViewHolder(@NonNull...', do as shown, and modify as required:
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        RecyclerModel recyclerModel = arrayList.get(position);
+        holder.tv_firstName.setText(recyclerModel.getFirstNameM());
+        holder.tv_Surname.setText(recyclerModel.getSurNameM());
+        holder.imageView.setImageResource(recyclerModel.getImageM());
+    }
+
+--STEP 12: Within 'public int getItemCount() {':
+
+    @Override
+    public int getItemCount() {
+        return arrayList.size();
+    }
+
+
+
+
+
+==== IN JAVA CLASS ====
+
+        ArrayList<RecyclerModal> arrayList = new ArrayList<>();
+
+        arrayList.add(new RecyclerModel("Ibrahim", "Suleiman", R.drawable.ic_home));
+        arrayList.add(new RecyclerModel("Ibrahim", "Suleiman", R.drawable.ic_account_circle));
+        arrayList.add(new RecyclerModel("Ibrahim", "Suleiman", R.drawable.ic_message));
+        arrayList.add(new RecyclerModel("Ibrahim", "Suleiman", R.drawable.ic_notification));
+
+
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(arrayList);
+        recyclerView.setAdapter(recyclerAdapter);
+
+
+
+============== SET ONCLICKLISTENER ==================
+
+	In the recycler_layout, give an ID to the parent layout, or individual views, if desired such. i.e: recycler_layout_parent
+
+---- STEP 1 ---- WITHIN public static class ViewHolder extends RecyclerView.ViewHolder{:
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{ 
+       
+        CardView recycler_layout_parent;	*********** <--- this
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            recycler_layout_parent = itemView.findViewById(R.id.recycler_layout_parent);	*********** <--- this
+
+
+
+---- STEP 2 ---- WITHIN public void onBindViewHolder(@NonNull ViewHolder holder, int position) {;
+
+        holder.recycler_layout_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Clicked on: " + recyclerModel.getSurNameM() + " " + position,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+NOTE THAT:  '... int position)' within 'public void onBindViewHolder...' will have to change to '@SuppressLint("RecyclerView") int position)'
+
+
+
+
+
+============== TO PASS DATA FROM RECYCLERVIEW TO ANOTHER ACTIVITY ONCLICK EVENT ===============
+
+Create another MainActivity2.class with layout to received and display data from recyclerView
+
+Create intent to pass data from present activity to activity MainActivity2.class
+
+--- WITHIN public void onBindViewHolder(@NonNull ViewHolder holder, int position) {;
+
+        holder.recycler_layout_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Clicked on: " + recyclerModel.getSurNameM() + " " + position,Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(v.getContext(), MainActivity2.class);
+                intent.putExtra("tv_firstName", recyclerModel.getFirstNameM());
+                intent.putExtra("tv_surName", recyclerModel.getSurNameM());
+                intent.putExtra("imageView", recyclerModel.getImageM());
+
+                v.getContext().startActivity(intent);
+
+
+--- RECEIVE DATA ON ACTIVITY MAINACTIVITY2 AND ASSIGN TO RESPECTIVE LAYOUT ON THE NEW ACTIVITY ---
+
+    TextView tv_surName2;
+    TextView tv_firstName2;
+    ImageView imageView2;
+
+        tv_firstName2 = findViewById(R.id.tv_firstName2);
+        tv_surName2 = findViewById(R.id.tv_surName2);
+        imageView2 = findViewById(R.id.imageView2);
+
+        String tv_firstName = getIntent().getStringExtra("tv_firstName");
+        String tv_surName = getIntent().getStringExtra("tv_surName");
+        int imageView = getIntent().getIntExtra("imageView", 0);
+
+        tv_firstName2.setText(tv_firstName);
+        tv_firstName2.setText(tv_surName);
+        imageView2.setImageResource(imageView);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

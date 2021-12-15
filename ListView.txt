@@ -1,7 +1,13 @@
 
+CHECK: "Android App Development Tutorial For Beginners 2021" for simpler implementation. 00:50:00. SIMILAR TO METHOD 2
+
+NB: There's also custom listview below; CHECK: "codingSTUFF": Lecture 18
+
 NOTE: ListView is Lagacy, better RecyclerView
 CONS: 	Not customizeabel
 	Low performance
+
+========== METHOD 1. USING ARRAYLIST =================
 
         listView = findViewById(R.id.listView);
 
@@ -16,6 +22,12 @@ CONS: 	Not customizeabel
 NB: There are multiple types of adapters. But we work with arrayAdapter in this case
     android.R.layout.simple_list_item_1 -> A built in layout, we can customize personal layout if need be.
     To view the simple_list... layout, click down ctrl and click the ..simple.list..., but NOTE, the layout is not editable.
+
+
+=========== METHOD 2. USING LIST ===========
+
+        listView = findViewById(R.id.listView);
+        String options [] = {"A","B","C","D"};
 
 
 =============	HANDLING CLICK EVENTS	=====================
@@ -42,3 +54,34 @@ NB: There are multiple types of adapters. But we work with arrayAdapter in this 
             }
         });
     }
+
+
+
+============================= 	2. CUSTOM LISTVIEW	==========================================
+ CHECK: "codingSTUFF": Lecture 18
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

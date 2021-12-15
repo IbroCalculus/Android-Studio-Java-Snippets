@@ -1,3 +1,10 @@
+
+The commonly used menus in android applications are:
+ - Options Menu (the general menu, this one)
+ - Context Menu (or floating context menu. You longclick to popup menu list)
+ - Popup menu (similar to floating context menu. You click to popup menu list)
+
+
 Create menu resource file, of File name, menubar and resource type, Menu
 
 Place menu items as needed and give titles and IDs

@@ -1,0 +1,78 @@
+
+ CHECK: "codingSTUFF": How to create custom switch
+
+Create 2 drawable resource files named exactly as: "thumb" and "track"
+
+============ thumb ========================
+
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="true">
+        <shape android:shape="oval">
+            <solid android:color="#f00"/>
+            <size android:height="50dp" android:width="50dp"/>
+        </shape>
+    </item>
+
+    <item android:state_checked="false">
+        <shape android:shape="oval">
+            <solid android:color="#0f0"/>
+            <size android:height="50dp" android:width="50dp"/>
+        </shape>
+    </item>
+
+</selector>
+
+============= track ================
+
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/purple_700"/>
+            <size android:height="10dp"/>
+            <corners android:radius="100dp"/>
+        </shape>
+    </item>
+
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+            <solid android:color="#8c8c8c"/>
+            <size android:height="10dp"/>
+            <corners android:radius="100dp"/>
+        </shape>
+    </item>
+
+
+</selector>
+
+
+================== XML ===================
+NB: Use SwitchCompat NOT Switch. Copy-Paste and edit the xml as required
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:showText="true"
+        android:thumb="@drawable/thumb"
+        app:track="@drawable/track" />
+
+CHECK: Switch on how to add functionality to the custom switchbar
+
+
+
+
+
+
+
+
+
+

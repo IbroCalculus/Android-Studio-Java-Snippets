@@ -1,0 +1,3 @@
+
+DEFAULT:
+    <style name="Theme.Test4" parent="Theme.AppCompat.Light.DarkActionBar">

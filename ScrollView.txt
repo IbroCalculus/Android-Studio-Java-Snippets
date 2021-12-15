@@ -1,4 +1,8 @@
 
+NB: Resize the viewPort height while working with scrollview
+CHECK: "Android App Development Tutorial For Beginners 2021": 01:19:00
+
+
 NB: THERE'S SCROLLVIEW (Vertical) AND HORIZONTAL SCROLLVIEW (Horizontal)
 NB: For any view, ie; textView, set the height to "wrap-content" to enable vertical scrollview, likewise width "wrap-content" for horizontal scrollview.
 PREFERABLY, PLACE SCROLLVIEW IN FRAME LAYOUT, WHERE HEIGHT AND WIDTH OF SCROLLVIEW MATCH PARENT FRAME LAYOUT.

@@ -4,16 +4,15 @@ Always use Intent finish() in the splash screen
 
 2. 
 
+    private static final int SPLASH_DURATION = 4000;
+
 setContentView(R.layout.activity_main);
 
-        new Handler().postDelayed(new Runnable() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), firstActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }
-        }, SPLASH_DURATION);
-
-//create string variable SPLASH_DURATION
-// private static final long SPLASH_DURATION = 4000; // 4 seconds
+        }, SPLASH_DURATION);	//SPLASH_DURATION is in milliseconds. ie 4 seconds in this case.

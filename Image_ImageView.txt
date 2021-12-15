@@ -1,4 +1,7 @@
 
+CHECK ALSO; Pick Image from Gallery
+
+
 ==== SETTING IMAGE RESOURCE ==========
 
 int image = R.drawable.pic1;

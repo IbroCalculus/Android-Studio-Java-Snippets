@@ -1,0 +1,59 @@
+
+ CHECK: "CodingSTUFF": Lecture 29
+
+ This is used for creating animation on the background of the app.
+
+=================== ===============
+
+ Import images resources; ie: img1, img2, img3.
+
+ Create new drawable resource file, ie: animated_bg1.xml, of root element 'animation_list' as shown:
+
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/img1"
+    android:duration="4000"/>
+
+    <item android:drawable="@drawable/img2"
+        android:duration="4000"/>
+
+    <item android:drawable="@drawable/img3"
+        android:duration="4000"/>
+
+</animation-list>
+
+  
+
+========== XML =============
+Assuming using a constraint layout; give both id (ie; constraint_layout) and set background property as shown:
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:background="@drawable/animated_bg1"
+    android:id="@+id/constraint_layout"
+/>
+
+
+============== JAVA ================
+
+    ConstraintLayout constraint_layout;
+    AnimationDrawable animationDrawable1;
+
+        constraint_layout = findViewById(R.id.constraint_layout);
+        
+        animationDrawable1 = (AnimationDrawable) constraint_layout.getBackground();
+        animationDrawable1.setEnterFadeDuration(1000);
+        animationDrawable1.setExitFadeDuration(1000);
+        animationDrawable1.start();
+
+
+
+
+
+
+
+
+
+
+

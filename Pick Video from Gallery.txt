@@ -1,0 +1,31 @@
+
+        btn_Click = findViewById(R.id.btn_Click);
+        videoView = findViewById(R.id.videoView);
+
+        //To include controller i.e Play/Pause, forward, rewind
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(videoView);
+        videoView.setMediaController(mediaController);
+
+        btn_Click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickVideofromGallery();
+            }
+        });
+
+    private void pickVideofromGallery() {
+        Intent galleryIntent = new Intent();
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("video/*");
+        startActivityForResult(galleryIntent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null){
+            Uri videoUri = data.getData();
+            videoView.setVideoPath(String.valueOf(videoUri));
+        }
+    }

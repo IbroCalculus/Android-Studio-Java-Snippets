@@ -4,13 +4,14 @@ NB: THIS AUDIO DOES NOT RUN IN THE BACKGROUND, TO LEARN ABOUT THAT, LEARN ABOUT 
 Create directory of type raw and place sound files inside.
 
     MediaPlayer mediaPlayer;
-
+ 
 ===========================	TO PLAY SOUND	======================================
     
     private void playSound() {
         if(mediaPlayer == null)
         {
             mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+            //mediaPlayer = MediaPlayer.create(this, Uri.parse("http://www.music.com/m1.mp3"));
             //mediaPlayer.setLooping(true);
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
@@ -47,5 +48,59 @@ Create directory of type raw and place sound files inside.
     }
 
 NB: Other methods like mediaPlayer.Pause(), .stop() etc IN PLACE OF 
+
+
+======================= CONTROL AUDIO VOLUME USING SEEKBAR ======================
+NB: Maximum volume varies from devices, hence all can't be of value of range 0 - 100;
+
+    AudioManager audioManager;
+
+        setContentView(R.layout.activity_main);
+
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC); //Get the current volume
+
+        seekBar.setMax(maxVolume);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, i, 0);
+
+            }
+
+======================  GET DURATION OF MUSIC =========================
+	mediaPlayer.getDuration() //milliseconds
+        //THE BELOW CODE MAY BE USEFUL, USED IT IN AN ANDROID APP TO GET DURATION IN MIN & SEC
+                int durationX = (mediaPlayer.getDuration()/1000)/60;
+                int durationY = (mediaPlayer.getDuration()%1000)%60;
+                tv_Duration.setText(String.valueOf(durationX + ":" + durationY));
+
+
+======================  SEEK POSITION OF MUSIC (FORWARD OR BACKWARD) =========================
+        int maxDuration = mediaPlayer.getDuration();
+        seekBar2.setMax(maxDuration);
+
+
+
+	mediaPlayer.getCurrentPosition()
+	mediaPlayer.seekTo(intValue)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

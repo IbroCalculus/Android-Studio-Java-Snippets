@@ -1,0 +1,26 @@
+
+public class MainActivity extends AppCompatActivity {
+
+=== 1. Write this ==============
+    public class DownlaodTast extends AsyncTask<String, Void, String> {
+        
+    }
+
+=== 2. Implement method ===
+    public class DownlaodTast extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+    }
+
+=== 3. Get the url ===
+        setContentView(R.layout.activity_main);
+
+        DownlaodTast downlaodTast = new DownlaodTast();
+        try {
+            downlaodTast.execute("https://zappycode.com/");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
