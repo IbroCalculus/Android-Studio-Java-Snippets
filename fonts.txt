@@ -10,7 +10,7 @@ NB: Dragging font into the fonts directory, cuts and paste instead of copy and p
 
 drag & drop fonts into the directory
 
-use android:fontFamily="@font/font_name"
+use android:fontFamily="@font/font_name" OR from design view, select option from 'fontFamily'
 
 
 =================== USING GOOGLE FONTS (Need internet to preview) =============================

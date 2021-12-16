@@ -1,0 +1,24 @@
+
+ ====== AutoComplete =============
+ 
+ Use AutoCompleteTextView element, id = et_AutoComplete1
+
+--------- IN JAVA ------------
+ Create a string array, ie:
+
+        setContentView(R.layout.activity_main); 
+
+        et_AutoComplete1 = findViewById(R.id.et_AutoComplete1);       
+        String friends[] = new String[] {"Ahmad", "AbdulKareem", "Abdullahi", "Zainul", "Zainab"};
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, friends);
+        et_AutoComplete1.setAdapter(arrayAdapter);
+        et_AutoComplete1.setThreshold(1);   //No. of characters before list shows up.
+
+
+ ========= Autofill ==============
+ Within xml, include this in the textview:
+        android:autofillHints="AUTOFILL_HINT_USERNAME"  //AUTOFILL_HINT_PASSWORD, AUTOFILL_HINT_SMS_OTP, etc
+        //google search AUTOFILL_HINT to see many more ie AUTOFILL_HINT_PHONE, AUTOFILL_HINT_POSTAL_ADDRESS etc
+
+ 
