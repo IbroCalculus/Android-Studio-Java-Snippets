@@ -1,0 +1,10 @@
+
+VCS -> Enable version control integration -> Git
+
+Highlight "app" folder
+
+Right click on "app" -> Git -> Add
+
+VCS/Git -> Commit 
+
+type commit message, then -> Commit

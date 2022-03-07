@@ -1,0 +1,20 @@
+
+ This is achieved using implicit intents.
+
+ CHECK ALSO; "WhatsApp" to learn how to share data to whatsApp app.
+
+        btn_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = "This is a sample text";
+
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, text);
+                intent.setType("text/plain");
+
+                if(intent.resolveActivity(getPackageManager()) != null){
+                    startActivity(intent);
+                }
+            }
+        });

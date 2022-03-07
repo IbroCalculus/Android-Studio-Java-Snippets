@@ -1,0 +1,16 @@
+link:
+https://stackoverflow.com/questions/55861519/upgraded-to-android-studio-3-4-aapt2internalexception-aapt2-daemon-startup-f
+
+
+You might consider disabling the aaptOptions like the following. Add this in the android section in your build.gradle file.
+
+android {
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+}
+
+
+And add the following line in your gradle.properties file.
+
+android.enableAapt2=false
+

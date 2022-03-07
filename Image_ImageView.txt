@@ -1,5 +1,6 @@
 
 CHECK ALSO; Pick Image from Gallery
+            Image Slider
 
 
 ==== SETTING IMAGE RESOURCE ==========

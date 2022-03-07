@@ -2,6 +2,16 @@ Visit firebase, Android section (See options like Authentication, realtimeDB, cl
 
 Tools -> Firebase -> Analytics -> Log an Analytics Event -> Connect to Firebase -> Auto Launch Browser -> Create project -> Uncheck Google Analytics ... -> Connect firebase
 
+========== Fix "Connect to Firebase" error, if occurred =====================
+Go to "Project Structure" (Close to Run, Debug, AVD Manager, etc),
+Goto Modules tab
+Set "Compile sdk Version" to 30 or higher. (31 tested)
+Set "Build tools version" to 30.0.2 or higher. (31.0.0 tested)
+Apply and OK
+
+This maybe helpful as well;  Go to "Build" -> Make project
+
+
 =====================FIREBASE AUTHENTICATION ==========================================
 ================= CONNECTING TO FIREBASE ==================================
 

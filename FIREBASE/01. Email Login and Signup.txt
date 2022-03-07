@@ -1,0 +1,122 @@
+
+REFERENCE: CodingSTUFF
+
+ Tools -> Firebase -> Authentication -> Authenticate using Google Sign-in
+
+ Go to firebase console, Authentication -> Email/Password (Enable), Email link (Probably disable) -> Save
+
+
+1. ============== SIGN UP (Create new User using email and password) ==============
+
+    FirebaseAuth firebaseAuth;
+
+        et_Email = findViewById(R.id.et_Email);
+        et_pswd = findViewById(R.id.et_pswd);
+        btn_SignUp = findViewById(R.id.btn_SignUp);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
+        btn_SignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String et_EmailText = et_Email.getText().toString();
+                String et_pswdText = et_pswd.getText().toString();
+
+                if(!et_EmailText.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(et_EmailText).matches()){
+                    if(!et_pswdText.isEmpty()){
+                        Toast.makeText(getApplicationContext(), "Email Address is valid", Toast.LENGTH_SHORT).show();
+                    }else{
+                        et_pswd.setError("Empty fields are not allowed");
+                    }
+
+                    //Creating the user account or signup
+                    firebaseAuth.createUserWithEmailAndPassword(et_EmailText, et_pswdText)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    Toast.makeText(getApplicationContext(), "Registered successfully", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+                                    startActivity(intent);
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Registration failed, Check Internet", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                }else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "INVALID Email", Toast.LENGTH_LONG);
+//                    toast.getView().setBackgroundColor(Color.parseColor("#ff0000"));
+                    TextView toastMessage=(TextView) toast.getView().findViewById(android.R.id.message);
+                    toastMessage.setTextColor(Color.parseColor("#ff0000"));
+                    toast.show();
+                }
+            }
+        });
+
+
+2. ============== LOGIN/SIGN IN  ============== 
+
+    FirebaseAuth firebaseAuth;
+
+        et_EmailLogin = findViewById(R.id.et_EmailLogin);
+        et_pswdLogin = findViewById(R.id.et_pswdLogin);
+        btn_Login = findViewById(R.id.btn_Login);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        btn_Login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String et_EmailLoginText = et_EmailLogin.getText().toString();
+                String et_pswdLoginText = et_pswdLogin.getText().toString();
+
+                firebaseAuth.signInWithEmailAndPassword(et_EmailLoginText, et_pswdLoginText)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "Error login", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+            }
+        });
+
+
+3. ============== LOG OUT ==============
+
+    FirebaseAuth firebaseAuth;
+
+        btn_Logout = findViewById(R.id.btn_Logout);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        btn_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firebaseAuth.signOut();
+                Toast.makeText(getApplicationContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+
+

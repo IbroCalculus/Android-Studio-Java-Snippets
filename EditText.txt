@@ -1,8 +1,37 @@
 
- TO ADD IMAGE TO EDITTEXT (ie userIcon, PasswordLock etc)
+1. ====== TO ADD IMAGE TO EDITTEXT (ie userIcon, PasswordLock etc)  =========
 
  In XML 
         android:drawableLeft="@drawable/ic_baseline_visibility_24"
         android:drawablePadding="10dp"
 
  OTHERS: drawableTop, drawableBottom, drawableRight
+
+
+2. ======= Show error for empty field ===========
+ In Java
+       editText.setError("This field must not be empty")
+
+
+3. ====== Add prefix and/or suffix text =========== E.g Add +234 as the prefix text for Nigerian mobile phone number.
+ use TextInputLayout; This consists of TextInputEditText nested inside the TextInputLayout.
+ Within TextInputLayout;
+   - set 'prefixText' and 'prefixTextColor', OR suffixText and suffixTextColor
+   - set 'expandedHintEnabled' to 'false' if you want the prefix/suffix to be visible always, or 'true' to be visible only when clicked.
+
+ Give TextInputEditText and ID, ie et_et1
+
+    TextInputEditText et_et1;
+
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String text1 = et_et1.getText().toString();      //This will not include prefix and suffix
+                Toast.makeText(getApplicationContext(), text1, Toast.LENGTH_LONG).show();  
+            }
+        });
+ 
+
+ Give id to TextInputEditText, ie et_et1;
+ Still within TextInputEditText, take of of inputType, ie Phone and perhaps 'maxlength'

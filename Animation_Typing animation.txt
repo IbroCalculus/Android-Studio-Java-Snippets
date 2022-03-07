@@ -1,0 +1,36 @@
+
+CHECK: "Lenosoft" - How to create typing animation in android studio
+
+    Button btn_btn1;
+    EditText et_et1;
+    
+    int count = 0;
+    Boolean isAnimating = false;
+
+        btn_btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(!isAnimating){
+
+                    String animateText = et_et1.getText().toString();
+                    et_et1.setText("");
+                    count = 0;
+                    isAnimating =true;
+
+                    new CountDownTimer(animateText.length() * 100, 100) {
+                        @Override
+                        public void onTick(long l) {
+                            et_et1.setText(et_et1.getText().toString() + animateText.charAt(count));
+                            count++;
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            isAnimating = false;
+                        }
+                    }.start();
+
+                }
+            }
+        });

@@ -1,6 +1,6 @@
 
- EXPLICIT INTENT: Used to start a specific activity, must know the class name
- IMPLICIT INTENT: Used to 
+ EXPLICIT INTENT: Used to start a specific targeted activity, must know the class name
+ IMPLICIT INTENT: Android OS opens appropriate app automitcally
 
 
 1. EXPLICIT INTENT

@@ -1,0 +1,48 @@
+ 
+============== SEND WHATSAPP TEXT AND IMAGE FROM WITHIN APP ========
+                
+
+-------------- Send plain text ------------
+
+    String msg = "This is a sample text";
+
+        btn_SendText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_SEND);    // Create send intent
+                intent.putExtra(Intent.EXTRA_TEXT, msg);           // Add message along with intent
+                intent.setType("text/plain");                      // Set message type. Whatsapp accepts only plain text
+                intent.setPackage("com.whatsapp");                 // Whatsapp package name, so intent can identify which app to open
+                startActivity(intent);                             // Start activity
+            }
+        });
+
+---------------- Send image (and text) ----------------
+
+        btn_SendImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickImagefromGallery();                
+            }
+        });
+    }
+
+    private void pickImagefromGallery() {
+        //open image chooser, to choose an image.
+        activityResultLauncher.launch("image/*");
+    }
+
+    private final ActivityResultLauncher<String> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+        @Override
+        public void onActivityResult(Uri result) {
+
+            Intent intent = new Intent(Intent.ACTION_SEND);    // Create send intent
+            intent.putExtra(Intent.EXTRA_TEXT, msg);           // Add message along with intent
+            intent.putExtra(Intent.EXTRA_STREAM, result);      // Add gallery image along with intent
+            intent.setType("text/plain");                      // Set message type. Whatsapp accepts only plain text
+            intent.setType("image/jpeg");                      // Set image type. intent.setType("image/*")
+            intent.setPackage("com.whatsapp");                 // Whatsapp package name, so intent can identify which app to open
+            startActivity(intent);                             // Start activity
+        }
+    });

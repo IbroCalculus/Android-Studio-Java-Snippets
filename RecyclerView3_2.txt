@@ -154,6 +154,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
  
 Also, include notifyDataSetChanged();
 
+    // setter method
     public void setRecyclerModal(ArrayList<RecyclerModal> recyclerModal) {
         this.recyclerModal = recyclerModal;
         notifyDataSetChanged();

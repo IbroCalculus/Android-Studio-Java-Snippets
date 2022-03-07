@@ -1,6 +1,12 @@
+============== CHANGE TOAST FOREGROUND & BACKGROUND COLOR ===========
+                    Toast toast = Toast.makeText(getApplicationContext(), "INVALID Email", Toast.LENGTH_LONG);
+                    toast.getView().setBackgroundColor(Color.parseColor("#ff0000"));   // Background color
+                    TextView toastMessage=(TextView) toast.getView().findViewById(android.R.id.message);
+                    toastMessage.setTextColor(Color.BLUE);   // Text/Foreground color
+                    toast.show();
+
 
  CHECK: Coding in Flow; Toast
-
 1. USING TOASTY DEPENDENCY (NB: 4. STYLABLE TOAST)
  You can use "Toasty" library for custom toasts for 'success', 'info', 'error', 'warning', 'normal', 'custom'. VISIT toasty github repo for usage.
  ALSO, CHECK: Coding in flow.

@@ -1,0 +1,46 @@
+
+NB: It seems my current phone does not support it
+
+
+ ===== Manifest file ======
+        <activity
+            android:name=".MainActivity"
+
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation">
+
+
+
+============= Java ==============    
+        btnPIP = findViewById(R.id.btnPIP);
+        btnPIP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                enterPipMode();
+
+            }
+        });
+    }
+
+
+Either of the two implementation of the method enterPipMode():
+1 -------------
+    private void enterPipMode() {
+    }
+
+2 -------------
+    private void enterPipMode() {
+        Display d = getWindowManager()
+                .getDefaultDisplay();
+        Point p = new Point();
+        d.getSize(p);
+        int width = p.x;
+        int height = p.y;
+
+        Rational ratio = new Rational(width, height);
+        PictureInPictureParams.Builder pip_Builder = new PictureInPictureParams.Builder();
+        pip_Builder.setAspectRatio(ratio).build();
+        enterPictureInPictureMode(pip_Builder.build());
+    }

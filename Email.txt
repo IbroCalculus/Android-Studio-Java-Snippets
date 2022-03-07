@@ -1,0 +1,19 @@
+================== Validate Email ====================
+
+        et_Email = findViewById(R.id.et_Email);
+        btn_Validate = findViewById(R.id.btn_Validate);
+        btn_Validate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String et_EmailText = et_Email.getText().toString();
+                if(!et_EmailText.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(et_EmailText).matches()){
+                    Toast.makeText(getApplicationContext(), "Email Address is valid", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "INVALID Email", Toast.LENGTH_LONG);
+//                    toast.getView().setBackgroundColor(Color.parseColor("#ff0000"));
+                    TextView toastMessage=(TextView) toast.getView().findViewById(android.R.id.message);
+                    toastMessage.setTextColor(Color.parseColor("#ff0000"));
+                    toast.show();
+                }
+            }
+        });
