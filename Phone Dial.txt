@@ -3,7 +3,7 @@
 PHONE DIALING USING IMPLICIT INTENT
 
 ================ SENDING IMPLICIT INTENTS ===============================
-E.g: Phone dialing intent 
+E.g: Phone number calling & dialing intent 
 
         Intent intent = new Intent(Intent.ACTION_DIAL);			//Opens Phone dialer, without any data
         startActivity(intent);
@@ -11,7 +11,52 @@ E.g: Phone dialing intent
 	String num = "080123456"
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + num)); 	//Opens Phone dialer, with data
         startActivity(intent);
+
+        //To call phone number directly without opening phone dialer
+NB: When tried, I see no difference between this and the above, still opened the dialer, with data
+------- Manifest -------------
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
+  ------ Java -------
     
+    Button btnPhoneCall;
+    String phoneNumber;
+
+        btnPhoneCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                phoneNumber = "08168194237";
+                makeCall(phoneNumber);
+            }
+        });
+
+    private void makeCall(String phoneNumber)
+    {
+        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},100);
+        }
+        else
+        {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + phoneNumber));
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == 100 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+        {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + phoneNumber));
+            startActivity(intent);
+
+        }
+    }
+
 
 ================ RECEIVING IMPLICIT INTENTS =============================
 E.g Phone dialer app

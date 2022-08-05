@@ -1,0 +1,142 @@
+
+================== SENDING DATA FROM FRAGMENT TO FRAGMENT =============
+
+1. -----------------CAN BE EITHER 2 FRAGMENTS IN 2 DIFFERENT ACTIVITIES or 2 FRAGMENTS WITHIN A SINGLE ACTIVITY -------------
+
+- Two activites ie MainActivity and MainActivity2 OR on a single fragment if needed
+- Two fragments in both activities respectively ie FirstFrag and SecondFrag
+
+- Delete unnecassy codes in both fragments and be left with as shown;
+
+public class FirstFrag extends Fragment {
+
+    public FirstFrag() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_first, container, false);
+    }
+}
+
+
+- Place components on each fragments ie;
+      et_firstFrag, tv_firstFrag, imageView_firstFrag, btnSend_firstFrag
+      et_secondFrag, tv_secondFrag, imageView_secondFrag, btnSend_secondFrag
+
+------ FirstFrag Java -------------
+
+public class FirstFrag extends Fragment {
+    EditText et_firstFrag;
+    TextView tv_firstFrag;
+    ImageView imageView_firstFrag;
+    Button btnSend_firstFrag;
+
+    public FirstFrag() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_first, container, false);
+
+        et_firstFrag = view.findViewById(R.id.et_firstFrag);
+        tv_firstFrag = view.findViewById(R.id.tv_firstFrag);
+        imageView_firstFrag = view.findViewById(R.id.imageView_firstFrag);
+        btnSend_firstFrag = view.findViewById(R.id.btnSend_firstFrag);
+
+        return view;
+    }
+}
+
+-------- SecondFrag Java -----------
+
+public class SecondFrag extends Fragment {
+    EditText et_secondFrag;
+    TextView tv_secondFrag;
+    ImageView imageView_secondFrag;
+    Button btnSend_secondFrag;
+
+    String et_firstFragText;
+    int imageView_firstFragResource;
+
+    public SecondFrag() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_second, container, false);
+
+        et_secondFrag = view.findViewById(R.id.et_secondFrag);
+        tv_secondFrag = view.findViewById(R.id.tv_secondFrag);
+        imageView_secondFrag = view.findViewById(R.id.imageView_secondFrag);
+        btnSend_secondFrag = view.findViewById(R.id.btnSend_secondFrag);
+
+        return view;
+    }
+}
+
+
+======= In MainActivity ===========
+- Place FragmentContainerView (id fragmentContainerView1) and place Frag1 within it.
+  //The code below is used to render the fragment within the mainActivity.xml if the container is not a FragmentContainerView, ie FrameLayout,
+  //hence, for this example that FragmentContainerView is used, the code below is neglible.
+
+/*
+    FragmentContainerView fragmentContainerView1;
+        setContentView(R.layout.activity_main);
+
+        fragmentContainerView1 = findViewById(R.id.fragmentContainerView1);
+
+        FirstFrag firstFrag = new FirstFrag();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainerView1, firstFrag, "");
+        fragmentTransaction.commit();
+*/
+
+============ In FirstFrag JAVA, To enable sending data to Frag2 ===========
+
+        btnSend_firstFrag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_firstFragText = et_firstFrag.getText().toString();
+//                imageView_firstFragResource = R.drawable.ic_img1;
+                imageView_firstFragResource = imageView_firstFrag.getImageAlpha();
+                
+                Bundle bundle = new Bundle();                
+                bundle.putString("et_firstFragText", et_firstFragText);
+                bundle.putInt("imageView_firstFragResource", imageView_firstFragResource);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                
+                SecondFrag secondFrag = new SecondFrag();
+                secondFrag.setArguments(bundle);
+                fragmentTransaction.replace(R.id.fragmentContainerView2, secondFrag);
+                fragmentTransaction.commit();
+                
+                
+            }
+        });
+
+        return view;
+    }
+
+=============== In SecondFrag Java, To receive data from Frag1 =================
+
+        Bundle bundle = getArguments();
+        if(bundle != null)
+        {
+            et_firstFragText = bundle.getString("et_firstFragText");
+            imageView_firstFragResource = bundle.getString("imageView_firstFragResource");
+        }
+        tv_secondFrag.setText(et_firstFragText);
+        tvDispFrag2.setImageResource(imageView_firstFragResource);

@@ -1,4 +1,7 @@
 
+NB: METHOD 2 SEEM EASIER
+
+
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,4 +46,33 @@ private void speak() {
     }
 
 
- 
+
+=========================== METHOD 2 (Still needs internet) ===============================================================
+
+    TextView tvText;
+    Button btnSpeak;
+
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertSpeachToText();
+            }
+        });
+
+    private void convertSpeachToText() {
+        Intent intent = new Intent((RecognizerIntent.ACTION_RECOGNIZE_SPEECH));
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Ibrahim say something");
+        startActivityForResult(intent,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1 && resultCode==RESULT_OK)
+        {
+            ArrayList<String> speakResults = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            tvText.setText(speakResults.get(0));
+        }
+    } 

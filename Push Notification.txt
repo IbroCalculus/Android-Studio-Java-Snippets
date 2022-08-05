@@ -1,0 +1,3 @@
+
+The most popular Push notification service provider for android is Firebase.
+Others are Amazon SNS & One Signal

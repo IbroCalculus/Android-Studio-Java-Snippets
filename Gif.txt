@@ -1,0 +1,14 @@
+https://github.com/koral--/android-gif-drawable
+
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.24'
+
+
+// Instead of copying and pasting the below, Type: <git... and select GifImageView, with src
+<pl.droidsonroids.gif.GifImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:src="@drawable/src_anim"
+    android:background="@drawable/bg_anim"
+    />
+

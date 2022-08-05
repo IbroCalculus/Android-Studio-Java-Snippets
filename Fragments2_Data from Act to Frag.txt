@@ -1,0 +1,141 @@
+
+====================== SENDING DATA FROM ACTIVITY TO FRAGMENT =========================
+
+CHECK: "Johan Jarrius"
+NB: To work with FragmentList OR ListView within fragment, reference same as above.
+
+- Create the fragment first before placing placing the FragmentContainerView on the activity.
+Place components on activity, also add a FragmentContainerView on same activity, this is where the fragment will be shown.
+ie editText et_Name, button btn2Frag, FragmentContainerView fragmentContainerView1.
+
+- Create a new blank fragment, ie Frag1
+- After creating a fragment, in the java class, delete all except as shown below:
+
+
+public class Frag1 extends Fragment {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_frag1, container, false);
+    }
+}
+
+
+- for this reference, on frag1 xml, textView tvFragDisp is used to display the text from the activity's edittext
+
+
+============ JAVA MAIN ================
+
+    FragmentContainerView fragmentContainerView1;
+    EditText et_Name;
+    Button btn2Frag;
+    String et_NameText;
+
+        fragmentContainerView1 = findViewById(R.id.fragmentContainerView1);
+        et_Name = findViewById(R.id.et_Name);
+        btn2Frag = findViewById(R.id.btn2Frag);
+
+        btn2Frag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_NameText = et_Name.getText().toString();
+                send2Fragment(et_NameText);
+            }
+        });
+    }
+
+    private void send2Fragment(String et_NameText) {
+        Bundle bundle = new Bundle();
+        bundle.putString("et_NameText", et_NameText);
+
+        Frag1 frag1 = new Frag1();
+
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        frag1.setArguments(bundle);
+        fragmentTransaction.replace(R.id.fragmentContainerView1, frag1);
+        fragmentTransaction.commit();
+    }
+
+
+============== IN FRAGMENT (ie Frag1) JAVA ==========
+Remember, in .xml TextView tvFragDisp
+
+public class Frag1 extends Fragment {
+    TextView tvFragDisp;
+    String et_NameText;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_frag1,container,false);      //Do not forget to modify this as shown
+
+        tvFragDisp = view.findViewById(R.id.tvFragDisp);
+
+        Bundle bundle = getArguments();
+
+        if(bundle != null){
+            et_NameText = bundle.getString("et_NameText");
+        }
+        tvFragDisp.setText(et_NameText);
+
+        return view;
+    }
+}
+
+
+
+NB: To send image, remember images are int data types.
+HINT: 
+---------------- IN MAIN JAVA -----------------
+    ImageView imageView1;
+    int imageView1Image;
+        imageView1 = findViewById(R.id.imageView1);
+                
+                //On button clicked
+                imageView1Image = R.drawable.ic_baseline_4k_24;
+                send2Frag(imageView1Image);
+
+
+    private void send2Frag(String et_userNameText, int imageView1Image) {
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("imageView1Image", imageView1Image);          // NOTE: putInt
+
+        Frag1 frag1 = new Frag1();
+
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();  //USE THIS IF TO OPEN ANOTHER ACTIVTY CONTAINING FRAG
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        frag1.setArguments(bundle);
+        fragmentTransaction.replace(R.id.fragmentContainerView1, frag1);
+        fragmentTransaction.commit();
+    }
+
+----------- IN FRAGMENT (ie Frag1) JAVA --------------
+    ImageView imageView1Frag;
+    int imageView1Image;
+
+        imageView1Frag = view.findViewById(R.id.imageView1Frag);
+
+        View view = inflater.inflate(R.layout.fragment_frag1,container,false);
+
+        imageView1Frag = view.findViewById(R.id.imageView1Frag);
+
+        Bundle bundle = getArguments();
+        if(bundle != null)
+        {
+            imageView1Image = bundle.getInt("imageView1Image");    //NOTE: .getInt
+        }
+        imageView1Frag.setImageResource(imageView1Image);
+
+        return  view;
+
+    }

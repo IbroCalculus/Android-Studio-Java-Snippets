@@ -1,0 +1,3 @@
+
+ To include a todo; Just start typing; todo (in small letters ) and click enter 
+        // TODO: 3/9/2022  I want to do something 

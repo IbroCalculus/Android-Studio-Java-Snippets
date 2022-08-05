@@ -15,6 +15,12 @@ TOOLBAR HAS A DEFUALT HEIGHT OF 56dp
 *CHANGE TITLE
  getSupportActionBar().setTitle("New Title"). i.e btn_Change.setOn...->{getSupportActionBar().setTitle("New Title")}
 
+* ============ ADD ICON BESIDES TITLE ==================
+Create image asset, ie name icon
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.icon);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
 *CREATE MENUS
 Create menu resource directory

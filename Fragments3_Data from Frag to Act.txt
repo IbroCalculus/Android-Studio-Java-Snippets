@@ -1,0 +1,111 @@
+
+================== SENDING DATA FROM FRAGMENT TO ACTIVITY =============
+
+Create main layout in main.xml and also create a fragment
+ie tvDisp, imageView1  <--- ON MAIN LAYOUT FOR THIS
+
+- Place FragmentContainerView on main layout
+
+- Create a new blank fragment, ie Frag1
+   et_userNameFrag, imageViewFrag, btnSend2Activity  <--- ON FRAGMENT LAYOUT FOR THIS EXAMPLE/REFERENCE
+- After creating a fragment, in the java class, delete all except as shown below:
+
+
+public class Frag1 extends Fragment {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_frag1, container, false);
+    }
+}
+
+- for this reference, on frag1 xml, textView tvFragDisp is used to display the text from the activity's edittext
+
+
+============= IN JAVA MAIN ======================
+
+    TextView tvDisp;
+    ImageView imageView1;
+    FragmentContainerView fragmentContainerView1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        tvDisp = findViewById(R.id.tvDisp);
+        imageView1 = findViewById(R.id.imageView1);
+        fragmentContainerView1 = findViewById(R.id.fragmentContainerView1);
+
+
+        Frag1 frag1 = new Frag1();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainerView1, frag1);
+        fragmentTransaction.commit();
+    }
+
+
+=================== IN FRAGMENT JAVA =====================
+
+    EditText et_userNameFrag;
+    ImageView imageViewFrag;
+    Button btnSend2Activity;
+    
+    String et_userNameFragText;
+    int imageViewFragResource;
+
+    public Frag1() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_frag1, container, false);
+
+        et_userNameFrag = view.findViewById(R.id.et_userNameFrag);
+        imageViewFrag = view.findViewById(R.id.imageViewFrag);
+        btnSend2Activity = view.findViewById(R.id.btnSend2Activity);
+        
+        btnSend2Activity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_userNameFragText = et_userNameFrag.getText().toString();
+                imageViewFragResource = R.drawable.ic_baseline_adb_24;
+                
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.fragment2ActivityMethod(et_userNameFragText, imageViewFragResource); // Click to Create method in MainActivity
+            }
+        });
+
+
+        return view;
+    }
+
+
+============= IN JAVA MAIN ======================
+
+        tvDisp = findViewById(R.id.tvDisp);
+        imageView1 = findViewById(R.id.imageView1);
+        fragmentContainerView1 = findViewById(R.id.fragmentContainerView1);
+
+
+        Frag1 frag1 = new Frag1();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainerView1, frag1);
+        fragmentTransaction.commit();
+    }
+
+    public void fragment2ActivityMethod(String et_userNameFragText, int imageViewFragResource) {
+        tvDisp.setText(et_userNameFragText);
+        imageView1.setImageResource(imageViewFragResource);
+    }

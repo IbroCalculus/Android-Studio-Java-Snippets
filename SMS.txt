@@ -1,2 +1,49 @@
 
- CHECK: "Android App Development Tutorial For Beginners": 01:28:00
+ CHECK ALSO: "Android App Development Tutorial For Beginners": 01:28:00
+
+NOTE: This does not ask to select SMS sim, uses default
+
+ --- IN MANIFEST, ADD PERMISSION ------
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+
+
+--- JAVA ----------
+
+    Button btnSMS;
+    String phoneNum;
+    String smsMsg;
+
+        btnSMS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                smsMsg = "This is a sample SMS message";
+                phoneNum = "08168194237";
+
+                sendSMS(smsMsg, phoneNum);
+            }
+        });
+
+
+    private void sendSMS(String smsMsg, String phoneNum) {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
+        }
+        else
+        {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNum, null,smsMsg,null,null);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == 1 && grantResults.length > 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+        {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNum, null,smsMsg,null,null);
+        }
+
+    }

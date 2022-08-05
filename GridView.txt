@@ -1,0 +1,139 @@
+
+        android:id="@+id/gridView1"
+        android:numColumns="3"            //Decide to use 3 columns
+
+---------------- Create a layout resource file ( ie gridview_layout) to define the layout of the gridview elements. ie photo up, text below. ----
+ie imageView1 and textView1.
+If constraint layout, don't forget to 'wrap content' instead of 'match parent'
+
+
+======== IN JAVA ==========
+
+    GridView gridView1;
+    ArrayList<String> text = new ArrayList<>();    //Assuming to display a gridview of photos(int) with names(text) under each photo in gridview
+    ArrayList<Integer> photos = new ArrayList<>();
+
+
+        gridView1 = findViewById(R.id.gridView1);
+        fillArray();
+
+
+    public  void fillArray()
+    {
+        text.add("Photo 1");
+        text.add("Photo 2");
+        text.add("Photo 3");
+        text.add("Photo 4");
+        text.add("Photo 5");
+        text.add("Photo 6");
+        text.add("Photo 7");
+        text.add("Photo 8");
+        text.add("Photo 9");
+
+        photos.add(R.drawable.img1);
+        photos.add(R.drawable.img2);
+        photos.add(R.drawable.img3);
+        photos.add(R.drawable.img4);
+        photos.add(R.drawable.img5);
+        photos.add(R.drawable.img6);
+        photos.add(R.drawable.img7);
+        photos.add(R.drawable.img8);
+        photos.add(R.drawable.img9);
+    }
+
+
+
+--- Create an adapter class ie GridAdapter, extend BaseAdapter and implement all 4 methods ----
+
+public class GridAdapter extends BaseAdapter {
+    @Override
+    public int getCount() {
+        return 0;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        return null;
+    }
+}
+
+
+
+--- Below public class GridAdapter extends BaseAdapter {; 
+
+public class GridAdapter extends BaseAdapter {
+    Context context;
+    ArrayList<String> text;
+    ArrayList<Integer> photos;
+
+
+--- Generate constructor for all 3 variables above ---------
+
+    public GridAdapter(Context context, ArrayList<String> text, ArrayList<Integer> photos) {
+        this.context = context;
+        this.text = text;
+        this.photos = photos;
+    }
+
+--- Within public int getCount() {;
+
+    @Override
+    public int getCount() {
+        return photos.size();
+
+--- Within public View getView(int position, View convertView, ViewGroup parent) {;
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gridview_layout, parent, false);
+        return view;
+
+
+---  Within public View getView(int position, View convertView, ViewGroup parent) {;
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gridview_layout, parent, false);
+
+        ImageView imageView1 = view.findViewById(R.id.imageView1);
+        TextView textView1 = view.findViewById(R.id.textView1);
+
+        textView1.setText(text.get(position));    // Check, text and photos are declared above in the GridAdapter
+        imageView1.setImageResource(photos.get(position));
+
+        return view;
+
+
+============== IN JAVA MAIN ===================
+
+        fillArray();
+
+        GridAdapter gridAdapter = new GridAdapter(this, text, photos);
+        gridView1.setAdapter(gridAdapter);
+
+
+========== HANDLING CLICK EVENT =====================
+ -------- IN JAVA MAIN---------
+
+        gridView1.setAdapter(gridAdapter);
+
+        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String disp= "You clicked Item " + text.get(position) + ", at positon " + position + ", and id: " + id;
+                Toast.makeText(MainActivity.this, disp, Toast.LENGTH_SHORT).show();
+            }
+        });

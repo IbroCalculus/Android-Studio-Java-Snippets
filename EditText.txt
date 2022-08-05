@@ -35,3 +35,30 @@
 
  Give id to TextInputEditText, ie et_et1;
  Still within TextInputEditText, take of of inputType, ie Phone and perhaps 'maxlength'
+
+4. ======= Add text changed listener in edittext ==========
+
+    EditText et_EditText;
+    TextView tv_TextView;
+
+        setContentView(R.layout.activity_main);
+
+        et_EditText = findViewById(R.id.et_EditText);
+        tv_TextView = findViewById(R.id.tv_TextView);
+
+        et_EditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                tv_TextView.setText(et_EditText.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });

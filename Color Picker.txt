@@ -1,0 +1,37 @@
+
+========== We use a color picker library, in this case we use the "ambilwarna" library. ===========
+
+    implementation 'com.github.yukuku:ambilwarna:2.0.1'
+
+    Button btn1;
+    ConstraintLayout constraintLayout;
+    int defaultColor;
+
+        btn1 = findViewById(R.id.btn1);
+        defaultColor = ContextCompat.getColor(getApplicationContext(),R.color.teal_200);
+
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openColorPicker();
+            }
+        });
+
+
+    private void openColorPicker() {
+        AmbilWarnaDialog ambilWarnaDialog = new AmbilWarnaDialog(this, defaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+                Toast.makeText(MainActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                Toast.makeText(MainActivity.this, "Okayed", Toast.LENGTH_SHORT).show();
+                defaultColor = color;
+                constraintLayout.setBackgroundColor(defaultColor);
+                tv_TextView.setTextColor(defaultColor);
+            }
+        });
+        ambilWarnaDialog.show();
+    }

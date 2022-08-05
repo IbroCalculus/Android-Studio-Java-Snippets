@@ -1,0 +1,24 @@
+
+Use attributes: textOn and textOff in .xml
+
+ie textOff : Powered OFF
+   textOn : Powered ON
+
+
+        toggleButton = findViewById(R.id.toggleButton);
+        
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Toast.makeText(MainActivity.this, "Toggled ON", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "Toggled OFF", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        toggleButton.setChecked(true);
+

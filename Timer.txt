@@ -1,5 +1,8 @@
-Timer timer;
 
+CHECK ALSO; CountDownTimer
+
+
+Timer timer;
 
 setContentView(R.layout.activity_first);
 

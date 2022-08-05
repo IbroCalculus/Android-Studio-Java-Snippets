@@ -1,0 +1,211 @@
+
+NB: Use 'listitem' attribute for the recyclerView within the main layout to preview the recyclerview layout within the IDE
+
+Place RecyclerView on main with ID, i.e recyclerView.
+
+
+IN MAIN JAVA CLASS
+
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+
+        setContentView(R.layout.activity_main);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(this);  //Vertical recyclerview layout
+        recyclerView.setLayoutManager(layoutManager);
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);  //Horizontal recyclerview layout
+        recyclerView.setLayoutManager(layoutManager);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+CREATE LAYOUT RESOURCE FILE FOR RECYCLERVIEW i.e recycler_layout. Contains: imageView1, tv_firstName, tv_surName.
+
+
+==== IN JAVA CLASS ====
+
+    private ArrayList<String> firstNameList = new ArrayList<>();
+    private ArrayList<String> surNameList = new ArrayList<>();
+    private ArrayList<Integer> imageList = new ArrayList<>();
+
+        setContentView(R.layout.activity_main);
+
+        recyclerView.setLayoutManager(layoutManager);
+        
+        firstNameList.add("fName1");
+        firstNameList.add("fName2");
+        firstNameList.add("fName3");
+        firstNameList.add("fName4");
+        firstNameList.add("fName5");
+        firstNameList.add("fName6");
+
+        surNameList.add("surName1");
+        surNameList.add("surName2");
+        surNameList.add("surName3");
+        surNameList.add("surName4");
+        surNameList.add("surName5");
+        surNameList.add("surName6");
+        
+        imageList.add(R.drawable.ic_1);
+        imageList.add(R.drawable.ic_2);
+        imageList.add(R.drawable.ic_3);
+        imageList.add(R.drawable.ic_4);
+        imageList.add(R.drawable.ic_5);
+        imageList.add(R.drawable.ic_6);
+
+
+========== CREATE RECYCLERVIEW ADAPTER ===========
+--STEP 1:
+public class RecyclerAdapter{
+    
+}
+
+--STEP 2: Copy and paste the arraylist from the java and add context as shown
+public class RecyclerAdapter{
+    private ArrayList<String> firstNameList = new ArrayList<>();
+    private ArrayList<String> surNameList = new ArrayList<>();
+    private ArrayList<Integer> imageList = new ArrayList<>();
+    Context context;   
+}
+
+--STEP 3: Generate constructor for all 4 variables
+
+public class RecyclerAdapter {
+
+    private ArrayList<String> firstNameList = new ArrayList<>();
+    private ArrayList<String> surNameList = new ArrayList<>();
+    private ArrayList<Integer> imageList = new ArrayList<>();
+    Context context;
+
+    public RecyclerAdapter(ArrayList<String> firstNameList, ArrayList<String> surNameList, ArrayList<Integer> imageList, Context context) {
+        this.firstNameList = firstNameList;
+        this.surNameList = surNameList;
+        this.imageList = imageList;
+        this.context = context;
+    }
+}
+
+--STEP 4: Delete the value part of all 3 arrays above. ie new ArrayList<>();
+
+public class RecyclerAdapter {
+
+    private ArrayList<String> firstNameList;
+    private ArrayList<String> surNameList;
+    private ArrayList<Integer> imageList;
+    Context context;
+
+    public RecyclerAdapter(ArrayList<String> firstNameList, ArrayList<String> surNameList, ArrayList<Integer> imageList, Context context) {
+        this.firstNameList = firstNameList;
+        this.surNameList = surNameList;
+        this.imageList = imageList;
+        this.context = context;
+    }
+}
+
+--STEP 5: Below the above block (above the last }), add, and then create constructor as shown:
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+--STEP 6: Above ViewHolder(@NonNull View itemView) {... Add as shown:
+
+        TextView tv_firstName;
+        TextView tv_surName;
+        ImageView imageView1;
+
+        public ViewHolder(@NonNull View itemView) {
+
+
+--STEP 7: Within 'public ViewHolder(@NonNull View ItemView) {...', find the IDs of the initialized views: 
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            
+            tv_firstName = itemView.findViewById(R.id.tv_firstName);
+            tv_surName = itemView.findViewById(R.id.tv_surName);
+            imageView1 = itemView.findViewById(R.id.imageView1);
+
+--STEP 8: Back to the top @ public class RecyclerAdapter, extend and implement the 3 methods as shown:
+
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+}
+
+--STEP 9: Within public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {....
+
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_layout, parent, false);
+        return new ViewHolder(view);
+    }
+
+--STEP 10: Within public int getItemCount() {
+
+    public int getItemCount() {
+        return firstNameList.size();
+    }
+
+--11: Within 'public void onBindViewHolder(@NonNull ...
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        holder.tv_firstName.setText(firstNameList.get(position));
+        holder.tv_surName.setText(surNameList.get(position));
+        holder.imageView1.setImageResource(imageList.get(position));
+
+
+============== IN JAVA ================
+
+    RecyclerAdapter recyclerAdapter;
+
+        ...
+        recyclerAdapter = new RecyclerAdapter(firstNameList, surNameList, imageList, getApplicationContext());
+        recyclerView.setAdapter(recyclerAdapter);
+
+
+============== SET ONCLICKLISTENER ==================
+
+	In the recycler_layout, give an ID to the parent layout, or individual views, if desired such. i.e: recycler_layout_parent
+
+---- STEP 1 ---- WITHIN public static class ViewHolder extends RecyclerView.ViewHolder{:
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{ 
+       
+        CardView recycler_layout_parent;	*********** <--- this
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            recycler_layout_parent = itemView.findViewById(R.id.recycler_layout_parent);	*********** <--- this
+
+
+---- STEP 2 ---- WITHIN public void onBindViewHolder(@NonNull ViewHolder holder, int position) {;
+
+        holder.recycler_layout_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "You clicked on Item " + position + ", Value is ", Toast.LENGTH_SHORT).show();
+            }
+        });

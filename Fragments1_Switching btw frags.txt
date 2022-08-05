@@ -1,9 +1,14 @@
 
- CHECK: "Small Academy": Android Bottom Navigation... This is Using Fragment and Bottom Nav
+===================== 1. SWITCHING BETWEEN FRAGMENTS ================================
 
-Create main activity to place fragment on FrameLayout (Give framelayout ID. i.e; frameLayout)
+ CHECK ALSO: "Small Academy": Android Bottom Navigation... This is Using Fragment and Bottom Nav
+
+Create main activity to place fragment on fragmentContainerView (ie id fragmentContainerView1)
 Create fragments. i.e; firstFrag, secondFrag, thirdFrag
 Create fragments event handlers; buttons, tabs, viewPager etc. i.e btn_Frag1, btn_Frag2, btn_Frag3, TabItem1, TabItem2, TabItem3
+
+    Button btn_Frag1, btn_Frag2, btn_Frag3;
+    FragmentContainerView fragmentContainerView1;
 
 btn_Frag1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -12,7 +17,7 @@ btn_Frag1.setOnClickListener(new View.OnClickListener() {
                 getSupportActionBar().setTitle("First Fragment");
                 firstFrag firstFrag = new firstFrag();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frameLayout, firstFrag, "");
+                fragmentTransaction.replace(R.id.fragmentContainerView1, firstFrag, "");
                 fragmentTransaction.commit();
 
             }
@@ -25,7 +30,7 @@ btn_Frag1.setOnClickListener(new View.OnClickListener() {
                 getSupportActionBar().setTitle("Second Fragment");
                 secondFrag secondFrag = new secondFrag();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frameLayout, secondFrag, "");
+                fragmentTransaction.replace(R.id.fragmentContainerView1, secondFrag, "");
                 fragmentTransaction.commit();
 
             }
@@ -44,21 +49,21 @@ btn_Frag1.setOnClickListener(new View.OnClickListener() {
                         getSupportActionBar().setTitle("First Fragment");
                         firstFrag firstFrag = new firstFrag();
                         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frameLayout, firstFrag, "");
+                        fragmentTransaction.replace(R.id.fragmentContainerView1, firstFrag, "");
                         fragmentTransaction.commit();
                         break;
                     case 1:
                         getSupportActionBar().setTitle("Second Fragment");
                         secondFrag secondFrag = new secondFrag();
                         FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction2.replace(R.id.frameLayout, secondFrag, "");
+                        fragmentTransaction2.replace(R.id.fragmentContainerView1, secondFrag, "");
                         fragmentTransaction2.commit();
                         break;
                     case 2:
                         getSupportActionBar().setTitle("Second Fragment");
                         thirdFrag thirdFrag = new thirdFrag();
                         FragmentTransaction fragmentTransaction3 = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction3.replace(R.id.frameLayout, thirdFrag, "");
+                        fragmentTransaction3.replace(R.id.fragmentContainerView1, thirdFrag, "");
                         fragmentTransaction3.commit();
                         break;
                 }

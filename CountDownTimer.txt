@@ -1,0 +1,53 @@
+    
+    CountDownTimer cdTimer;
+    private static  final long START_TIMER_IN_MILLIS = 60000; //60 seconds
+    Boolean timer_running;
+    long time_left_in_millis = START_TIMER_IN_MILLIS;
+
+        btnTimer = findViewById(R.id.btnTimer);
+        tvTimer = findViewById(R.id.tvTimer);
+
+        btnTimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startCountDown();
+            }
+        });
+
+
+    private void startCountDown() {
+        cdTimer = new CountDownTimer(time_left_in_millis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                time_left_in_millis = millisUntilFinished;
+                updateText();
+            }
+
+            @Override
+            public void onFinish() {
+                timer_running = false;
+                pauseTimer();
+                resetTimer();
+                updateText();
+            }
+        }.start();
+
+        timer_running = true;
+    }
+
+    private void updateText() {
+        int second = (int) ((time_left_in_millis / 1000) % 60);
+        String time_left = String.format(Locale.getDefault(), "%02d", second);
+        tvTimer.setText(time_left);
+    }
+    private void pauseTimer() {
+        cdTimer.cancel();
+        timer_running = false;
+    }
+
+    private void resetTimer() {
+        time_left_in_millis = START_TIMER_IN_MILLIS;
+        updateText();
+    }
+    
