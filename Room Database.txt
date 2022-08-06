@@ -1,0 +1,35 @@
+ CHECK ALSO; Database (for basic intro)
+
+  ------ ALTERNATIVE TO SQLITE IN ANDROID IS ROOM DATABASE ----
+- Room database is a new concept for creating a database in android applications introduced in 2017
+- Room database creates an Abstract Layer above the SQLite Database.
+- It is preferred over sqlite to ensure data persistency.
+
+
+ The room database has 3 main components, ie
+ 1- Entity: It represents the data in a single row of the table in the database. 
+ 2- DAO (Data Access Object): It is a method that is used to access the database
+ 3- Database: It is a class that holds entities and database versions.
+
+====== Architectural Room Database ========
+ Room database does not work alone, it works with auxiliary components known as "Architectural Components".
+ Room applications and architectural components will come together to develop android applications.
+
+-The purpose of Architectural Components is to guide Application Architecture.
+
+ There are 3 components that ake up the Architectural components, and they are;
+1. ViewModel
+2. LiveData
+3. Repository
+ 
+- A ViewModel is a class that is used to store and manage data to be displayed in the User Interface.
+- The viewModel concept ensures that data is not lost and is maintained in configuration change situations such as screen rotation or language change.
+- ViewModel acts as a bridge between data and the user interface such as an activity or fragment.
+
+==== LiveData ====
+- This constantly monitors changes in the livedata database and reflects it instantly in components such as activities.
+
+
+==== Repository ====
+- This manages data exchanges between component databases, ie between local databases or online (known as REST APIs).
+

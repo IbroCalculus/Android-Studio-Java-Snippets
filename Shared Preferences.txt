@@ -10,7 +10,7 @@ private void StoredDataUsingSharedPreferences(String usernameEntered, String pas
 
 
 private void RetrieveDataUsingSharedPreferences() {
-        SharedPreferences sharedPreferences =getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
         String UsernameRetrieved = sharedPreferences.getString("usernameToStore", "");
         String PasswordRetrieved = sharedPreferences.getString("passwordToStore","");
         Boolean CheckboxMode = sharedPreferences.getBoolean("checkboxMode",false);

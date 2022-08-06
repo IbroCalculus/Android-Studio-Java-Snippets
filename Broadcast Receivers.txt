@@ -1,0 +1,8 @@
+
+ Broadcast receiver is a messaging system used on android devices between the android OS and android applications.
+ The android OS shares device related information with android applications.
+
+ The broadcast messages are sent when an event of interest occurs.
+ For example, System Boots, Device Starts Chargin, when the charge of the device is low, etc.
+ 
+ When a broadcast is sent, the system automatically routes broadcasts to apps that have subscribed to receive that particular type of broadcast.

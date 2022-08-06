@@ -1,3 +1,12 @@
+
+NOTE: For setLargeIcon, use a bitmap image, or convert an image to bitmap as shown below
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ssmm);
+        builder.setLargeIcon(bitmap);
+
+Notifications are reminders that android shows to the user outside the user interface.
+This notification messages can come from the android application as well as the android OS.
+
 HEADS UP NOTIFICATION:
 * Beginning with Android 5.0, notifications can briefly appear in a floating window called a heads-up notification.
 * This behaviour is normally for important notifications that the user should know about immediately, and it appears only if the device in unlocked.
@@ -294,3 +303,9 @@ Place lengthy text in Strings.xml with name = "notification_text"
         notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
         Toast.makeText(this, "You clicked on a button ", Toast.LENGTH_SHORT).show();
     }
+
+
+======================= PERIODIC(Repetitive) NOTIFICATION ======================
+To get periodic notifications, use broadcast receiver to get date and time from the android device to the application.
+- We will use the code above in the function showNotification2() for getting the alert, below is how to get it repetitively using broadcast receivers.
+

@@ -1,0 +1,6 @@
+
+============ Convert to Bitmap ============
+
+        ssmm is the name of the image, ie .png
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ssmm);
+        builder.setLargeIcon(bitmap);
