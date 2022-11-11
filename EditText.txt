@@ -5,7 +5,7 @@
         android:drawableLeft="@drawable/ic_baseline_visibility_24"
         android:drawablePadding="10dp"
 
- OTHERS: drawableTop, drawableBottom, drawableRight
+ OTHERS: drawableTop, drawableBottom, drawableRight, drawableStart ...
 
 
 2. ======= Show error for empty field ===========

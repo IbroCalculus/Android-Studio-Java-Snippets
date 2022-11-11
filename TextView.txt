@@ -9,3 +9,8 @@ Use
    android:drawableStart="@drawable/svg_heart_border"
    
 />
+
+
+--------------------- Ellipsize -------------------
+
+            textView.ellipsize(null); // Remove ellipsize

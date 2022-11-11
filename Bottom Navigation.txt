@@ -43,3 +43,21 @@ bottom_nav.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavi
                 }
             }
         });
+
+
+
+----------- TO CHANGE THE ACTIVE ITEM INDICATOR STYLE ----------
+
+ - Go to themes, create a new style below the existing style as shown
+
+    </style>
+
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">#123456</item>
+    </style>
+
+- In .xml;
+        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
+        app:itemTextAppearanceActive="@style/App.Custom.Indicator"
+
+        app:itemTextColor="#fff"  // for itemTextAppearanceActive to work, delete this line of code

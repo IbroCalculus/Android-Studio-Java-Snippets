@@ -6,9 +6,10 @@ TOOLBAR HAS A DEFUALT HEIGHT OF 56dp
  	ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-	0R
+	0R (in both theme and theme_Night)
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.BMICalcutor" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
 
 

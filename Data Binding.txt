@@ -1,0 +1,192 @@
+
+ - Data Binding Library is used to bind data and User Interface (UI). In other words, it is used to connect UI components with Data Source.
+ - It uses Declarative Method instead of Programmatic Method.
+ - No findViewById codes required to work with this.
+ - It prevents the Null Pointer Exception Problem.
+
+ =========== CODE ==================
+ Assume 3 textViews, ie textView1, textView2 and textView3 for this reference example.
+
+======= IN build.gradle (Module) =======
+NOTE: Use internet
+
+android {
+    compileSdk 32
+
+    buildFeatures{
+        dataBinding true
+    }
+
+ === Create a modal class ie Info, from which data will be gotten to bind with the textViews, generate constructor, getters and setters. ===
+
+public class Info {
+    private String firstName;
+    private String surName;
+    private String email;
+
+    public Info(String firstName, String surName, String email) {
+        this.firstName = firstName;
+        this.surName = surName;
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSurName() {
+        return surName;
+    }
+
+    public void setSurName(String surName) {
+        this.surName = surName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+}
+ 
+====== IN JAVA ==========
+
+        Info info = new Info("Ibrahim", "Suleiman", "myEmail");
+
+
+===== IN XML =======
+ // Place the root layout within the <layout></layout> tag
+ // Directly below the open <layout> tag add the data tag as shown in the code. 
+    - value of name can be anything, value of type, type the name of the modalClass (ie Info) and select the package option, it will display full
+ // for the textview properties, modify android:text as shown
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <data>
+        <variable
+            name="info"
+            type="com.ibsuleiman9.test6.Info" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@{info.firstName}"   //NB: NOT info.setFirstName
+
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{info.surName}"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{info.email}"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
+=== IN JAVA ===
+    ActivityMainBinding activityMainBinding;
+   
+   //NB: Activity's xml name is "activity_main" --> ActivityMain + Binding. if activity's xml name is second_activity --> SecondActivityBinding
+
+
+        Info info = new Info("Ibrahim", "Suleiman", "myEmail");
+
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        activityMainBinding.setInfo(info);  //E.g if Model class's name is Person --> .setPerson(person)
+
+
+========================== DATA BINDING FOR EVENT LISTENERS ==================================
+ Assuming Button btnNext
+
+ - Within the activity where event listeners will be handled ie MainActivity, create a class ie MainActivityClickHandler as shown (NB: where methods as usually written, ie before the last }).
+ - Pass in context and generate constructor
+ - For every event to be handled, create a method for each within the class, ie onBtnNextClick.
+
+
+    public class MainActivityClickHandlers{
+        Context context;
+
+        public MainActivityClickHandlers(Context context) {
+            this.context = context;
+        }
+        
+        public void onBtnNextClick(View view){
+            Toast.makeText(context, "Button Clicked", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+----- 2. Bind this class in the xml by creating another <variable tag below the existing one as shown;
+ 
+        <variable
+            name="clickHandlers"  //Better to use 'mainActivityClickHandlers' as the name
+            type="com.ibsuleiman9.test7.MainActivity.MainActivityClickHandlers" />
+
+------ 3. Modify the code for btnNext as shown;
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="Button"
+            
+            android:onClick="@{clickHandler::onBtnNextClick}"
+            
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+------ 4. ON JAVA MAIN, bind the handler as shown:
+
+    MainActivityClickHandlers mainActivityClickHandlers;
+
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        activityMainBinding.setPersonalData(personalData);
+        
+        //Add this
+        mainActivityClickHandlers = new MainActivityClickHandlers(this);
+        activityMainBinding.setClickHandler(mainActivityClickHandlers);
+
+

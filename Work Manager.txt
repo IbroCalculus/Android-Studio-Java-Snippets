@@ -1,0 +1,53 @@
+
+Work Manager is used to carry out background processes. More powerful than services
+
+===================== DEPENDENCIES (Or copy from developer's website) =====================
+
+    def work_version = "2.7.1"
+    
+    // (Java only)
+    implementation "androidx.work:work-runtime:$work_version"
+
+
+====== CREATE A CLASS TO HANDLE TO WORKMANAGER PROCESS ie WorkManagerClass, implement doWork method & create constructor =====
+
+    public WorkManagerClass(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+        super(context, workerParams);
+    }
+
+public class WorkManagerClass extends Worker {
+
+    @NonNull
+    @Override
+    public Result doWork() {
+        return null;
+    }
+}
+
+
+============= Do the work within the doWork method. ie count 1 to 1000 for this example, return Result.success(); =============
+
+NB: The result returned from doWork() informs the WorkManager service whether the work succeeded and, the case of failure, whether or not
+    the work should be retried.
+    There are 3 possible results returned when executed, ie;
+    - Result.success()  -> The work finished successfully
+    - Result.failure()  -> The work failed.
+    - Result.retry()    -> The work failed and should be tried at another time according to the retry policy
+
+    @NonNull
+    @Override
+    public Result doWork() {
+
+        for (int i=0; i<=1000; i++){
+            Log.i("tag1", "count No. : " + i);
+
+            if(i%100 == 0){
+                Toast.makeText(getApplicationContext(), "Iteration No.: " + i, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        return Result.success();
+    }
+
+
+NB: You can schedule the WorkManager to run only once or periodically over an interval of time.

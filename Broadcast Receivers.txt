@@ -1,8 +1,62 @@
 
  Broadcast receiver is a messaging system used on android devices between the android OS and android applications.
+ Broadcast messaging system can be used between 2 applications. One application can send a broadcast to another application, although the most common is between the android OS and the mobile application.
  The android OS shares device related information with android applications.
 
  The broadcast messages are sent when an event of interest occurs.
- For example, System Boots, Device Starts Chargin, when the charge of the device is low, etc.
+ For example, System Boots, Device Starts Charging, when the charge of the device is low, on enter airplane mode, on connected to etc.
  
  When a broadcast is sent, the system automatically routes broadcasts to apps that have subscribed to receive that particular type of broadcast.
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+========== 1. CREATE A BROADCAST RECEIVER CLASS, ie BroadcastReceiverClass, extend BroadCastReceiver and implement the method; ========
+
+public class BroadcastReceiverClass extends BroadcastReceiver {
+    
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        
+    }
+}
+
+========= 2. WITHIN JAVA CLASS ============
+
+    TextView tvDisplay;
+    BroadcastReceiverClass broadcastReceiverClass = new BroadcastReceiverClass();
+
+        setContentView(R.layout.activity_main);
+
+        tvDisplay = findViewById(R.id.tvDisplay);
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);  //You may choose action you wanted broadcasted.
+        this.registerReceiver(broadcastReceiverClass, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        
+        this.unregisterReceiver(broadcastReceiverClass);
+    }
+
+
+======== 3. WITHIN BroadcastReceiverClass ===============
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        boolean isPlaneMode = intent.getBooleanExtra("state", false); //state is keyword.
+
+        if(isPlaneMode == true){
+            Toast.makeText(context, "In airplane mode", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Not in airplane mode", Toast.LENGTH_SHORT).show();
+        }
+
+    }
