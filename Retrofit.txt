@@ -104,7 +104,7 @@ public interface RetrofitApiInterface {
             @Override
             public void onResponse(Call<List<RetrofitModelClass>> call, Response<List<RetrofitModelClass>> response) {
                 
-                if(!response.isSuccessful())
+                i f(!response.isSuccessful())
                 {
                     tvA.setText("error occurred");
                     tvB.setText("error occurred");
@@ -112,7 +112,7 @@ public interface RetrofitApiInterface {
                     tvD.setText("error occurred");
                 }
                 else{
-                    List<RetrofitModelClass>  data = response.body();
+                    List<RetrofitModelClass>  data = response.body();  //All the data in the API 
                     
                     tvA.setText("" + data.get(0).getUserId());
                     tvB.setText("" + data.get(0).getId());

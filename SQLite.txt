@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 }
 
 
-===== IMLEMENT THE 2 METHODS, and CREATE CONSTRUCTOR (select the First one, delete & insert other parametes as depicted) ====
+===== IMPLEMENT THE 2 METHODS, and CREATE CONSTRUCTOR (select the First one, delete & insert other parametes as depicted) ====
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
