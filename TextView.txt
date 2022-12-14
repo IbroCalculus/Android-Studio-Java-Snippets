@@ -14,3 +14,10 @@ Use
 --------------------- Ellipsize -------------------
 
             textView.ellipsize(null); // Remove ellipsize
+
+
+
+======== STYLING TEXTVIEW TEXT SUBSTRING =================
+
+    <string name="hellowordtext"> Do not have an account? <b><font color = "#ff0000"> Sign Up </font></b> </string>
+

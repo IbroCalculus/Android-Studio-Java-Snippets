@@ -1,14 +1,44 @@
-
+CHECK Example 2, more detail. contains samples for both standard/classic service class, as well as Job intent service class.
 CHECK ALSO; Work Manager
 
 Helps run applications in background.
 
-Android service is a component that runs in the background in order to perform long-running operatoins without interacting with the user and it works even if the application is destroyed.
+- Android service is a component that runs in the background in order to perform long-running operations without interacting with the user and it works even if the application is destroyed.
+- A service is an application component that can perform long-running operations in the background.
+- Services do not provide a user interface
+- Another application component can start a service. E.g button.
+ ie; clicking a button calls a service to begin downloading a file in the background.
+ Music player playing in the background
+ Sending data to a server in the background. etc.
+
+
+========== Types of Android Services ===========
 
 They are 3 types of services; Background, Foreground and Bound services.
-- Background: A background service is a service that runs only when the app is running. It is terminated when the app is terminated.
+- Background: A background service is a service that runs only when the app is running. It is terminated when the app is terminated. The user does not even see the process. No notification or progress indicator. E.g a program that compresses photos in the background.
+
 - Foreground: A foreground service is a service that stays alive even when the app is terminated.
+   The user need to see the process. Eg, downloading a file in the background, and seeing the progress or notification
+
 - Bound: A bound service is a service that runs only when the component it is bound to is still alive.
+   It is dependent on the component that calls itself. 
+   The service interacts with the component permamently that calls itself.
+   when a component that calls itself stops, the service also stops, so service does not continue to work in the background.
+   The relationship is called client-server relation. Where the server is the service, and the client is a component that starts the service. 
+   A music player can be an example of a bound service
+
+ Traditionally, there are 2 service classes:
+1. (Standard or classic) Service Classes: Good for small tasks. This class takes on the whole task on its own. It also uses the main thread of the application.
+2. (Job) Intent Service Classes: Create a separate working thread, not the main thread, faster. For long term background processes.
+
+   Music player application can be an example of bound services.
+
+
+2 examples below
+
+========= EXAMPLE 1 ===================
+
+----------- Classic / Standard Service Class ----------------
 
 
 USING ALARM AS A CASE STUDY IN THIS SERVICES EXAMPLE
@@ -113,3 +143,163 @@ WITHIN THE MANIFEST FILE, DO AS SHOWN;
         <service android:name=".AndroidServices"/>
 
     </application>
+
+
+
+========= EXAMPLE 2 ===================
+
+A. ----------- Classic / Standard Service Class ----------------
+
+2 buttons, ie; btnStartService, btnStopService
+   btnStartService calls the function startServiceFunction() on click, likewise btnStopService calls the function stopServiceFuntion()
+
+- Create a class for the services, ie ServicesClass, extend Service (android.app) and implement member methods.
+
+public class ServicesClass extends Service {
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;   // We live this empty because we are not going to create a bound service
+    }
+}
+
+
+---------- Override onCreate, onStartCommand and onDestroy methods as shown (Log messages added for debug purposes) -------
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d("services_log", "Service Created");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Log.d("services_log", "Service Started");
+        stopSelf();  // Optional, if you want the service to auto stop once task completed. Auto calls the onDestroy method
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("services_log", "Service Destroyed");
+    }
+
+
+WITHIN THE MANIFEST FILE, DO AS SHOWN;
+
+        </activity>
+
+        <service android:name=".ServicesClass"/>
+
+    </application>
+
+========== WITHING MainActivity.JAVA ===========
+
+    private void startServiceFunction() {
+        Intent intent = new Intent(getApplicationContext(), ServicesClass.class);
+        startService(intent);
+    }
+
+    private void stopServiceFunction() {
+        Intent intent = new Intent(getApplicationContext(), ServicesClass.class);
+        stopService(intent);
+    }
+
+
+
+B. -------------- Job Intent Service Class (It calls the onDestroy method automatically once done)  -----------------
+
+2 buttons, ie; btnStartService, btnStopService
+   btnStartService calls the function startServiceFunction() on click, likewise btnStopService calls the function stopServiceFuntion()
+
+- Create a class for the services, ie ServicessClass, extend IntentService (android.app)
+- implement onHandleIntent method, as well as implement the constructor of the class:
+
+public class ServicessClass extends IntentService {
+    /**
+     * @param name
+     * @deprecated
+     */
+    public ServicessClass(String name) {
+        super(name);
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        
+    }
+}
+
+----- Modify the constructor, as well as the onHandledIntent method as shown -----
+
+    public ServicessClass() {
+        super("name");
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+    }
+
+
+---------- Override onCreate, onStartCommand and onDestroy methods as shown (Log messages added for debug purposes) -------
+
+    public ServicessClass() {
+        super("name");
+    }
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d("services_log", "Service Created");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Log.d("services_log", "Service Started");
+        stopSelf();  // Optional, if you want the service to auto stop once task completed. Auto calls the onDestroy method
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("services_log", "Service Destroyed");
+    }
+
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        Log.d("services_log", "Service onHandledIntent method called");
+    }
+
+
+WITHIN THE MANIFEST FILE, DO AS SHOWN;
+
+        </activity>
+
+        <service android:name=".ServicessClass"/>
+
+    </application>
+
+========== WITHING MainActivity.JAVA ===========
+
+    private void startServiceFunction() {
+        Intent intent = new Intent(getApplicationContext(), ServicessClass.class);
+        startService(intent);
+    }
+
+    private void stopServiceFunction() {
+        Intent intent = new Intent(getApplicationContext(), ServicessClass.class);
+        stopService(intent);
+    }

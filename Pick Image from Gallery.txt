@@ -23,8 +23,16 @@
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null){
-            Uri imageUri = data.getData();
-            imageView2.setImageURI(imageUri);
+            Uri imageUri = data.getData();  // path of the selected object is stored in imageUri
+            imageView2.setImageURI(imageUri);  // If this does not work, use picasso library to load the image as shown below.
+
+            --- Using Picasso library to load image ----
+              implementation 'com.squareup.picasso:picasso:2.71828'
+              Picasso.get().load(imageUri).into(imageView2) 
+ 
+
+              
+    
         }
     }
 

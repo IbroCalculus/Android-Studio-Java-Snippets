@@ -1,0 +1,1 @@
+Go to Firebase (web) -> Console -> Add Project (ie Firebase ExampleN) -> ... Realtime Database

@@ -1,14 +1,36 @@
 https://github.com/koral--/android-gif-drawable
 
 
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.24'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
+
+--- Within build.gradle (Project) -----
+
+Add 'mavenCentral()' within 'buildscript' and 'allprojects' as shown below.
+
+buildscript {
+        jcenter()
+
+        mavenCentral()   // This line
+}
+
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+   
+        mavenCentral() // And this line
+
+
+- Place the gif image in drawable resource folder. ie check.gif
+
 
 
 // Instead of copying and pasting the below, Type: <git... and select GifImageView, with src
 <pl.droidsonroids.gif.GifImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:src="@drawable/src_anim"
-    android:background="@drawable/bg_anim"
+    android:src="@drawable/check"
+    android:background="@drawable/bg_anim"  // Not sure, deleteable.
     />
 
