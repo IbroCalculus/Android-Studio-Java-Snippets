@@ -1,0 +1,20 @@
+This enables a dialog from an activity. ie An activity is inflated into a pop dialog
+An activity (in this instance, a child activity) is set into a pop up, which can be dismissed when you click anywhere on the parent activity.
+
+
+-----
+Assume the activity's class name is MainActivity3;
+
+--- IN XML ---
+  Assume it contains just a textview with a given height, ie 400dp.
+
+
+--- IN MANIFEST, ADD THE theme shown below --- 
+        <activity
+            android:name=".MainActivity3"
+            android:exported="false"
+
+            android:theme="@style/Theme.AppCompat.Dialog.MinWidth"
+            > 
+
+

@@ -1,3 +1,14 @@
 
 DEFAULT:
     <style name="Theme.Test4" parent="Theme.AppCompat.Light.DarkActionBar">
+
+//Themes & Colors meaning
+
+- colorPrimaryDark -> Status Bar  -> NOW -> statusBarColor & colorPrimaryVariant (default value: ?attr/colorPrimaryVariant & @color/purple_700 respectively)
+- colorPrimary     -> Tool Bar   (default value: @color/purple_500)
+- windowBackground -> Activity Screen -> 
+- NavigationBarColor -> Bottom Navigation Bar
+- colorOnPrimary -> Color on widgets like button text (default value: @color/white)
+- colorAccent -> Color of changing widget, ie checkBox on checked, radioButton on selected, progressbar etc -> NOW -> colorSecondary (defualt value: @color/teal_200)
+
+- 

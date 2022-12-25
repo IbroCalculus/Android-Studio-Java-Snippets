@@ -1,0 +1,12 @@
+
+https://github.com/hbb20/CountryCodePickerProject
+(Wiki, for detail on usage) https://github.com/hbb20/CountryCodePickerProject/wiki
+
+
+          implementation 'com.hbb20:ccp:X.Y.Z'    // implementation 'com.hbb20:ccp:2.6.1'
+
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/ccp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />

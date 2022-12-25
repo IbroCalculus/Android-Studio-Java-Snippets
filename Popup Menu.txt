@@ -28,6 +28,10 @@ NB: Note that you pass in v when I called showPopUpMenu(v)
             public boolean onMenuItemClick(MenuItem item) {
                 Toast.makeText(MainActivity.this, "You clicked on Item" + item.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
+             // OR use a switch statement as shown below
+                switch (item.getId()){
+                     case R.id.menu1:
+                        .....  //check Menu.txtm
             }
         });
         popupMenu.show();

@@ -16,11 +16,22 @@
 
  IN JAVA
     int currentDayNight; 		//On mainActivity
-
-        currentDayNight = AppCompatDelegate.getDefaultNightMode();	//On mainActivity
-
+    int currentNightMode;
 
         switch1 = findViewById(R.id.switch1);
+
+        currentDayNight = AppCompatDelegate.getDefaultNightMode();	//On mainActivity
+        currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+
+        switch (currentNightMode){
+            case Configuration.UI_MODE_NIGHT_NO:
+                switch1.setChecked(false);
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                switch1.setChecked(true);
+                break;
+        }
 
         switch1.setOnClickListener(new View.OnClickListener() {
             @Override

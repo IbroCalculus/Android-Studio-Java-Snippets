@@ -1,4 +1,5 @@
  Check: Alert, for Similar.
+ CHECK ALSO: Dialog Activity.txt
 
 NB: You can easily follow the android documentation guidelines. After creating a Fragment class (ie MyCustomDialogFrag) and Pasting their codes; within the onclick listener, do; 
                 new MyCustomDialogFrag().show(getSupportFragmentManager(), "dialog1"); 	// "dialog1" is just any String

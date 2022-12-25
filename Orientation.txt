@@ -8,6 +8,10 @@ INSIDE Manifest, add android:screenOrientation="landscape" add as shown;
 
 
 ================ HANDLING SCREEN ORIENTATION WITHOUT LOOSING DATA ===============
+CHECK ALSO: onSaveInstance.txt
+
+NB: This preserves data only on orientation changes, doesn't work for switching between dark/light mode.
+    Can add other attributes like, |uiMode, |keyboardHidden etc
 
         <activity
             android:name=".MainActivity"

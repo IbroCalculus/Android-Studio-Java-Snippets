@@ -1,8 +1,23 @@
 
-IT WILL OPEN VIA DEFAULT WEB BROSER
+Can hyperlink;
+1- Web URL
+2- email
+3- phone number
+4- map (google map)
+
+
+IT WILL OPEN VIA DEFAULT WEB BROWSER
+
+2 METHODS FOR HYPERLINKING A WEB URL, Second method is shorter
+
+
+
+ ---- METHOD 1 ----
 
 === WITHIN strings.xml ================ 
     <string name="myHyperlink"> Go to <a href="http://www.google.com">Google</a> by clicking on it.</string>
+
+
 
 
 
@@ -15,3 +30,80 @@ IT WILL OPEN VIA DEFAULT WEB BROSER
         tv_Display = findViewById(R.id.tv_Display);
         tv_Display.setMovementMethod(LinkMovementMethod.getInstance());
 
+
+
+
+---- METHOD 2 ----
+Use the autolink property
+
+-A. Autolink to a website URL
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+
+        android:autoLink="web"   //This property
+        android:textColorLink="#ff0000"  //OPTIONAL
+
+        android:minHeight="48dp"
+        android:text="Visit google via the link below\nhttp://www.google.com"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnNext" />
+
+
+-B. ==== Autolink to an email ====
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+
+        android:autoLink="email"  //This property
+
+        android:minHeight="48dp"
+        android:text="myemail@gmail.com"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+-C. ==== Autolink to a phone number ====
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+
+        android:text="+2348168194237"  //Must begin with +
+        android:autoLink="phone"  //This property
+
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+-D. ==== GOOGLE MAP ====
+   To get the link, go to the address of location on google map, click on share, then copy.
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:minHeight="48dp"
+
+        android:autoLink="web|map"
+        android:text="https://goo.gl/maps/K8DArFeBn7rM3owU9"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />

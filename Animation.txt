@@ -1,3 +1,5 @@
+CHECK ALSO: Scene Transition.txt
+
 THERE ARE DIFFERENT TYPES OF ANIMATIONS, THE ONES HERE ARE:
 
 1. DRAWABLE ANINAMATION (NB: Pic i.e .png etc can be used also, not only vectors)
@@ -134,11 +136,11 @@ IN JAVA:
         scale_animation = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
         rotate_animation = AnimationUtils.loadAnimation(this, R.anim.rotate_animation);
 
-        btn_Display2.setAnimation(fade_animation);
-        btn_Display.setAnimation(translate_animation);
-        imageView.setAnimation(scale_animation);
-        imageView.setAnimation(fade_animation);
-        imageView.setAnimation(rotate_animation);
+        btn_Display2.startAnimation(fade_animation);
+        btn_Display.startAnimation(translate_animation);
+        imageView.startAnimation(scale_animation);
+        imageView.startAnimation(fade_animation);
+        imageView.startAnimation(rotate_animation);
 
 
 

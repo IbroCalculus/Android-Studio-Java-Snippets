@@ -1,0 +1,20 @@
+==== xml namespaces ====
+
+ ---- xmlns (ie; 
+		xmlns:android="http://schemas.android.com/apk/res/android", 
+		xmlns:app="http://schemas.android.com/apk/res-auto", 
+		xmlns:tools="http://schemas.android.com/tools" ) ----
+
+
+
+ ---- xmlns:android="http://schemas.android.com/apk/res/android" ----
+   Means that the layout is used for android device. Not for any other function apart from android.
+
+ ---- android (ie android:layout_width="wrap_content" ) ----
+
+
+ ---- app (ie app:layout_constraintBottom_toBottomOf="parent" ) ----
+
+
+ ---- tools (ie tools:text="Sample Text" ) ----
+   applied only on the code UI mainly for visibility purpose, not on runtime or when app is installed

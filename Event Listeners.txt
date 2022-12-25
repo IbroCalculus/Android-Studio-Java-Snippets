@@ -18,6 +18,13 @@ NB: For longclick, always return true
         });
 
 
+        // --- USING LAMBDA FUNCTION, SHORTER METHOD OF THE ONE ABOVE ----
+
+        btn_Display.setOnClickListener(new -> {
+                Toast.makeText(MainActivity.this, "You clicked on a button", Toast.LENGTH_SHORT).show();           
+        });
+
+
         btn_Display.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -30,11 +37,18 @@ NB: For longclick, always return true
 
 2========= USING IMPLEMENT INTERFACE ==================
 
-- IMPLEMENT THE INTERFACE AS SHOWN, AND IMPLEMENT THE METHOD AS WELL
+- IMPLEMENT THE INTERFACE AS SHOWN, AND IMPLEMENT THE METHOD AS WELL AFTER TYPING btn_Display.setOnClickListener(this);
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btn_Display, btn_Display2;
+
+    btn_Display = findViewById(R.id.btn_Display);
+    btn_Display2 = findViewById(R.id.btn_Display2);
+
+
+        btn_Display.setOnClickListener(this);   //Typing this will prompt for the implement and method
+        btn_Display2.setOnClickListener(this);
 
 
     @Override
@@ -46,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
+        switch (view.getId())    // or int viewId = view.getId();  switch (viewId){...
         {
             case R.id.btn_Display:
                 Toast.makeText(this, "You clicked on btn_Display", Toast.LENGTH_SHORT).show();
@@ -59,16 +73,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-- THEN DO AS SHOWN
 
-        btn_Display.setOnClickListener(this);
-        btn_Display2.setOnClickListener(this);
+
 
 
 *TO IMPLEMENT MULTIPLE EVENTS, SEPERATE BY COMMA AS SHOWN BELOW, and do as above:
 NB: Always return true for onLongClickListener
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
+
+
+        btn_Display.setOnClickListener(this);    //For click
+        btn_Display2.setOnClickListener(this);
+
+        btn_Display.setOnLongClickListener(this);    //For long click
+        btn_Display2.setOnLongClickListener(this);
+
 
 //ON LONG CLICK LISTENER
     @Override
@@ -87,9 +107,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-        btn_Display.setOnClickListener(this);
-        btn_Display2.setOnClickListener(this);
-
-        btn_Display.setOnLongClickListener(this);
-        btn_Display2.setOnLongClickListener(this);
 

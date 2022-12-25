@@ -1,0 +1,50 @@
+This is used to animate imageview from one activity to another when switching between activities
+
+
+---- ACTIVTIY 1 -------
+Assume 2 image views img1 and img2, with images, jerry.png and tom.png
+- Also, a button btnNext
+
+--- For both images, add the property "transitionName' in xml ----
+
+
+    <ImageView
+        android:id="@+id/img1"
+        android:src="@drawable/jerry"
+
+        android:transitionName="jerry"   // this, similary "tom" for the other one
+        />
+
+
+==== IN JAVA =====
+
+        btnNext = findViewById(R.id.btnNext);
+        img1 = findViewById(R.id.img1);
+        img2 = findViewById(R.id.img2);
+
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transitToNextActivity();
+            }
+        });
+
+
+    private void transitToNextActivity() {
+        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            Pair[] pairs = new Pair[2]; //Because we are animating 2 views in this case
+            pairs[0] = new Pair<View, String> (img1, "jerry");
+            pairs[1] = new Pair<View, String> (img2, "tom");
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+            startActivity(intent,options.toBundle());
+        }else{
+            startActivity(intent);
+        }
+    }
+
+
+------ ACTIVITY 2 -------
+Position the imageViews as needed and give same android:tranitionName="jerry" to corresponding views. 
+No Java

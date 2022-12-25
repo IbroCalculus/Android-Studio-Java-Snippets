@@ -1,0 +1,6 @@
+Within android studio -> SDK Platforms; to work with location services, install these 2 packages;
+
+- Google APIs Intel x86 Atom_64 System Image
+- Google Play Intel x86 Atom_64 System Image
+
+

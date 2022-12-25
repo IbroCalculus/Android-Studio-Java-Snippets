@@ -1,3 +1,5 @@
+To hide the status bar on the splash screen or any other activity, check Status Bar.txt
+
 Always use Intent finish() in the splash screen
 
 1. USE EasySplashScreen library

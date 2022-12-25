@@ -1,10 +1,7 @@
 
-<uses-permission android:name="android.permission.CAMERA"/>
+CHECK: Saving Files.txt; to see how to save images and other files on device
 
-
-
-setContentView(R.layout.activity_main);
-NB: Create const int value REQUEST_IMAGE_CAPTURE = 100;
+========= RUN TIME CAMERA PERMISSION ====
 
 if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MainActivity.this,
@@ -14,6 +11,19 @@ if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAME
                     );
         }
 
+========== TAKING PICTURE WITH CAMERA ============
+Start by declaring camera permission in manifest, as well as declaring runtime permission
+
+
+<uses-permission android:name="android.permission.CAMERA"/>
+
+
+final int  REQUEST_IMAGE_CAPTURE = 100;
+
+setContentView(R.layout.activity_main);
+
+
+        runTimeCameraPermission();
 
 
         button2.setOnClickListener(new View.OnClickListener() {
@@ -26,6 +36,17 @@ if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAME
             }
         });
 
+
+
+    private void runTimeCameraPermission() {
+        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{
+                            Manifest.permission.CAMERA
+                    }, REQUEST_IMAGE_CAPTURE
+            );
+        }
+    }
 
 @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -8,3 +8,16 @@ CHECK ALSO; Pick Image from Gallery
 int image = R.drawable.pic1;
 imageView.setImageResource(image);
 
+
+=== ADD SAMPLE IMAGES TO IMAGEVIEW VIA XML ====
+        tools:src="@tools:sample/avatars[1]"    //change value 1 to any index to get a different image
+
+
+=== src VS srcCompat ===
+
+        android:src="@drawable/ic_baseline_accessible_24"    //Used with image assests (png, jpg ...)
+        app:srcCompat="@drawable/ic_baseline_accessible_24"  //Best used with vector drawables (.xml)
+
+
+
+

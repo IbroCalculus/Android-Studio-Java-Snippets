@@ -1,0 +1,4 @@
+
+Include layout within layout
+
+    <include layout="@layout/contents"></include>

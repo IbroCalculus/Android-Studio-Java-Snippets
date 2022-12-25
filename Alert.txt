@@ -1,5 +1,6 @@
 
  CHECKK: Dialog, for customizeable pop up and similar
+ CHECK ALSO: Dialog Activity.txt
 
 
 NB: You can easily follow the android documentation guidelines. After creating a Fragment class (ie MyCustomDialogFrag) and Pasting their codes; within the onclick listener, do; 
@@ -7,7 +8,7 @@ NB: You can easily follow the android documentation guidelines. After creating a
 
 
 
-====================== DISPLAY DIALOG WITH YES, NO Option =================================
+====================== 1. DISPLAY DIALOG WITH YES, NO Option =================================
 
     private void showAlert() {
         AlertDialog alertDialog = new AlertDialog.Builder(this)
@@ -32,7 +33,7 @@ NB: You can easily follow the android documentation guidelines. After creating a
 
 
 
-====================== DISPLAY DIALOG WITH LIST OF ITEMS =================================
+====================== 2. DISPLAY DIALOG WITH LIST OF ITEMS, SINGLE SELECTION =================================
 
     private void showAlertList(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
@@ -49,7 +50,8 @@ NB: You can easily follow the android documentation guidelines. After creating a
     }
 
 
-====================== DISPLAY DIALOG WITH CHECK BOX ITEMS =================================
+
+====================== 3. DISPLAY DIALOG WITH CHECK BOX ITEMS =================================
 
 
 ====================== DISPLAY DIALOG WITH CUSTOM LAYOUT =================================

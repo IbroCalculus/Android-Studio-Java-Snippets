@@ -1,0 +1,41 @@
+This prevent data from being lost when onDestroy method is called. ie; on screen rotation, on UI Mode changed between dark and light mode, etc.
+
+Override the onSaveInstance method, and write the code within it.
+The onSaveInstance method lies before the onDestroy and onCreate method.
+
+
+=========== Example ===============
+Assume a Button and TextView. textview increment count on button click
+
+    TextView tvDisplay;
+    Button btnTest1;
+
+    int countValue = 0;
+    private final String COUNT_VALUE_KEY = "count_value_key";
+
+        tvDisplay = findViewById(R.id.tvDisplay);
+        btnTest1 = findViewById(R.id.btnTest1);
+
+
+        //--- Check the codes below, and within the onSaveInstanceState method understand the code within the if statement block ---
+        if(savedInstanceState != null){
+            countValue = savedInstanceState.getInt(COUNT_VALUE_KEY);
+            tvDisplay.setText( countValue+ "");
+        }
+
+
+        btnTest1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                countValue++;
+                tvDisplay.setText(countValue + "");
+            }
+        });
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(COUNT_VALUE_KEY, countValue);
+    }

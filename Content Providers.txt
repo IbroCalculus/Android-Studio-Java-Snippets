@@ -1,0 +1,48 @@
+A content provider manages access to a central repository of data (SOURCE: android documentation).
+Content provider is a component of android architecture that we need to use whenever we want to access the data from one application to another application.
+
+=== e.g: Read the contact details from the "Contact" app into this app ===
+
+  --- IN MANIFEST ---
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+
+
+--- JAVA ------
+
+    Button btnGetContacts;
+
+        btnGetContacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getContacts();
+            }
+        });
+
+
+    private void getContacts() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_CONTACTS}, 0);
+        }
+        ContentResolver contentResolver = getContentResolver();
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+
+        Log.i("ContactProvider", "Total contacts: " + cursor.getCount());
+
+        if(cursor.getCount() > 0){
+            while (cursor.moveToNext()){
+                String contactName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                String contactNumber = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                Log.i("ContactProvider", "ContactName: " + contactName + ", ContactNumber: " + contactNumber);
+
+                //This arraylist can be useful if you want to display the contacts on a listview or recyclerview
+                String contactDetails = contactName + " ----> " + contactNumber;
+                contactDetailsList.add(contactDetails);   //ArrayList<String> contactDetailsList  = new ArrayList<>(); is declared globally
+            }
+        }
+    }
+
+NOTE: To understand how to use the null in ...query(uri, null, null, null, null); visit Udemy course:
+      "Android Q App Development Mastery Course - Build 20+ Apps" section 5 (39. Content providers)

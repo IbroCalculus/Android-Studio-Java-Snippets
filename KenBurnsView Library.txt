@@ -1,4 +1,4 @@
-DEPENDENCY: compile 'com.flaviofaria:kenburnsview:1.0.7'
+DEPENDENCY: implementation 'com.flaviofaria:kenburnsview:1.0.7'
 
 BASIC USAGE:
 NB: OBSERVED ERROR WITH LARGE IMAGE FILE OF 2MB. WORKED FINE WITH 1.30MB

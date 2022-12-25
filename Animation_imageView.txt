@@ -33,6 +33,8 @@ NB: For multiple rotations, set angles to above 360 degrees. ie .rotationX(720)
 OTHERS:
                     imageView.animate().alpha(0).setDuration(duration);
                     imageView.animate().rotationX(rotAngle).setDuration(duration);
+                    imageView.animate().rotationBy(rotAngle).setDuration(duration);
                     imageView.animate().translationY(100).setDuration(duration);
+                    imageView.animate().translationYBy(100).setDuration(duration);
                     imageView.animate().scaleX(0.5f).scaleY(0.5f).setDuration(duration);
 

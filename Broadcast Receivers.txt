@@ -22,19 +22,30 @@ public class BroadcastReceiverClass extends BroadcastReceiver {
 
 ========= 2. WITHIN JAVA CLASS ============
 
+//TO GET LIST OF BROADCAST ACTIONS: C:\Users\isuleiman\AppData\Local\Android\Sdk\platforms\android-29\data\broadcast_actions.txt
+
     TextView tvDisplay;
-    BroadcastReceiverClass broadcastReceiverClass = new BroadcastReceiverClass();
+    BroadcastReceiverClass broadcastReceiverClass;
 
         setContentView(R.layout.activity_main);
 
         tvDisplay = findViewById(R.id.tvDisplay);
+        broadcastReceiverClass = new BroadcastReceiverClass();
+
 
     @Override
     protected void onStart() {
         super.onStart();
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);  //You may choose action you wanted broadcasted.
+
+        //You may choose action you want broadcast_received. Can also view and use more actions in broadcast_actions.txt
+        intentFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        //intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");  //got ..WIFI_STATE_CHANGED from broadcast_actions.txt
+
+        // BETTER DECLARE AND USE: public static final String CONNECTION_CHANGED  = "android.net.conn.CONNECTIVITY_CHANGE";
+        // Hence: intentFilter.addAction(CONNECTION_CHANGED);
+
         this.registerReceiver(broadcastReceiverClass, intentFilter);
     }
 
@@ -42,7 +53,9 @@ public class BroadcastReceiverClass extends BroadcastReceiver {
     protected void onStop() {
         super.onStop();
         
-        this.unregisterReceiver(broadcastReceiverClass);
+        if(broadcastReceiverClass != null){
+            this.unregisterReceiver(broadcastReceiverClass);
+        }
     }
 
 

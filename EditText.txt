@@ -1,3 +1,5 @@
+CHECK ALSO: TextInputLayout.txt
+
 
 1. ====== TO ADD IMAGE TO EDITTEXT (ie userIcon, PasswordLock etc)  =========
 

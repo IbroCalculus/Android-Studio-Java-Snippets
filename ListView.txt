@@ -16,7 +16,7 @@ CONS: 	Not customizeabel
         countries.add("Angola");
         countries.add("Ghana");
 
-        ArrayAdapter<String> countriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
+        ArrayAdapter<String> countriesAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, countries);
         listView.setAdapter(countriesAdapter);
 
 NB: There are multiple types of adapters. But we work with arrayAdapter in this case

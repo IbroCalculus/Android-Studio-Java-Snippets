@@ -1,0 +1,9 @@
+Android regularly releases Support Libraries, which are a bunch of features.
+
+Android keeps on adding new features, say you have an App which was created using an older API version and you want to add the new features, you can do so using the Support libraries.
+
+So, the purpose of these libraries is to let Apps use new features of android.
+
+--- What does the number attached to Support Library ----
+v4 - indicates that it can be added to Apps which have been created with an API level greater than or equal 4.
+v4 support libray includes the largest set of features.
