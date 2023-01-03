@@ -15,7 +15,7 @@ public void onClick(View v) {
             }
 
 
-=================== INTENT PASSING VALUES TO ANOTHER ACTIVITY =======================
+=================== A. INTENT PASSING VALUES TO ANOTHER ACTIVITY =======================
 
 Create activity i.e Main2Activity
 --- From MainActivity ---
@@ -33,11 +33,84 @@ Create activity i.e Main2Activity
         Bundle bundle = getIntent().getExtras(); //Necessary if you want to pass image
 
         String etValue = getIntent().getStringExtra("etValue");
-	int image = bundle.getInt("image");
+	  int image = bundle.getInt("image");
 
         textView2.setText(etValue);
         imageView2.setImageResource(image);
 
+
+
+
+==== B. INTENT PASSING VALUES TO ANOTHER ACTIVITY FOR RESULT (now ActivityResultLauncher, previously: startActivityForResult) ====
+2 activities, ie; MainActivity and Main2Activity
+
+
+--- In MainActivity ---
+
+    TextView tvDisp1;
+    EditText et_number1;
+    Button btn1;
+
+        tvDisp1 = findViewById(R.id.tvDisp1);
+        et_number1 = findViewById(R.id.et_number1);
+        btn1 = findViewById(R.id.btn1);
+
+        btn1.setOnClickListener(view -> {
+            int et_number1_value = Integer.parseInt(et_number1.getText().toString());
+
+            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+            intent.putExtra("et_number1_value", et_number1_value);
+            activityResultLauncher1.launch(intent);
+        });
+
+
+
+--- In Main2Activity ---
+
+    EditText et_Text2;
+    Button btn2;
+
+        et_Text2 = findViewById(R.id.et_Text2);
+        btn2 = findViewById(R.id.btn2);
+
+        int et_number1_value = getIntent().getIntExtra("et_number1_value",0);
+        Toast.makeText(this, String.valueOf(et_number1_value), Toast.LENGTH_SHORT).show();
+
+        btn2.setOnClickListener(view -> {
+            int et_number1_value2 = (int) Math.pow(et_number1_value, 3);
+            String et_text2_value = et_Text2.getText().toString();
+
+            Intent intent = new Intent();
+            intent.putExtra("et_Text2_value", et_text2_value);
+            intent.putExtra("et_number1_value2", et_number1_value2);
+            setResult(RESULT_OK, intent);
+            finish();
+        });
+
+
+--- In MainActivity (Before last }, within the function block) ---
+
+    ActivityResultLauncher<Intent> activityResultLauncher1 = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    int resultCode = result.getResultCode();
+                    Intent data = result.getData();
+                    if(resultCode == RESULT_OK){
+                        
+                        String et_Text2_value = data.getStringExtra("et_Text2_value");
+                        int et_number1_value2 = data.getIntExtra("et_number1_value2", 0);
+                        Toast.makeText(MainActivity.this, et_Text2_value, Toast.LENGTH_SHORT).show();
+                        tvDisp1.setText(String.valueOf(et_number1_value2));
+                        
+                    }else{
+//                        If back button is pressed
+                        Toast.makeText(MainActivity.this, "Operation Cancelled", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
 
 
 2. IMPLICIT INTENT

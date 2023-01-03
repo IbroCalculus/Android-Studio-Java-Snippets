@@ -177,6 +177,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         recyclerView.setAdapter(recyclerAdapter);
 
 
+ --------- ALTERNATIVELY -------
+
+String[] fName = new String[]{"Ibrahim", "Ibrahim", "Ibrahim", "Ibrahim", "Ibrahim", "Ibrahim", "Ibrahim", "Ibrahim"}
+String[] sName = new String[]{"Suleiman", "Suleiman", "Suleiman", "Suleiman", "Suleiman", "Suleiman", "Suleiman", "Suleiman"}
+int[] image = new int[]{R.drawable.ic_home, R.drawable.ic_home, R.drawable.ic_home, R.drawable.ic_home, R.drawable.ic_home, R.drawable.ic_home, R.drawable.ic_home, R.drawable.ic_home}
+
+
+        ArrayList<RecyclerModal> arrayList = new ArrayList<>();
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(arrayList);
+        recyclerView.setAdapter(recyclerAdapter);
+  
+        for( int i=0; i < fName.length; i++){
+            RecyclerModal recyclerModel = new RecyclerModel(fName[i], sName[i], image[i]);
+            arrayLIst.add(recylerModel);
+}
+        recyclerAdapter.notifyDataSetChanged();
+
 
 ============== SET ONCLICKLISTENER ==================
 

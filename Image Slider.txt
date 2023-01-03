@@ -1,4 +1,11 @@
 
+
+Image Slider 2.txt is much easier and recommended.
+
+
+
+
+
 CHECK: Lenosoft : How to make automatic image slider
 
  use libery from https://github.com/smarteist/Android-Image-Slider

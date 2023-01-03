@@ -11,6 +11,15 @@ Use
 />
 
 
+============= APPEND TEXT TO TEXTVIEW ===========
+Assume data is from an array titled facts.
+
+        for(String i: facts)
+        {
+            factTextView.append(i+"\n");
+        }
+
+
 --------------------- Ellipsize -------------------
 
             textView.ellipsize(null); // Remove ellipsize

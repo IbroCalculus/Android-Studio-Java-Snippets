@@ -1,0 +1,223 @@
+
+NB: You can check below to see where I grouped both codes separately as functions.
+
+
+    implementation 'com.android.volley:volley:1.2.1'
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+======== 1. PARSING A SINGLE JSON OBJECT ==========
+This contains a single json object, NOT an array of json objects. For an array of json objects, scroll check below.
+
+E.g use a joke json api:
+- Google 'Joke json api' or go to https://github.com/15Dkatz/official_joke_api.
+- Within, go to a joke endpoint via link, ie Grab a random joke (https://official-joke-api.appspot.com/random_joke)
+
+  --- SAMPLE DATA FROM API ---
+{
+  "type": "general",
+  "setup": "What did one plate say to the other plate?",
+  "punchline": "Dinner is on me!",
+  "id": 163
+}
+
+
+----- JAVA -------
+
+    RequestQueue requestQueue1;  //This creates a thread
+
+        requestQueue1 = Volley.newRequestQueue(this);
+
+
+        JsonObjectRequest jsonObjectRequest1 = new JsonObjectRequest(Request.Method.GET,
+                "https://official-joke-api.appspot.com/random_joke",
+                null,
+                new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("RESPONSE_VALID", response + "");  // response is the returned json object.
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("RESPONSE_ERROR", error.getMessage());
+            }
+        });
+
+
+        requestQueue1.add(jsonObjectRequest1);
+
+
+  ----- ACCESSING THE ELEMENTS WITHIN THE JSON OBJECT -------
+
+- The keys in this array object are: id(int), type(String), setup(String), punchline(String).
+
+ - Within the onResponse method, all within try-catch block:
+
+                        Log.i("ARRAY_RESPONSE_VALID", response + "");
+
+                try{
+
+                    int id = response.getInt("id");
+                    String type = response.getString("type");
+                    String setup = response.getString("setup");
+                    String punchline = response.getString("punchline");
+                    Toast.makeText(MainActivity.this, punchline, Toast.LENGTH_SHORT).show();
+
+                }catch (JSONException e){
+                    Toast.makeText(MainActivity.this, "Error occured " + e, Toast.LENGTH_SHORT).show();
+                }
+
+
+======== 2. PARSING AN ARRAY OF JSON OBJECTS (Similar to the above) ==========
+
+E.g use a joke json api:
+- Google 'Joke json api' or go to https://github.com/15Dkatz/official_joke_api.
+- Within, go to a joke endpoint via link, ie Grab ten random jokes (https://official-joke-api.appspot.com/random_ten)
+
+  --- SAMPLE DATA FROM API ---
+
+[
+  {
+    "type": "general",
+    "setup": "If you boil a clown...",
+    "punchline": "Do you get a laughing stock?",
+    "id": 45
+  },
+  {
+    "type": "general",
+    "setup": "What do you get when you cross a bee and a sheep?",
+    "punchline": "A bah-humbug.",
+    "id": 232
+  },
+.
+.
+.
+}
+ ]
+
+
+----- JAVA -------
+
+    RequestQueue requestQueue2;
+
+        requestQueue2 = Volley.newRequestQueue(this);
+
+
+        JsonArrayRequest jsonArrayRequest2 = new JsonArrayRequest(Request.Method.GET,
+                "https://official-joke-api.appspot.com/random_ten",
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.i("ARRAY_RESPONSE_VALID", response + "");  // response is the returned array of json objects.
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("ARRAY_RESPONSE_ERROR", error.getMessage());
+                    }
+                });
+        requestQueue2.add(jsonArrayRequest2);
+
+
+  ----- ACCESSING THE ELEMENTS WITHIN THE JSON ARRAY OBJECTS -------
+
+- The keys in this array object are: id(int), type(String), setup(String), punchline(String).
+
+ - Within the onResponse method, all within try-catch block:
+
+                        Log.i("ARRAY_RESPONSE_VALID", response + "");
+
+                        for(int i=0; i<response.length(); i++){
+                            try{
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                Log.i("LOOP_ARRAY_RESPONSE",
+                                        jsonObject.getString("id") + " " +
+                                        jsonObject.getString("type") + " - " +
+                                        jsonObject.getString("setup") + " - " +
+                                        jsonObject.getString("punchline"));
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+
+
+============================== CODES GROUPED AS A FUNCTION ==================
+
+1. ---- PASSING A SINGLE JSON OBJECT -----
+
+    public void jsonParseObject(){
+
+        JsonObjectRequest jsonObjectRequest1 = new JsonObjectRequest(Request.Method.GET,
+                "https://official-joke-api.appspot.com/random_joke",
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("RESPONSE_VALID", response + "");
+
+                        try{
+                            int id = response.getInt("id");
+                            String type = response.getString("type");
+                            String setup = response.getString("setup");
+                            String punchline = response.getString("punchline");
+                            Toast.makeText(MainActivity.this, punchline, Toast.LENGTH_SHORT).show();
+
+                            tvId.setText(id + "");
+                            tvPunchline.setText(punchline);
+                            tvSetup.setText(setup);
+                            tvType.setText(type);
+                        }catch (JSONException e){
+                            Toast.makeText(MainActivity.this, "Error occured " + e, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("RESPONSE_ERROR", error.getMessage());
+            }
+        });
+        requestQueue1.add(jsonObjectRequest1);
+    }
+
+
+
+2. ---- PASSING AN ARRAY OF JSON OBJECTS ----
+
+    public  void jsonParseArray(){
+
+        JsonArrayRequest jsonArrayRequest2 = new JsonArrayRequest(Request.Method.GET,
+                "https://official-joke-api.appspot.com/random_ten",
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.i("ARRAY_RESPONSE_VALID", response + "");
+
+                        for(int i=0; i<response.length(); i++){
+                            try{
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                Log.i("LOOP_ARRAY_RESPONSE",
+                                        jsonObject.getString("id") + " " +
+                                                jsonObject.getString("type") + " - " +
+                                                jsonObject.getString("setup") + " - " +
+                                                jsonObject.getString("punchline"));
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("ARRAY_RESPONSE_ERROR", error.getMessage());
+                    }
+                });
+        requestQueue2.add(jsonArrayRequest2);
+    }

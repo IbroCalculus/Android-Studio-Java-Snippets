@@ -1,3 +1,7 @@
+Retrofit is a type-safe HTTP client for Android and Java.
+- An HTTP client sends a request ot an HTTP server, the server, in turn, returns a response message
+- Type safe means that compiler will validate types while compiling, and throw an error if you try to assign the wrong type to a variable.
+
 
 CHECK: "Android App Development for Beginners 2021": 02:35:00
 
@@ -104,7 +108,7 @@ public interface RetrofitApiInterface {
             @Override
             public void onResponse(Call<List<RetrofitModelClass>> call, Response<List<RetrofitModelClass>> response) {
                 
-                i f(!response.isSuccessful())
+                if(!response.isSuccessful())
                 {
                     tvA.setText("error occurred");
                     tvB.setText("error occurred");

@@ -1,0 +1,74 @@
+AUTO IMAGE SLIDER
+https://github.com/denzcoskun/ImageSlideshow
+
+
+
+- Go to: Gradle Scripts -> settings.gradle:
+
+        google()
+        mavenCentral()
+
+        maven { url 'https://jitpack.io'}    // This line
+
+
+- implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'.
+
+
+
+=== XML ===
+NB: Check online for other properties
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_margin="16dp"
+        android:backgroundTint="#64CFFF"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/image_slider"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:iss_auto_cycle="true"
+                app:iss_period="1000"  // Duration between each image slide
+                app:iss_delay="10000"  //Time before it begins first sliding after onCreate
+                app:iss_title_background="@drawable/gradient"
+                />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+==== JAVA ====
+
+
+    ImageSlider image_slider;
+
+        image_slider = findViewById(R.id.image_slider);
+        ArrayList<SlideModel> slideModels = new ArrayList<>();
+
+        slideModels.add(new SlideModel(R.drawable.img1, "Image1", ScaleTypes.FIT));   R.drawable.img can be replaced with a URL. give internet permission.
+        slideModels.add(new SlideModel(R.drawable.img2, "Image2", ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.img3, "Image3", ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.img4, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.img5, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.img6, ScaleTypes.FIT));
+
+        image_slider.setImageList(slideModels, ScaleTypes.FIT);
+
+        image_slider.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onItemSelected(int i) {
+                Toast.makeText(MainActivity.this, "Clicked item: " + i, Toast.LENGTH_SHORT).show();
+            }
+        });

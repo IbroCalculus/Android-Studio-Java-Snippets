@@ -1,0 +1,51 @@
+
+https://github.com/barteksc/AndroidPdfViewer
+
+    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
+
+- Within settings.gradle:
+
+        mavenCentral()
+        gradlePluginPortal()  //This code
+
+- Within gradle.properties:
+
+	  android.enableJetifier=true
+
+
+====== ADD PDF ASSET FOLDER/ PDF FILE ====
+
+- Right click App -> New -> Folder -> Assets Folder -> Finish (Do not check "Change Folder Location")
+- paste pdf file in assets folder (ie sample1.pdf)
+
+
+=== Create 2 activities, ie MainActivity and pdfActivity 
+
+- Within MainActivity.jav:
+
+        readPDF = findViewById(R.id.readPDF);  //Button
+
+        readPDF.setOnClickListener(view -> {
+            Intent pdfintent = new Intent(getApplicationContext(), pdfActivity.class);
+            startActivity(pdfintent);
+        });
+
+
+
+- Within pdfActivity XML:
+
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+- Within pdfActivity.java:
+
+        pdfView = findViewById(R.id.pdfView);
+        
+        pdfView.fromAsset("sample1.pdf")
+                .defaultPage(0)
+                .scrollHandle(new DefaultScrollHandle(this))
+                .spacing(10)
+                .load();

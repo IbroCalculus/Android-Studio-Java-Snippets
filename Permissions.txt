@@ -10,3 +10,80 @@ Inside Manifest file
         android:allowBackup="true"
 
 THERE'S ALSO PERMISSION AT RUNTIME; CHECK: "Android Application Development Tutorial For Beginners": 01:30:00
+
+
+=================== 1. ADDING RUN TIME PERMISSIONS (Dangerout permissions) ==============
+E.g: Permission to read contacts
+
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+    private static final int READ_CONTACTS_REQUEST_CODE = 1;
+
+
+        btnAskPermission.setOnClickListener(view -> {
+            requestPermission();            
+        });
+
+
+    private void requestPermission() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACTS_REQUEST_CODE);
+        }else {
+//            ELSE IF PERMISSION ALREADY GRANTED, the code here executes
+        }
+    }
+
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode){
+            case READ_CONTACTS_REQUEST_CODE:
+                if(grantResults.length > 0 && grantResults[0] ==  PackageManager.PERMISSION_GRANTED){
+//                    RUN SAME CODE AS IN THE ELSE STATEMENT ABOVE.
+                }else{
+                    Toast.makeText(this, "Permission denied. Grant to proceed", Toast.LENGTH_SHORT).show();
+                }
+                return;
+        }
+    }
+
+
+
+=================== 2. ADDING MULTIPLE RUN TIME PERMISSIONS (Dangerout permissions) ==============
+
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+
+
+
+    private String[] permissions_to_enable;
+
+
+        setContentView(R.layout.activity_main);
+
+        requestPermission();
+
+
+    private void requestPermission() {
+
+        permissions_to_enable = new String[]{
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_CALL_LOG,
+                Manifest.permission.SEND_SMS,
+                Manifest.permission.CAMERA
+        };
+
+        if(ContextCompat.checkSelfPermission(this, String.valueOf(permissions_to_enable)) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, permissions_to_enable, REQUEST_CODE_FOR_ALL_PERMISSIONS);
+        }else {
+//            ELSE IF PERMISSION ALREADY GRANTED, the code here executes
+        }
+    }
