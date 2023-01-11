@@ -1,3 +1,5 @@
+
+
 Create new drawable file. i.e custom_bg
 
 <?xml version="1.0" encoding="utf-8"?>

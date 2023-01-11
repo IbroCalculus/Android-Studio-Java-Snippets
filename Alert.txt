@@ -27,6 +27,13 @@ NB: You can easily follow the android documentation guidelines. After creating a
                         Toast.makeText(getApplicationContext(), "Disgreed", Toast.LENGTH_SHORT).show();
                     }
                 })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+//                        System.exit(0);
+                        Toast.makeText(getApplicationContext(), "DIALOG DISMISSED", Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .create();
         alertDialog.show();
     }

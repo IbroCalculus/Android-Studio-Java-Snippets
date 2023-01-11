@@ -1,0 +1,77 @@
+REFERENCE: Youtube channel: XamDroid (Custom Radio Button)
+
+- Check RadioButtons.txt
+
+- Implement the radio buttons using the steps above (ie from the Radiobuttons.txt)
+
+- NB: Remember you can add icon to the radiobuttons and also hide the circular buttons (see properties below OR check Radiobuttons.txt)
+
+ ===== SOME PROPERTIES THAT CAN ADD CUSTOMIZATION ===
+
+            android:drawableTop="@drawable/ic_male"   // Can also add padding between drawable and text
+            android:button="@android:color/transparent"  //This hides the round button
+            android:textAlignment="center"
+
+
+
+==== CREATE 3 CUSTOM DRAWABLE FILE (To enable custom background color) ====
+
+First 2 of type "shape", last of type "selector"
+
+ie 1: rb_custom_gender_bg_checked
+
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid
+        android:color="#3D8B82"/>
+
+</shape>
+
+ie 2: rb_custom_gender_bg_unchecked
+
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid
+        android:color="#a1a1a1"/>
+
+</shape>
+
+ie 3: rb_custom_gender_bg_selector
+
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:drawable="@drawable/rb_custom_gender_bg_checked"/>  // when checked, this, hence default below line
+    <item android:drawable="@drawable/rb_custom_gender_bg_unchecked"/>
+</selector>
+
+
+
+----
+ Set the xml background of both radio buttons to: 
+            android:background="@drawable/rb_custom_gender_bg_selector"
+
+
+
+
+==== CREATE NEW COLOR RESOURCE DIRECTORY OF NAME color WITHIN res FOLDER (To enable custom text color) ===
+- Create new color resource file, ie gender_text_selector.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:color="#fff"/>
+    <item android:color="#000"/>
+</selector>
+
+
+--- Within each radio button -----
+            android:textColor="@color/gender_text_selector"
+
+
+
+
+==== TO CHANGE THE COLOR OF THE DRAWABLE ======
+- Decided to use the above color xml (ie gender_text_selector.xml)
+- Within each radio button:
+            android:drawableTint="@color/gender_text_selector"

@@ -1,9 +1,22 @@
+CHECK ALSO: Custom Radiobutton.txt
+
+
+
 
 	Place a ButtonGroup and edit orientation via XML
 	place the radio buttons within the ButtonGroup
 
 	user orientation
         	android:orientation="horizontal" or "vertical"
+
+NB: OPtionally you can add an icon to the radiobutton text, ie:
+            android:drawableLeft="@drawable/ic_male"
+
+NB: You can hide the circular buttons using:
+            android:button="@android:color/transparent"
+
+NB: Within the RadioGroup xml, there is the property:
+        android:checkedButton="@id/rb_male"
 
     RadioGroup radioGroup;
     RadioButton rbtn1, rbtn2, rbtn3;

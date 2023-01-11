@@ -1,6 +1,39 @@
 
- CHECK: "Yours Truly": 'Determine and monitor the connectivity status...'
 
+
+
+=========== CHECK IF DEVICE IS CONNECTED TO THE INTERNET ===========
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+
+---------- JAVA ----------
+
+    Context context;
+
+        btn_click.setOnClickListener(view -> {
+            if(!isConnected()){
+                Toast.makeText(getApplicationContext(), "Not Connected! ", Toast.LENGTH_SHORT).show();
+                System.exit(0);
+            }else{
+                Toast.makeText(getApplicationContext(), "Connected! ", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
+
+
+
+
+
+============================   ====================================
+ CHECK: "Yours Truly": 'Determine and monitor the connectivity status...'
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
@@ -53,7 +86,6 @@
         }
 
     }
-
 
 
 

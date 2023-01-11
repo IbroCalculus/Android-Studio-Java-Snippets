@@ -30,5 +30,14 @@ button2.setOnClickListener(new View.OnClickListener() {
     }
 
 
-========================== SAVE DOCUMENT TO DIRECTORY ===============================
+========================== INTENTS TO VIEW SPECFIC FILES  ===============================
+
+https://stackoverflow.com/questions/28978581/how-to-make-intent-settype-for-pdf-xlsx-and-txt-file-android
+
+
+    intentPDF.setType("application/pdf");
+
+    intentTxt.setType("text/plain");
+
+    intentXls.setType("application/x-excel");
 
