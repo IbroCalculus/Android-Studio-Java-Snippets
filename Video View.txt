@@ -11,8 +11,25 @@ JAVA
         String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.vid1;
         videoView.setVideoPath(videoPath);
         videoView.start(); //Autoplay
+ 
+--------------------- OR -----------------------------
 
-        //To include controller i.e Play/Pause, forward, rewind
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.earth);
+        videoView.setVideoURI(uri);
+        videoView.start(); //Autoplay
+
+
+========= To include controller i.e Play/Pause, forward, rewind  ==============
+
 	MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
+
+
+-------------------- VIDEO FROM URL --------------
+NOTE: Add internet permission
+
+        Uri uri = Uri.parse("https://joy.videvo.net/videvo_files/video/premium/video0224/large_watermarked/MR_Stock%20Footage%20MR%20(1824)_preview.mp4");
+        videoView.setVideoURI(uri);
+        videoView.start(); //Autoplay
+

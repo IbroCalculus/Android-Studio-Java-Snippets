@@ -1,4 +1,8 @@
 
+NB: To customize the ActionOverflowButton of the menu (the 3 dots), reference udemy course, 
+"The complete Java Android App development Bootcamp", section 6, number 30. Themes and Styles in Android)
+
+
 The commonly used menus in android applications are:
  - Options Menu (the general menu, this one)
  - Context Menu (or floating context menu. You longclick to popup menu list)

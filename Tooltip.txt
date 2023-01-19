@@ -1,0 +1,17 @@
+
+A tooltip is a small descriptive message that appears near a view when users long press the view or hover their mouse over it.
+
+
+=== XML =====
+
+        android:tooltipText="This is a sample\n tooltip text"
+
+
+=== JAVA ====
+
+        btn1.setOnClickListener(view -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+                btn1.setTooltipText("Send an email");
+            }
+        });

@@ -4,7 +4,8 @@ THERE ARE DIFFERENT TYPES OF ANIMATIONS, THE ONES HERE ARE:
 
 1. DRAWABLE ANINAMATION (NB: Pic i.e .png etc can be used also, not only vectors)
 2. MODERN WIDGET ANIMATION (Animate the widgets like textView, imageView etc)
-3. SLIDE ANIMATION IN ACTIVITIES (Animate the activities)
+3. VIEW ANIMATION SIMILAR TO 2 ABOVE (ie rotate textview on btnClicked)
+4. SLIDE ANIMATION IN ACTIVITIES (Animate the activities)
 
 ======================================= ################# ==========================
 
@@ -132,7 +133,7 @@ IN JAVA:
 
 
         fade_animation = AnimationUtils.loadAnimation(this, R.anim.fade_animation);
-        translate_animation = AnimationUtils.loadAnimation(this, R.anim.translate_to_left);
+        translate_animation = AnimationUtils.loadAnimation(this, R.anim.translate_to_left); 0100717607
         scale_animation = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
         rotate_animation = AnimationUtils.loadAnimation(this, R.anim.rotate_animation);
 
@@ -144,9 +145,44 @@ IN JAVA:
 
 
 
+#3. VIEW ANIMATION SIMILAR TO 2 ABOVE (ie rotate textview on btnClicked)
+
+    Assume a TextView tv_test;
+
+                tv_test.animate().rotation(90f).setDuration(1000);  //OTHERS: translate, scale,
+
+   SIMILARYLY
+                tv_test.animate().translationX(0).alpha(1).rotation(3600).setDuration(1000); 
+
+    NOTE: All these attributes (ie rotate, translate, scale etc) are available in the XML as well.
+
+   Example:
+
+    int state = 0;
+
+        btn_test.setOnClickListener(view -> {
+            if(state == 0){
+                tv_test.animate().rotation(45f).setDuration(500);
+                tv_test.animate().translationXBy(100).setDuration(500);
+                tv_test.animate().alpha(.2f).setDuration(500);
+                tv_test.animate().scaleXBy(3f).setDuration(500);
+                tv_test.animate().scaleYBy(3f).setDuration(500);
+                state = 1;
+            }else {
+                tv_test.animate().rotation(0f).setDuration(500);
+                tv_test.animate().translationXBy(-100).setDuration(500);
+                tv_test.animate().alpha(1f).setDuration(500);
+                tv_test.animate().scaleXBy(-3f).setDuration(500);
+                tv_test.animate().scaleYBy(-3f).setDuration(500);
+                state = 0;
+            }
+        });
+
+NOTE: MULTIPLE C
 
 
-#3. SLIDE ANIMATION IN ACTIVITIES
+
+#4. SLIDE ANIMATION IN ACTIVITIES
 Create anim resource directory of resource type and Directory name anim
 create the source files i.e slide_in_left, slide_in_right, slide_out_left, slide_out_right.
 
