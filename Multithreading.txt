@@ -1,0 +1,118 @@
+2 different activities cannot simultaneously run on the UI thread, create a background thread to run separately.
+
+SIMILARYLY, Timer.txt, it may be helpful
+
+NB: We can create multiple threads on a single app. You may check android studio reference app "ThreadApp"
+
+
+
+    TextView tv_disp;
+    Button btnClick, btnDownload;
+
+
+
+================ WITHOUT CREATING A DIFFERENT THREAD ======================
+
+        btnDownload.setOnClickListener(v -> {
+            for(int i=0; i<26; i++){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                Log.d("output", "for loop here " + i);
+            }
+        });
+
+
+
+        btnClick.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "Toast message", Toast.LENGTH_SHORT).show();
+        });
+
+
+
+
+================ CREATING A DIFFERENT THREAD TO HANDLE btnDownload event ======================
+
+type new Thread (new Runnable)... and Enter. Codes should go between run() method
+
+        btnDownload.setOnClickListener(v -> {
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    for(int i=0; i<26; i++){
+                        try {
+                            Thread.sleep(1000);             //This line of code and its surrounding block of try-catch is used to give delay between loops
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Log.d("output", "for loop here " + i);
+                    }                    
+                }
+            }).start();
+        });
+
+
+
+
+=============== TO BE ABLE TO UDPATE THE UI THREAD WHILE RUN IN THE SEPERATE THREAD ABOVE ===============
+
+Type runOnUiThread(new Runnable) and Enter ..., Paste code within
+NB: int i=0 used with the for loop is declared globally
+
+
+        btnDownload.setOnClickListener(v -> {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for(i=0; i<26; i++){
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Log.d("output", "for loop here " + i);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tv_disp.setText(i + "");
+                            }
+                        });
+                    }
+                }
+            }).start();
+        });
+
+------------- SAME CODE ABOVE PLACED IN A METHOD FOR EASIER USAGE --------------------
+
+
+        btnDownload.setOnClickListener(v -> {
+            runBackground1();
+        });
+
+
+    private void runBackground1() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(i=0; i<26; i++){
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Log.d("output", "for loop here " + i);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_disp.setText(i + "");
+                        }
+                    });
+                }
+            }
+        }).start();
+    }

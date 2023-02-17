@@ -37,10 +37,32 @@ implementation 'com.google.zxing:core:3.3.2'
              }
          });
 
+
+
 ======================= SCAN QR CODE (Decoding) ========================
 
+CHECK: Qr and Barcode Scanner (Android studio project), learnt/referenced from Udemy course ...
+       "The complete Java android App development bootcamp", Section 10 (50-51), "Qr/Barcode Scanner"
+
+
 USE DEPENDENCY (https://github.com/yuriy-budiyev/code-scanner)
-implementation 'com.budiyev.android:code-scanner:2.1.0'
+implementation 'com.budiyev.android:code-scanner:2.3.2'
+
+
+===== WITHIN Gradle Scripts -> settings.gradle   ==========
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+
+        jcenter()
+        maven { url 'https://jitpack.io' }        // These 2 lines of code
+    }
+}
+
+
 
 USE PERMISSION
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -106,3 +128,4 @@ CREATE A SECOND ACTIVITY WHERE THE SCANNER WILL BE: ie. Scanner
 
 
 -------- ON SECOND ACTIVITY, ie: Scanner; Use Java as shown:
+

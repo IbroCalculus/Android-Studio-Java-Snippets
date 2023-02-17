@@ -14,7 +14,7 @@ i.e
         webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("https://www.google.com");
-        webView.setWebViewClient(new WebViewClient());	<- enables hyperlinks to open in same app, not external browser
+        webView.setWebViewClient(new WebViewClient());	<- enables hyperlinks to open in same app, not external browser, default is Chrome
  
 
 #2. Load local html tags directly in app

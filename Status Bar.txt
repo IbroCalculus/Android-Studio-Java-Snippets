@@ -1,4 +1,5 @@
 
+CHECK ALSO: Full Screen.txt
 
 
 //HIDE THE STATUS BAR

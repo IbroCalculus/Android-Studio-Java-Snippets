@@ -1,0 +1,3 @@
+View model is something that is aware of activity lifecycler changes as well as lifecycles of other components that basically possess lifecycle such as fragments and even view.
+
+It prevents configurations changes on views.

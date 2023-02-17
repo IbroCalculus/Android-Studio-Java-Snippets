@@ -1,0 +1,53 @@
+
+NB: The purpose of splash screen is to give the application time to load, not for fancy timer as is done in Splash Screen.txt
+
+--- In Manifest file ---
+Every activity including the launcher activity uses the Theme specified within the <application of the manifest,
+unless it is overriden within the specific activity still inside the manifest file.
+
+
+- Let launcher activity be .MainActivity
+- Add splash screen image within drawable, ie splash_img
+
+
+
+--- CREATE NEW DRAWABLE RESOURCE FILE OF TYPE layer_list, ie splash_screen.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/black"/>
+    <item>
+        <bitmap android:src="@drawable/splash_img"
+            android:gravity="center"
+            />
+    </item>
+
+</layer-list>
+
+
+
+---- WITHIN res -> values -> themes.xml ----
+- Create a new style below the default one. ie; Theme.Launcher
+
+    <style name="Theme.Launcher" parent="">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+
+
+--- WITHIN Manifest ----
+
+        <activity
+            android:name=".MainActivity"
+
+            android:theme="@style/Theme.Launcher"  //This line
+
+
+
+--- WITHIN JAVE OF LAUCHER ACTIVITY ----
+
+        setTheme(R.style.Theme_AnimalsApp);   //This line
+
+        setContentView(R.layout.activity_main);
+

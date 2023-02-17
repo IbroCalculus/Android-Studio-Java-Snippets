@@ -8,6 +8,8 @@ NB: You can easily follow the android documentation guidelines. After creating a
 
 
 
+NB: the .setOnDismissListener is action called if click outside dialog pop-up.
+
 ====================== 1. DISPLAY DIALOG WITH YES, NO Option =================================
 
     private void showAlert() {
@@ -61,7 +63,63 @@ NB: You can easily follow the android documentation guidelines. After creating a
 ====================== 3. DISPLAY DIALOG WITH CHECK BOX ITEMS =================================
 
 
-====================== DISPLAY DIALOG WITH CUSTOM LAYOUT =================================
+====================== DISPLAY DIALOG WITH CUSTOM LAYOUT (ie, EditText) =================================
+
+---- On MainActivity XML ---
+
+Create a button and a textview, ie tv_display, btnShowDialog.
+
+
+--- Create the custom layout for the dialog, ie dialog_layout -----
+
+  This contains 2 edittexs with ids, et_fName, et_sName
+  Root layout width and height are match_parent. Wrap_content seem to work fine for height
+
+
+--- On MainActivity Java ---
+
+        btnShowDialog = findViewById(R.id.btnShowDialog);
+        tv_display = findViewById(R.id.tv_display);
+
+
+        btnShowDialog.setOnClickListener(v -> {
+            showDialog();
+        });
+
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+
+        EditText et_fName = view.findViewById(R.id.et_fName);
+        EditText et_sName = view.findViewById(R.id.et_sName);
+        builder.setView(view);
+        builder.setTitle("FullName");
+        builder.setMessage("Enter both first name and last name");
+        builder.setIcon(R.drawable.ic_user);
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String et_fNameS = et_fName.getText().toString().trim();
+                String et_sNameS = et_sName.getText().toString().trim();
+                String fullName = et_fNameS + " " + et_sNameS;
+                Toast.makeText(MainActivity.this, fullName, Toast.LENGTH_SHORT).show();
+                tv_display.setText(et_fNameS + "\n" + et_sNameS);
+            }
+        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                Toast.makeText(MainActivity.this, "Dismissed", Toast.LENGTH_SHORT).show();
+                System.exit(0);
+            }
+        }).create();
+        builder.show();
+    }
+
+
+
+
+========== DISPLAY DIALOG WITH CUSTOM LAYOUT 2, (Similar to the above I believe. Use the above method though) ======================
 CHECK: "CodingSTUFF": Lecture 10
 
 CREATE layout for the custom display, alert_dialog_layout.

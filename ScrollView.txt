@@ -1,3 +1,5 @@
+CHECK ALSO: Dynamic Scrolloview.txt (To add views dynamically to a scrollview)
+
 
 NB: Resize the viewPort height while working with scrollview
 CHECK: "Android App Development Tutorial For Beginners 2021": 01:19:00

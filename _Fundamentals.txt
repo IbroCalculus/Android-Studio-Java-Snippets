@@ -1,0 +1,12 @@
+Android application consists of 4 main building blocks, which are:
+1. Activity
+2. Services
+3. Broadcast receivers
+4. Content providers
+
+- Activity is the main android component and it is used for interaction with the user.
+  Basically that is the starting point of our app where a user can see our UI and can interact with it.
+
+- Services run in background.
+
+

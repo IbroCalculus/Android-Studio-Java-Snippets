@@ -21,3 +21,25 @@ DEFAULT:
 
         <item name="titleTextColor">#000000</item>   
        //Changes the color of the title on the action bar.
+
+
+
+============= CREATE CUSTOM THEME THAT CAN BE APPLIED ON SPECIFIC ACTIVITY ============
+
+---- WITHIN res -> values -> themes.xml ----
+- Create a new style below the default one. ie; Theme.Launcher
+
+    <style name="Theme.Launcher" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+
+
+--- WITHIN Manifest ----
+
+        <activity
+            android:name=".MainActivity"
+
+            android:theme="@style/Theme.Launcher"  //This line
+

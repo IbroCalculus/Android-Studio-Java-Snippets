@@ -1,0 +1,43 @@
+LiveData means that basically we are getting live updates in real time about some data.
+
+The features of mutable live data objects are to basically observe changes of the defined variables.
+
+
+
+
+
+=================== CREATING A MUTABLE LIVEDATA ================
+
+------------ In Java -----------------
+
+public class MainActivity extends AppCompatActivity {
+
+    MutableLiveData<String> stringLiveData = new MutableLiveData<>();
+
+    Button btn_one, btn_two;
+    TextView txt_view;
+
+
+        setContentView(R.layout.activity_main);
+
+        btn_one = findViewById(R.id.btn_one);
+        btn_two = findViewById(R.id.btn_two);
+        txt_view = findViewById(R.id.txt_view);
+
+        stringLiveData.setValue("Some value");
+
+        btn_one.setOnClickListener(v -> {
+            stringLiveData.setValue("ONE");
+        });
+
+        btn_two.setOnClickListener(v -> {
+            stringLiveData.setValue("TWO");
+        });
+
+        stringLiveData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                txt_view.setText(s);		//where s is the value in stringLiveData.setValue
+            }
+        });
+

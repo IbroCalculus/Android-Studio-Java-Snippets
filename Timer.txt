@@ -3,6 +3,17 @@ CHECK ALSO; CountDownTimer
 NOTE: CHECK ALSO "Splash Screen.txt" if any of the below does not work properly
 
 
+ALSO, SCROLL DOWN TO: Start, pause and Stop timer, down below this file
+
+NOTE: Codes within the timer run function cannot interact with the UI, meaning they are running on a different thread from the UI thread.
+      To be able to update a view with values within the timers run function, scroll down to "UPDATING VIEWS"
+
+
+
+
+
+
+
 Timer timer;
 
 setContentView(R.layout.activity_first);
@@ -73,3 +84,184 @@ NB: For now, seem to work well only with open another intent after delay. Even t
             }   //duration, interval
 
         }.start();
+
+
+
+
+
+============================= START, PAUSE, STOP ==================================================
+
+    Button btnStart, btnPause, btnStop;
+
+    Timer timer;
+    int duration = 15;
+
+
+NB: If you click start multiple timers, it will increase the rate of the timer, check "HOW TO FIX" below, to see how to get that fixed.
+
+------------- START TIMER WITHOUT REPEAT ----------------------
+
+        btnStart.setOnClickListener(v -> {
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Log.i("TimerTAG", "Executed!");
+                }
+            }, 4000);
+        });
+
+
+
+----------- START TIMER WITH REPEAT --------------
+
+        btnStart.setOnClickListener(v -> {
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                        Log.i("TimerTAG", String.valueOf(duration--));
+                }
+            }, 4000,1000);  //4 seconds before start, subsequent run, 1 seconds interval continuously
+        });
+
+
+======== PAUSE TIMER ===============
+NB: Once btnStart is called after pause, it will resume from where it paused.
+
+        btnPause.setOnClickListener(v -> {
+            timer.cancel();
+            timer = null;
+            Log.i("TimerTAG", "TIMER PAUSED");
+        });
+
+
+===== STOP TIMER ===========
+NB: You only reset the values within the run() method
+
+        btnStop.setOnClickListener(v -> {
+            timer.cancel();
+            timer = null;
+            duration = 15;
+            Log.i("TimerTAG", "TIMER STOPPED");
+        });
+
+
+
+
+================== HOW TO FIX THE START TIMER FUNCTION ======================
+Check using:
+                    if(timer != null){
+                        return;
+                    }
+
+
+1. ------- START TIMER -----------------
+
+        btnStart.setOnClickListener(v -> {
+
+            if(timer != null){
+                return;
+            }
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(duration >= 0){
+                        Log.i("TimerTAG", String.valueOf(duration--));
+                    }else{
+                        timer.cancel();
+                        timer = null;
+                        Log.i("TimerTAG", "Iteration completed!");
+                    }
+                }
+            }, 0,1000);  //4 seconds before start, subsequent run, 1 seconds interval continuously
+        });
+
+
+
+2. ----------- PAUSE TIMER -------------
+
+        btnPause.setOnClickListener(v -> {
+            if(timer != null) {
+                timer.cancel();
+                timer = null;
+                Log.i("TimerTAG", "TIMER PAUSED");
+            }
+        });
+
+
+
+3. ----------- STOP TIMER --------------
+
+        btnStop.setOnClickListener(v -> {
+            if(timer != null) {
+                timer.cancel();
+                timer = null;
+            }
+            duration = 5;
+            Log.i("TimerTAG", "TIMER STOPPED");
+        });
+
+
+
+
+
+============================ UPDATING VIEWS ======================
+
+TextView tv_display
+int duration == 5;  //Not a constant, just to similute a countdown timer
+
+  
+1. ------- START TIMER -----------------  
+  Within run(), type runOnUiThread(new Runnable) and Enter ..., Paste code within
+
+        btnStart.setOnClickListener(v -> {
+
+            if(timer != null){
+                return;
+            }
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+
+                    if(duration >= 0){
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tv_display.setText(duration-- + "");
+                            }
+                        });
+
+                        Log.i("TimerTAG", String.valueOf(duration));
+
+                    }else{
+                        timer.cancel();
+                        timer = null;
+                        Log.i("TimerTAG", "Iteration completed!");
+                    }
+
+                }
+            }, 0,1000);  //4 seconds before start, subsequent run, 1 seconds interval continuously
+        });
+
+
+
+2. --------- STOP TIMER ----------------
+
+        btnStop.setOnClickListener(v -> {
+            if(timer != null) {
+                timer.cancel();
+                timer = null;
+            }
+            duration = 5;
+            Log.i("TimerTAG", "TIMER STOPPED");
+            tv_display.setText(duration + "");
+        });
+
+
+
+

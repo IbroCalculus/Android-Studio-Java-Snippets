@@ -1,0 +1,91 @@
+To add and delete views dynamically to a scrollview
+
+
+===============================================
+
+We are adding the value via a pop up dialog that accepts a string input. (CHECK Alert.txt)
+
+
+===== In Main.xml =====
+- Add a button (btn_showDialog), and a scrollview, where the linearLayout within the scrollview is given id (scrollview_rootLayout)
+- When btn_showDialog is clicked, the popup dialog that accepts input comes up. NB: Even an edittext and will work in place of the popup
+
+
+===== Create a custom layout for the scrollview, ie scrollview_layout (Similar to creating a custom layout for a recyclerview) =====
+- This layout consists of a textview (tvName), and a button (btnDelete)
+- Its root layout height should be set to wrap content, similar to how it is done for that of a recyclerview.
+
+
+===== Create a custom layout for the alert dialog, ie dialog_layout (CHECK Alert.txt for more) =====
+- The custom layout consists of only an edittext for accepting string input, ie et_Name
+
+
+===== In MainActivity.java =====
+
+    Button btn_showDialog;
+    LinearLayout scrollview_rootLayout;
+
+        btn_showDialog = findViewById(R.id.btn_showDialog);
+        scrollview_rootLayout = findViewById(R.id.scrollview_rootLayout);
+
+        btn_showDialog.setOnClickListener(v -> {
+            showDialog();
+        });
+
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+
+        EditText et_Name = view.findViewById(R.id.et_Name);
+        builder.setView(view);
+        builder.setTitle("FullName");
+        builder.setMessage("Enter fullname name");
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String et_nameS = et_Name.getText().toString().trim();
+                addToScrollView(et_nameS);
+                Toast.makeText(MainActivity.this, et_nameS + " added", Toast.LENGTH_SHORT).show();
+            }
+        }).create();
+        builder.show();
+    }
+
+
+    private void addToScrollView(String et_nameS) {
+        View view = getLayoutInflater().inflate(R.layout.scrollview_layout, null);
+
+        TextView tvName = view.findViewById(R.id.tvName);
+        Button btnDelete = view.findViewById(R.id.btnDelete);
+
+        tvName.setText(et_nameS);
+        scrollview_rootLayout.addView(view);
+
+        btnDelete.setOnClickListener(v -> {
+            String name = tvName.getText().toString();
+            showDeleteAlert(name, view);
+        });
+
+    }
+
+
+    private void showDeleteAlert(String name, View view) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("Delete" + name)
+                .setMessage("Are you sure you want to delete " + name + "?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        scrollview_rootLayout.removeView(view);
+                        Toast.makeText(getApplicationContext(), name + " Deleted", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        alertDialog.show();
+    }

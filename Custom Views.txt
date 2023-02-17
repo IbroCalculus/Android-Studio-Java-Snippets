@@ -1,0 +1,7 @@
+2 things are needed to create a custom view:
+- Java Class that will extend some view that already exists
+- 
+
+
+CHECK Android studio project "CustomViews" and reference Udemy video course "The complete Java Android App development bootcamp, Section 15 - 76 "
+--------- CREATING THE CLASS ie MyFirstCustomView -----------

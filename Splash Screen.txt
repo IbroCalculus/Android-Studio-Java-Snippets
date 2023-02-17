@@ -1,3 +1,16 @@
+Splash screens are typically implemented using one of three approaches:
+
+1. Using Timers (the old school habits)
+2. Using a Launcher Theme (The Recommended way). Check Splash Screen2.txt
+3. Splash Screen API (Android 12)
+
+A splash screen’s function is to immediately show an attractive screen while the application retrieves any relevant content (from a database or network calls).
+
+Read more via https://proandroiddev.com/splash-screen-in-android-3bd9552b92a5 (NOTE: Code there is Kotlin)
+
+
+
+
 To hide the status bar on the splash screen or any other activity, check Status Bar.txt
 
 Always use Intent finish() in the splash screen

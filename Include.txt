@@ -19,3 +19,5 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+NB: All codes for the custom layout will be within each of its including activity.
+    Not like fragment which has its xml and layout file.

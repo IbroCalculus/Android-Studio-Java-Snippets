@@ -7,7 +7,7 @@ XML
  <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content"   //56dp recommended
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,25 +25,88 @@ public class MainActivity extends AppCompatActivity {
 
 bottom_nav = findViewById(R.id.bottom_nav);
 
-#NOTE, TO-DO: Check ...ItemSelectedListener against ItemReselectedListener
-bottom_nav.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+#NOTE, TO-DO: Check ...ItemSelectedListener against ItemReselectedListener.
+ ItemReselcted, just as the name implies, when you reselect, (NOT NECESSARILY DOUBLE CLICK)
+
+e.g first click on item1 will call on select, subsequent clicks on item1 will call on reselect,
+    unless if e.g item2 is clicked, before coming back to click on item1, this will make this first click call on ItemSelect.
+
+NB: onStart, the first Item on the bottomNavView is already on OnSelect, subsequent click will call on OnReselect
+
+NB: It is okay to use only onItemSlectedListener
+
+NB: To prevent selecting, within onItemselect, return false for the item you don not want to respond to click
+    For this note that the OnItemSelected returns a boolean, but not the onItemReselected.
+
+---------------- OnItem Selected ----------------------
+
+        bottom_navigation_menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 switch(item.getItemId())
                 {
-                    case R.id.list:
-                        getSupportActionBar().setTitle("List Clicked");
+                    case R.id.item_home:
+                        getSupportActionBar().setTitle("Home");
+                        Toast.makeText(MainActivity.this, "Home Selected", Toast.LENGTH_SHORT).show();
+                        Log.d("output", "single select: ");
                         break;
-                    case R.id.search:
+                    case R.id.item_search:
                         getSupportActionBar().setTitle("Search clicked");
+                        Toast.makeText(MainActivity.this, "Search Selected", Toast.LENGTH_SHORT).show();
+                        Log.d("output", "single select: ");
                         break;
-                    case R.id.home:
-                        getSupportActionBar().setTitle("Home clicked");
+                    case R.id.item_profile:
+                        getSupportActionBar().setTitle("Profile");
+                        Toast.makeText(MainActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
+                        Log.d("output", "single select: ");
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+---------------- OnItem ReSelected ----------------------
+
+        bottom_navigation_menu.setOnItemReselectedListener(new NavigationBarView.OnItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+
+                switch(item.getItemId())
+                {
+                    case R.id.item_home:
+                        getSupportActionBar().setTitle("Home");
+                        Toast.makeText(MainActivity.this, "Home Re-selected", Toast.LENGTH_SHORT).show();
+                        Log.d("output", "re-select: ");
+                        break;
+                    case R.id.item_search:
+                        getSupportActionBar().setTitle("Search clicked");
+                        Toast.makeText(MainActivity.this, "Search Re-selected", Toast.LENGTH_SHORT).show();
+                        Log.d("output", "re-select: ");
+                        break;
+                    case R.id.item_profile:
+                        getSupportActionBar().setTitle("Profile");
+                        Toast.makeText(MainActivity.this, "Profile Re-selected", Toast.LENGTH_SHORT).show();
+                        Log.d("output", "re-select: ");
                         break;
                 }
             }
         });
 
+
+----------- TO HIDE THE TEXT TITLE BELOW THE NAVIGATIONVIEW ICONS -----
+The icon label cannot be easily hidden by omitting Label within the menu resource file, infact the Label must be included. To ommit the label,...
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_menu"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+
+        app:menu="@menu/bottom_menu"
+        app:labelVisibilityMode="unlabeled"   //This line
+        />
 
 
 ----------- TO CHANGE THE ACTIVE ITEM INDICATOR STYLE ----------

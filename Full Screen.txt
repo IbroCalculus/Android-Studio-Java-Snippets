@@ -1,2 +1,12 @@
-Sticky Immersive
-Non Sticky Immersive
+CHECK ALSO:
+- Sticky Immersive
+- Non Sticky Immersive
+
+
+==== WITHIN themes =========
+NOTE: By inserting this code in the main theme, it will be applied to all screen,
+      for individual screen, create seperate theme, and modify in Manifest
+
+        <item name="android:windowFullscreen">true</item>  // This line of code. It will do away with the status bar, but not action bar
+        <item name="windowNoTitle">true</item>             // This will hide the status bar
+    </style>

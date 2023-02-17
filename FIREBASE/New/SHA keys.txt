@@ -1,0 +1,18 @@
+=========== To get SHA-1 and SHA-256 key ================
+- Go to termninal within android studio
+- paste & paste the command: ./gradlew signingReport, Ctrl + Enter (NOT Enter, but Ctrl + Enter)
+
+
+
+========== AFTER DOWNLOADING THE json file ==============
+
+ ---------- Adding the generated json Sha-1 key -----------
+- Go to android studio
+- Select Project instead of Android for directories
+- Within app, paste the json file
+
+
+ ---------- Adding Sha-256 key ------------------
+- Go to the settings icon besides Project Overview on firebase console
+- Click Project settings
+- Scroll down to Add fingerprint, then paste sha-2 code within
