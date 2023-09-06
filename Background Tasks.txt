@@ -1,0 +1,9 @@
+Background tasks can be achieved in android using either of the following:
+
+1- Threads and Async Tasks
+2- Started Services
+3- Bound Services
+4- Job Scheduler
+5- Work Manager
+
+Check their respective .txt files (ie services.txt)

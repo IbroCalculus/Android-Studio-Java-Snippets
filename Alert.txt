@@ -63,7 +63,7 @@ NB: the .setOnDismissListener is action called if click outside dialog pop-up.
 ====================== 3. DISPLAY DIALOG WITH CHECK BOX ITEMS =================================
 
 
-====================== DISPLAY DIALOG WITH CUSTOM LAYOUT (ie, EditText) =================================
+====================== DISPLAY DIALOG WITH CUSTOM LAYOUT (ie, EditText). NOTE: Check also, Android Knowledge youtube channel =================================
 
 ---- On MainActivity XML ---
 

@@ -1,0 +1,6 @@
+============= CHECK API VERISON ==============
+------ Checking if version is greater than or equal version Oreo (API 26) ----------
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            
+        }

@@ -35,6 +35,7 @@ NB: There are multiple types of adapters. But we work with arrayAdapter in this 
             }
         });
 
+ALSO: E.g onButtonClicked -> String itemSelected = spinner.getSelectedItem().toString();
 
 
 ===================================== METHOD 2 (Better for static data)	========================================

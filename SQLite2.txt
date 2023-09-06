@@ -1,0 +1,12 @@
+We basically need to classes to work with SQLIte database;
+
+1. DatabaseHelper.java class
+2. DatabaseManager.java class
+
+
+---- 1. DatabaseHelper class -----------
+It contains our queries, names of tables, name of the database, 
+
+---- 2. DatabaseManager class ----------
+Will be used to create database tables, inserting data to databases, updating/deleting data from the database.
+Will be used to insert, fetch, update or delete data from the database.

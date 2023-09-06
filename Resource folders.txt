@@ -1,0 +1,17 @@
+- animator: contains XML files that define property animations
+- anim:     contains XML files that define tween animations. (Propert animations can also be saved in this directory, but the animator directory is preferred for property animations to distinguish between the two types.
+- color
+- drawable: Bitmap files (.png, .jpg, .gif) or XML files that are compiled into the following drawable resource subtypes:
+	. Bitmap files
+	. Nine-Patches (re-sizeable bitmaps)
+	. State lists
+	. Shapes
+	. Animations drawables
+	. Other drawables
+- mipmap: Drawable files for different launcher icon densities.
+- layout
+- menu
+- raw: Arbitrary files to save in their raw form.
+- values: XML files that contain simple values, such as strings, integers and colors.
+- xml: Arbitrary XML files that can be read at runtime by calling Resources.getXML()
+- font

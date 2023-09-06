@@ -21,6 +21,14 @@ NB: Place ID within TextInputEditText, NOT TextInputLayout, unless perhaps when 
 
     </com.google.android.material.textfield.TextInputLayout>
 
+ ======= IN JAVA ======
+
+    TextInputEditText etUsername;
+
+        etUsername = findViewById(R.id.etUsername);
+
+        etUsername.setText("Ibrahim Suleiman");
+
 
 
 
@@ -160,7 +168,7 @@ NB: Place ID within TextInputEditText, NOT TextInputLayout, unless perhaps when 
     </com.google.android.material.textfield.TextInputLayout>
 
 
-5. ======= IN JAVA ======
+======= IN JAVA ======
 
     TextInputEditText etUsername;
 

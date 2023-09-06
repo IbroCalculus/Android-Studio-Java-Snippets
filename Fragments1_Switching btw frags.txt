@@ -4,7 +4,7 @@
  CHECK ALSO: "Small Academy": Android Bottom Navigation... This is Using Fragment and Bottom Nav
 
 Create main activity to place fragment on fragmentContainerView (ie id fragmentContainerView1)
-Create fragments. i.e; firstFrag, secondFrag, thirdFrag
+Create fragments. i.e; FirstFrag, SecondFrag, ThirdFrag
 Create fragments event handlers; buttons, tabs, viewPager etc. i.e btn_Frag1, btn_Frag2, btn_Frag3, TabItem1, TabItem2, TabItem3
 
     Button btn_Frag1, btn_Frag2, btn_Frag3;
@@ -15,7 +15,7 @@ btn_Frag1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 getSupportActionBar().setTitle("First Fragment");
-                firstFrag firstFrag = new firstFrag();
+                FirstFrag firstFrag = new FirstFrag();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragmentContainerView1, firstFrag, "");
                 fragmentTransaction.commit();
@@ -28,7 +28,7 @@ btn_Frag1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 getSupportActionBar().setTitle("Second Fragment");
-                secondFrag secondFrag = new secondFrag();
+                SecondFrag secondFrag = new SecondFrag();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragmentContainerView1, secondFrag, "");
                 fragmentTransaction.commit();

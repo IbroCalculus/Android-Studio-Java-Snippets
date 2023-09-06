@@ -1,0 +1,50 @@
+============ WITHIN THE DATABASE HELPER CLASS ================
+
+
+    public Cursor getAllData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursorResult = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        return cursorResult;
+    }
+
+
+
+=========== WITHIN MAIN ACTIVITY ==================
+
+        btn_getAllData = findViewById(R.id.btn_getAllData);
+
+        getAllData();
+
+
+    public void getAllData(){
+        btn_getAllData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor cursorResult = myDb.getAllData();
+                if(cursorResult.getCount() == 0){
+                    showMessage("Error", "No data in the database!");
+                    return;
+                }else{
+                    StringBuffer stringBuffer = new StringBuffer();
+                    while (cursorResult.moveToNext()){
+                        String stringToAppend =
+                                "Id: " + cursorResult.getString(0) + "\n" +
+                                "Name: " + cursorResult.getString(1) + "\n" +
+                                "Surname: " + cursorResult.getString(2) + "\n" +
+                                "Marks: " + cursorResult.getInt(3) + "\n\n";
+                        stringBuffer.append(stringToAppend);
+                    }
+                    showMessage("Data", stringBuffer.toString());
+                }
+            }
+        });
+    }
+
+
+    public void showMessage(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
+    }

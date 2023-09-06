@@ -1,0 +1,25 @@
+The android activity lifecycle is a series of methods that are called when an activity is created, paused, resumed, stopped, or destroyed to manage its state and behaviour.
+
+
+Activity lifecycle are of 6 stages, ie;
+- onCreate() -> onStart() -> onResume() -> onPause() -> onStop() -> onDestroy()
+
+All of the stages work in the application's background.
+
+-1. onCreate():
+	This method is called when the activity is first created. It is used to initialize the activity and set up the user interface.
+
+-2. onStart():
+	This method is called when the activity becomes visible to the user. It is used to start any processes that should be running when the activity is visible.
+
+-3. onResume():
+	This method is called when the activity is about to start interacting with the user. It is used to start any processes that were paused or stopped during the onStop() or onPause methods.
+
+-4. onPause():
+	This method is called when the activity is no longer in the foreground. It is used to save any changes made by the user and to stop any processes that are no longer needed.
+
+-5. onStop():
+	This method is called when the activity is no longer visible to the user. It is used to release any resources that were being used by the activity.
+
+-6. onDestroy():
+	This method is called when the activity is being destroyed. It is used to release any resources that were being used by the activity and to clean up any remaining processes.

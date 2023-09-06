@@ -1,3 +1,4 @@
+NOTE: To memory management, load image onto imageView using Glide library.
 
 CHECK ALSO; Pick Image from Gallery
             Image Slider

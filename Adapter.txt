@@ -1,0 +1,45 @@
+An Adapter object acts as a bridge between an AdapterView and the underlying data for that view. The Adapter provides access to the data items.
+
+The Adapter is also responsible for making a View for each item in the data set.
+
+Whenever we want to bind some data which we get from any data source(e.g ArrayList, HashMap, SQLite, etc.) with a UI component (e.g ListView, GridView, etc), then Adapter comes into the picture.
+
+
+============ Types of Adapters ============
+* BaseAdapter - It is the parent adapter for all other adapters.
+* ArrayAdapter - It is used whenever we have a list of single items which is backed by an array.
+* Custom ArrayAdapter - It is used whenever we need to display a custom list.
+* SimpleAdapter - It is an easy adapter to map static data to views defined in your XML file.
+* Custom SimpleAdapter - It is used whenever we need to display a customized list and needed to access the child items of the list or grid.
+
+
+---- Base Adapter ----
+BaseAdapter is a common base class of a general implementation of an Adapter that can be used in ListView, GridView, Spinner etc.
+
+Whenever we need a customized list in a ListView or customized grids in a GridView, we create our own adapter and extend base adapter in that.
+
+Base Adapter can be extended to create a custom Adapter for displaying a custom list item. ArrayAdpater is also an implementation of BaseAdapter
+
+
+
+---- Array Adapter -----
+Whenever we have a list of single itmes which is backed by an Array, we can use ArrayAdapter.
+E.g: List of phone numbers, countries or names.
+
+
+
+======== ADAPTER VIEW ==========
+An AdapterView is a view whose children are determined by an Adapter.
+An AdapterView is a group of widgets in Android that include the ListView, Spinner, and GridView. In general, these are the widgets that provide the selecting capability in the user interface.
+
+At a minimum, you will need to implement 4 methods. These 4 methods are called by Android to build you AdapterView and to return the correct information when one of the items in the AdapterView is selected.
+
+The 4 methods are:
+
+1- getCount(): Indicates to Android, how many items(or rows) are in the data set that will be presented in the AdapterView
+
+2- getItem(int pos): Get the data item associated with the item (or row) from the AdapterView passed as a parameter to the method. This method will be used by Android to fetch the appropriate data to build the item/row in the AdapterView.
+
+3- getItemId(int pos): This method returns the data set's ID for an item/row position of the AdapterView. Typically, the data set ID matches the AdapterView rows so this method just returns the same value.
+
+4- getView(int position, View convertView, ViewGroup parent): This method creates the View (which may be a single View component like a TextView or a complex set of widgets in a layout) that displays the data for the specified (by position) item/row in the AdapterView.

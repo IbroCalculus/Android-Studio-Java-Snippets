@@ -1,4 +1,5 @@
 
+NB: Use 'listitem' attribute for the recyclerView within the main layout to preview the recyclerview layout within the IDE
 
 USING ARRAYLIST / MODAL CLASS
 

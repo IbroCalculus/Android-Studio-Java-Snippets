@@ -23,6 +23,18 @@ APP ICON BADGE LAUNCHER
 * Users can long-press on an app icon to see the notifications for that app. Users can then dismiss or act on notifications from that menu, similar to the notification drawer.
 
 
+====================== NOTIFICATION CHANNELS (Notification categories) ==============================
+
+- Beginning from android Oreo (API 26), in other to send a notification, we need to create a notification channel.
+- By creating different channels for notifications, we can categorize notifications that our application is going to send to the user.
+- The purpose of the notificaition channel is to give the user the ability to turn off some notifications by category (channel) from your application, and not turn off all notifications from your application.
+- Every notification requires a NotificationChannel to display.
+- You can have multiple channels for your application.
+- We can further organize notification channels into channel groups, which lets us group notification channels together in the UI. E.g Private notifications (will contain notifications termed private) and Public notifications (similarly). 
+
+Basically, you will create a notification channel only once, at the time of creating your application, and set some behaviours for that channel, and later on you will categories all the notifications that you are going to send to the user upon that channel.
+
+
 1. FOR ANDROID <8.0
 
 private static final String CHANNEL_ID = "first_notification";

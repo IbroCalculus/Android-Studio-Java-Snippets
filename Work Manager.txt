@@ -1,21 +1,27 @@
 
-Work Manager is used to carry out background processes. More powerful than services
+Work Manager is used to carry out background processes. More powerful than services.
+
+Types of persistent work
+WorkManager handles three types of persistent work:
+
+Immediate: Tasks that must begin immediately and complete soon. May be expedited.
+Long Running: Tasks which might run for longer, potentially longer than 10 minutes.
+Deferrable: Scheduled tasks that start at a later time and can run periodically.
 
 ===================== DEPENDENCIES (Or copy from developer's website) =====================
 
-    def work_version = "2.7.1"
-    
+    def work_version = "2.8.1"
+
     // (Java only)
     implementation "androidx.work:work-runtime:$work_version"
 
 
-====== CREATE A CLASS TO HANDLE TO WORKMANAGER PROCESS ie WorkManagerClass, implement doWork method & create constructor =====
+====== CREATE A CLASS TO HANDLE TO WORKMANAGER PROCESS ie WorkManagerClass, extend Worker, implement doWork method & create constructor =====
 
+public class WorkManagerClass extends Worker {
     public WorkManagerClass(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
-
-public class WorkManagerClass extends Worker {
 
     @NonNull
     @Override
@@ -37,17 +43,160 @@ NB: The result returned from doWork() informs the WorkManager service whether th
     @NonNull
     @Override
     public Result doWork() {
-
-        for (int i=0; i<=1000; i++){
-            Log.i("tag1", "count No. : " + i);
-
-            if(i%100 == 0){
-                Toast.makeText(getApplicationContext(), "Iteration No.: " + i, Toast.LENGTH_SHORT).show();
+        for(int i=0; i<=100; i++){
+            try {
+                Thread.sleep(10);
+                Log.i("TAGY", "Count is: " + i);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
-
         return Result.success();
     }
 
 
 NB: You can schedule the WorkManager to run only once or periodically over an interval of time.
+
+
+
+================ Within Main Activity ====================
+
+        btnWorkManager = findViewById(R.id.btnWorkManager);
+        WorkRequest countWorkRequest = new OneTimeWorkRequest.Builder(WorkManagerClass.class).build();
+
+        btnWorkManager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WorkManager.getInstance(getApplicationContext()).enqueue(countWorkRequest);
+            }
+        });
+
+
+================= DISPLAY WORKER STATUS =========================
+
+        btnWorkManager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WorkManager.getInstance(getApplicationContext()).enqueue(countWorkRequest);
+            }
+        });
+
+   --------- This line -----------------
+        WorkManager.getInstance(getApplicationContext()).getWorkInfoByIdLiveData(countWorkRequest.getId())
+                .observe(this, new Observer<WorkInfo>() {
+                    @Override
+                    public void onChanged(WorkInfo workInfo) {
+                        if(workInfo != null){
+                            Toast.makeText(getApplicationContext(), "status: " + workInfo.getState().name(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+OUTPUT: It will toast; "ENCQUEUED", "RUNNING", then "SUCCEEDED"
+
+
+
+=================== WORKING WITH CONSTRAINTS =================================
+
+ie; running the worker under certain conditions. E.g: Connected to WIFI, battery charging, battery percent above 50, etc.
+
+        btnWorkManager = findViewById(R.id.btnWorkManager);
+
+        Constraints chargingConstraint = new Constraints.Builder()
+                .setRequiresCharging(true)					// The condition is that it should be charging.
+                .build();
+
+        WorkRequest countWorkRequest = new OneTimeWorkRequest
+                .Builder(WorkManagerClass.class)
+                .setConstraints(chargingConstraint)				// Add this line
+                .build();
+
+        btnWorkManager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WorkManager.getInstance(getApplicationContext()).enqueue(countWorkRequest);
+            }
+        });
+
+
+
+================== SENDING AND RECEIVING DATA =================================
+
+=================== 1. RECEIVING DATA INTO THE WORKMANAGER, SENT FROM THE MAINACTIVITY =========
+E.g Send the data for the number of iteration from the MainActivity to the Worker class instead of the hardcoded 1000.
+
+------- Within MainActivity -------------
+
+    public static final String KEY_COUNTER_VALUE = "key_count";
+
+
+        Data data = new Data.Builder().putInt(KEY_COUNTER_VALUE, 200).build();
+
+        WorkRequest countWorkRequest = new OneTimeWorkRequest
+                .Builder(WorkManagerClass.class)
+                .setInputData(data1)			//Note this line of code
+                .build();
+
+
+----------- WorkManagerClass.java ----------------
+Within doWork() method:
+
+
+    @NonNull
+    @Override
+    public Result doWork() {
+
+        //Get the data
+        Data data1 = getInputData();
+        int countingLimit = data1.getInt(MainActivity.KEY_COUNTER_VALUE,0);
+
+        for(int i=0; i<=countingLimit; i++){
+            try {
+                Thread.sleep(10);
+                Log.i("TAGY", "Count is: " + i);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return Result.success();
+    }
+}
+
+
+
+===================== 2. SENDING DATA FROM THE WORKMANAGER, TO THE MAINACTIVITY ==================
+------------ Within WorkManagerClass.java ---------------
+
+public class WorkManagerClass extends Worker {
+
+    public static final String KEY_WORKER = "sent";
+
+
+   	------ Just before Result.success() ------------ 
+        Data dataToSend = new Data.Builder().putString(KEY_WORKER,"Task Done Successfully!").build();
+
+        return Result.success(dataToSend);
+
+
+
+----------- Within MainActivity ----------------
+
+        WorkManager.getInstance(getApplicationContext()).getWorkInfoByIdLiveData(countWorkRequest.getId())
+                .observe(this, new Observer<WorkInfo>() {
+                    @Override
+                    public void onChanged(WorkInfo workInfo) {
+                        if(workInfo != null){
+                            Toast.makeText(getApplicationContext(), "status: " + workInfo.getState().name(), Toast.LENGTH_SHORT).show();
+
+                           // This block of code
+                            if(workInfo.getState().isFinished()){
+                                Data dataReceived = workInfo.getOutputData();
+                                String msg = dataReceived.getString(WorkManagerClass.KEY_WORKER);
+                                Toast.makeText(getApplicationContext(), "msg", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }
+                });
+
+
+

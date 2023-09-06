@@ -1,0 +1,6 @@
+Device File Explorer -> data -> data -> com.ibsuleiman9.sqliteapp (sqliteapp is name of the app) -> databases ->  FIND THE student.db and others (ie student.db-journal)
+
+---- TO EXPORT DATABASE AND BE ABLE TO VIEW ON DB BROWSER ----
+Right click -> Save as -> locate path and paste, then open with db browser for sqlite.
+
+NOTE: Apart from the table you created, 2 other tables are auto generated, (android_metatdata & sqlite_sequence).

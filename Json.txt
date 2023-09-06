@@ -5,7 +5,7 @@ Json is a lightweight data format for communicating between the app and the serv
 
 E.g 1 {
 	"name":"Ibrahim",
-	"surname": "Suleiman",
+	"email": "ibrahim@email.com",
 	"age": 26
 }
 
@@ -45,7 +45,7 @@ TERMS:
 
 
 
-  implementation 'com.google.code.gson:gson:2.8.8'
+  implementation 'com.google.code.gson:gson:2.10.1'
 
 1. =========== SERIALIZATION AND DESIRIALIZATION OF JSON OBJECT. ie E.g 1 =================
 
@@ -61,6 +61,9 @@ public class StudentModel {
         this.email = email;
         this.age = age;
     }
+
+Also generate getters & setters, as well as toString.
+
 }
 
  ======== JAVA =======

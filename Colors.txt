@@ -5,6 +5,9 @@ TextView.setTextColor(Color.parseColor("#00ff00"))
 TextView.setTextColor(Color.WHITE)
 TextView.setTextColor(getColor(R.color.colorPrimaryDark))			//Support API 23 and Above
 
+        int purple_200 = getColor(R.color.purple_200);
+
+
 CREATE COLOR
 Goto: Res -> values -> Colors:
 

@@ -5,6 +5,10 @@ Use
  android:lines="1" to make the length of the text on only 1 line
 
 
+============= BE ABLE TO COPY TEXT ON A TEXTVIEW ===========
+        text_view_1.setTextIsSelectable(true);
+
+
 ============= ADD IMAGE TO A TEXTVIEW ===========
 <TextView
 

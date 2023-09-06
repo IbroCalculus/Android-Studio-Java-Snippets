@@ -1,3 +1,5 @@
+GLIDE: An image loading and caching library for android focused on smooth scrolling.
+	 It reduces memory consumption when loading an image to imageview.
 
 Supports animated GIFs
 

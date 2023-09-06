@@ -1,0 +1,139 @@
+PUT and PATCH; both are used to update an existing an existing element.
+PUT will completely replace the existing resource with the one sent (override).
+PATCH will only change the properties sent, leaving other same as thery are
+DELETE, just as the name implies
+
+
+
+---- The model class ----
+
+public class Post {
+    @SerializedName("userId")
+    private int userId;
+    @SerializedName("id")
+    private Integer id;
+    @SerializedName("title")
+    private String title;
+    @SerializedName("body")
+    private String body;
+
+    public Post(int userId, String title, String body) {
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "userId=" + userId +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                '}';
+    }
+}
+
+
+
+-------------- WITHIN THE API INTERFACE --------------
+
+    @PUT("posts/{id}")
+    Call<Post> putPost(@Path("id") int id, @Body Post post);
+
+    @PATCH("posts/{id}")
+    Call<Post> patchPost(@Path("id") int id, @Body Post post);
+
+
+
+---- WITHIN Main.java (using put and patch) ----
+
+    private void updatePost() {
+        Post post1 = new Post(25, null, "How are you?");
+        Call<Post> call = jsonPlaceHolderApi.putPost(5, post1);
+//        Call<Post> call = jsonPlaceHolderApi.patchPost(5, post1);
+
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if(response.isSuccessful()){
+                    Post post1 = response.body();
+                    String content = "";
+                    String response_code = "CODE: " + response.code() + "\n";
+                    String id = "ID: " + post1.getId() + "\n";
+                    String user_id = "User ID: " + post1.getUserId() + "\n";
+                    String title = "Title: " + post1.getTitle() + "\n";
+                    String body = "Body: " + post1.getBody();
+                    content = response_code + id + user_id + title + body + "\n\n";
+                    text_view_result.append(content);
+                }else{
+                    text_view_result.setText(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+
+=========================== DELETE =============================
+
+-------------- WITHIN THE API INTERFACE --------------
+
+    @DELETE("posts/{id}")
+    Call<Void> deletePost(@Path("id") int id);
+
+---- WITHIN Main.java ----
+
+    private void deletePost() {
+        Call<Void> call = jsonPlaceHolderApi.deletePost(5);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    text_view_result.setText("Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Error " + t.toString() , Toast.LENGTH_SHORT).show();
+            }
+        });
+    }

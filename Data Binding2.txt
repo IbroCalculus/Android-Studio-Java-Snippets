@@ -1,0 +1,46 @@
+- DataBinding library is a part of android jetpack. It is a support library that allows binding UI components in a layout, to data sources in the app.
+- We use declarative format while using data binding, which helps in reducing boilerplate codes.
+
+-------- Uses of DataBinding ---------
+- Eliminates the use of findViewById(R.id.btn1);
+- It encourages the separation of UI and business logic.
+- It easily synchronizes the data with the UI.
+- It provides an easier way of binding event listeners with XML
+- Less code, easier management.
+
+
+========================================== EXAMPLE =======================
+---- Within build.gradle (Module: app) -------
+
+android {
+	.
+	.
+	.
+
+    buildFeatures {
+        dataBinding true
+    }
+
+---- Within XML ----
+Assume 2 buttons and a textview with ids; btnPlus, btnMinus, and tv_disp;
+
+- Surround the root layout with <layout></layout>, also cut the namespaces from the root layout and paste into the <layout> tag, ie
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ViewBindingActivity">
+	.
+	.
+	.
+</layout>
+
+
+---- Within Java ----
+
+    int count = 0;
+    ActivityViewBindingBinding binding;	//The xml name is 'activity_view_binding.xml', hence, ActivityViewBinding + Binding = ActivityViewBindingBinding.

@@ -1,0 +1,131 @@
+
+============== SERIALIZING SIMPLE DATA ================
+
+GSON is a java library that can be used to convert java or kotlin objects to their JSON representation, and vice-versa.
+
+In summary, serialization in Java and Kotlin, in relation to JSON, is the process of converting objects into a JSON string, while deserialization is the process of reconstructing objects from a JSON string, enabling data exchange and persistence using the JSON format.
+
+In the context of serialization and deserialization, persistence refers to the ability to save an object's state in a durable form that can be stored and retrieved at a later time.
+When an object is serialized, its state is converted into a format that can be persisted, such as a byte stream or a JSON string. This serialized representation can be saved to a file, a database, or any other persistent storage medium. 
+
+In summary, persistence in the context of serialization and deserialization refers to the ability to store an object's state in a durable form, enabling its retrieval and reuse beyond the scope of the current program execution. It facilitates data storage, communication, caching, and integration with object persistence frameworks.
+
+
+//This contains simple serialization and deserialization. For nested objects and more, check JSON2.txt
+
+
+--------------- Dependency ---------------
+    implementation("com.google.code.gson:gson:2.10.1")
+
+--------------- Model class ---------------
+
+public class Employee {
+    @SerializedName("firstName")
+    String firstName;
+    @SerializedName("age")
+    int age;
+    @SerializedName("mail")
+    String mail;
+
+    public Employee(String firstName, int age, String mail) {
+        this.firstName = firstName;
+        this.age = age;
+        this.mail = mail;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", age=" + age +
+                ", mail='" + mail + '\'' +
+                '}';
+    }
+}
+
+
+
+--------------- Java Main ---------------
+
+ ----- 1. Serialization ------
+        Gson gson = new Gson();
+        Employee employee1 = new Employee("Alex", 23, "alex@email.com");
+        String emp1JsonString = gson.toJson(employee1);
+        Log.d("employee1Json", emp1JsonString.toString()); // OUTPUT: {"age":23,"firstName":"Alex","mail":"alex@email.com"}
+
+
+ ----- Deserialization (2 methods) ------
+    ====== Method A (Assuming it is just a json string NOT stored within a json file, or stored in just a variable) ========
+	NB: Note the backward slash
+	NB: You must have created the data class for this object as well, in this case it is the same 'Employee' data class 
+
+        Gson gson = new Gson();
+        String emp1JsonString = "{\"age\":23,\"firstName\":\"Alex\",\"mail\":\"alex@email.com\"}";
+        Employee emp1Object = gson.fromJson(emp1JsonString, Employee.class);
+        Log.d("emp1Obj", emp1Object.toString());    //Employee{firstName='Alex', age=23, mail='alex@email.com'}
+
+
+   
+ ====== Method B (Assume a json file 'emp1.json' with content {"age":23,"firstName":"Alex","mail":"alex@email.com"}) ========
+	NB: You must have created the data class for this object as well, in this case it is the same 'Employee' data class 
+
+- Place the json file (ie emp1.json) within the 'assets' directory
+
+        Gson gson = new Gson();
+        String emp1JsonString = getJsonDataFromAsset(this, "emp1.json");	//getJsonDataFromAsset is a custom function, check below.
+
+        Employee emp1Object = gson.fromJson(emp1JsonString, Employee.class);
+        Log.d("emp1Obj", emp1Object.toString());    // OUTPUT: Employee{firstName='Alex', age=23, mail='alex@email.com'}
+
+------ Function for reading the .json file contents into a string variable ------
+
+    public static String getJsonDataFromAsset(Context context, String fileName) {
+        String jsonString;
+        try {
+            InputStream inputStream = context.getAssets().open(fileName);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            bufferedReader.close();
+            jsonString = stringBuilder.toString();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            return null;
+        }
+        return jsonString;
+    }
+
+
+
+
+
+
+

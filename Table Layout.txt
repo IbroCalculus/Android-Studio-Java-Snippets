@@ -1,0 +1,7 @@
+Video reference: Android Tutorial - TableLayout_ Android Studio.mp4
+
+- Drag TableLayout
+- Within Drag TableRows
+- Within Each row, drop other widgets, ie TextViews
+
+- property 'layout_column', can be accessed on any view (ie textView) within the tableRow. It positions the view (x,y), starting from 0,0.

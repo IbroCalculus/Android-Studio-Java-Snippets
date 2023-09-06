@@ -11,7 +11,7 @@ USAGE: It can be used in 2 ways; either via xml or java. Any of the 2.
 
 ============ XML USAGE ===================
 
-//Change style as required; Visti the github page to see how to modify the style
+//Change style as required; Vist the github page to see how to modify the style
 <com.github.ybq.android.spinkit.SpinKitView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/spin_kit"

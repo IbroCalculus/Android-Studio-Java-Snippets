@@ -1,0 +1,57 @@
+---------- OKHttp loggin-interceptor dependency ---------------
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+
+---------- In Main.java ---------------
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://jsonplaceholder.typicode.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)					// Add this line of code
+                .build();
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+
+
+--------------- Using the updatePost method previously created (ie PUT) --------------
+
+        updatePost();
+
+    private void updatePost() {
+        Post post1 = new Post(25, null, "How are you?");
+        Call<Post> call = jsonPlaceHolderApi.putPost(5, post1);
+//        Call<Post> call = jsonPlaceHolderApi.patchPost(5, post1);
+
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if(response.isSuccessful()){
+                    Post post1 = response.body();
+                    String content = "";
+                    String response_code = "CODE: " + response.code() + "\n";
+                    String id = "ID: " + post1.getId() + "\n";
+                    String user_id = "User ID: " + post1.getUserId() + "\n";
+                    String title = "Title: " + post1.getTitle() + "\n";
+                    String body = "Body: " + post1.getBody();
+                    content = response_code + id + user_id + title + body + "\n\n";
+                    text_view_result.append(content);
+                }else{
+                    text_view_result.setText(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+--- RUN THE APPLICATION AND CHECK LOGCAT ----

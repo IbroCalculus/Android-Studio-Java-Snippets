@@ -1,0 +1,47 @@
+We will be updating using the primary key which in this case is ID (ie COL_1 as declared when creating the table in 01.txt)
+
+=========== WITH DATABASE HELPER CLASS ========
+
+    public boolean updateData(String id, String name, String surname, String marks){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COL_1, id);
+        contentValues.put(COL_2, name);
+        contentValues.put(COL_3, surname);
+        contentValues.put(COL_4, marks);
+
+        db.update(TABLE_NAME, contentValues, COL_1 + " = ?", new String[]{id});
+        return true;
+    }
+
+
+
+=============================== IN MAIN ACTIVITY =======================
+
+        btn_update = findViewById(R.id.btn_update);
+        et_id = findViewById(R.id.et_id);
+
+        updateData();
+
+
+    private void updateData() {
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String et_id_text = et_id.getText().toString();
+                String et_name_text = et_name.getText().toString();
+                String et_surname_text = et_surname.getText().toString();
+                String et_marks_text = et_marks.getText().toString();
+
+                boolean isUpdated = myDb.updateData(et_id_text, et_name_text, et_surname_text, et_marks_text);
+
+                if(isUpdated == true){
+                    Toast.makeText(MainActivity.this, "Data updated successfully!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Data update failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }

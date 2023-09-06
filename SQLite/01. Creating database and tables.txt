@@ -1,0 +1,76 @@
+
+1. ===== CREATE JAVA CLASS TO HANDLE THE SQLite SCHEME and extend SQLiteOpenHelper ====
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+
+==== DEFINE VALUES AS REQUIRED (e.g) ======
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+    private Context context;
+    private static final String DATABASE_NAME = "student.db";
+    private static final int DATABASE_VERSION = 1;
+
+    public static final String TABLE_NAME = "student_table";
+    public static final String COL_1 = "ID";
+    public static final String COL_2 = "NAME";
+    public static final String COL_3 = "SURNAME";
+    public static final String COL_4 = "MARKS";
+
+}
+
+
+===== IMPLEMENT THE 2 METHODS, and CREATE CONSTRUCTOR (select the First one, delete & insert other parametes as depicted) ====
+
+//NOTE: Whenever this constructor is called, database will be created
+    public DatabaseHelper(@Nullable Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
+    }
+
+
+//NOTE: Whenever this method is called, the table is created.
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+
+    }
+
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+
+    }
+
+
+
+===== WITHIN public void onCreate(SQLiteDatabase db) {... ======
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String queryString = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+                " (" +
+                COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_2 + " TEXT, " +
+                COL_3 + " TEXT, " +
+                COL_4 + " INTEGER" +
+                ");"
+                ;
+        db.execSQL(queryString);
+    }
+
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
+    }
+
+
+
+
+============= WITHIN MAIN.JAVA =====================
+
+    DatabaseHelper myDb;
+
+        setContentView(R.layout.activity_main);
+
+        myDb = new DatabaseHelper(this);

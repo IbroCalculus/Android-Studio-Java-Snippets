@@ -1,16 +1,26 @@
 
+NB: For fancy spinners, you may use Spinkit. CHECK: Custom Progress Bar.txt
+
 THERE ARE TWO TYPES OF PROGRESS BARS, ONE IS CIRCULAR & INDETERMINATE BY DEFAULT
 THE OTHER IS LINEAR & CAN BE EITHER DETERMINATE OR INDETERMINATE
 
 Check Seekbar for linear(horizontal/vertical) progress bar
 
 -- DEFAULT STYLE ---
-        style="?android:attr/progressBarStyle"
+        style="?android:attr/progressBarStyle", SAME AS @style/Widget.AppCompat.ProgressBar
 
 -- CHANGE FROM DEFAULT STYLE (Circular) TO HORIZONTAL --
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
 
----- SET PROGRESS BETWEEN 0 AND 100 -----
+NB: By default, a circular indeterminate progressBar keeps keeps rotating. To stop, use visibility hide or gone.
+    Horizontal indeterminate progressBar initial progress is 0, and static. set using...
+        progressBar.setProgress(90) // JAVA
+        android:progress="80"       // XML
+
+-- Set max and min progress using either xml or java (max, .setMax()). By default, max = 100 
+
+    You may check out spinkit library.
+
 
 
 ============ DETERMINATE PROGRESS BAR ===========
@@ -29,7 +39,7 @@ SET PROGRESS BETWEEN RANGE 0 - 100
                 {
                     progressBar.incrementProgressBy(1);
                     //Thread.sleep(100);
-                    SystemClock.sleep(100);
+                    SystemClock.sleep(100);  //This is native to android, not java.
                 }
             }
         });

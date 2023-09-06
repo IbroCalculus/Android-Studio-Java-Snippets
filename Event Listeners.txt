@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
+	// Button clicked_btn = (Button) view	// Assuming the views are all buttons
+
         switch (view.getId())    // or int viewId = view.getId();  switch (viewId){...
         {
             case R.id.btn_Display:
@@ -72,8 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
-
 
 
 

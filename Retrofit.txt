@@ -7,6 +7,7 @@ CHECK: "Android App Development for Beginners 2021": 02:35:00
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
     implementation 'com.okhttp3.logging-interceptor:4.2.1'
 
 CHECK THE REFERENCE FOR BETTER UNDERSTANDING
@@ -33,7 +34,7 @@ NB: For projects, write code to check if app is connected to the internet, withi
 
 ===================== DEPENDENCY ===============
 implementation 'com.squareup.retrofit2:retrofit:(insert latest version)'  presently, implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-Also, add the GSON json converter library; implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+Also, add the retrofit's GSON json converter library; implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 
 ===================== GET ONE ROW OF DATA FROM THE API's LIST OF DATA ================
@@ -102,7 +103,7 @@ public interface RetrofitApiInterface {
             }
         });
 
---------------------------------- More within the call.enque(new ... -------------------------------------------
+--------------------------------- More within the call.enqueue(new ... -------------------------------------------
 
         call.enqueue(new Callback<List<RetrofitModelClass>>() {
             @Override

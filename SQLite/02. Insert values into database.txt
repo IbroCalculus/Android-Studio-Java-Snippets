@@ -1,0 +1,80 @@
+============== WITHIN THE DATABASE HELPER CLASS ============
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
+    }
+
+----------------- Add this method for inserting data ---------------
+
+    public boolean insertData(String name, String surname, String marks){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COL_2, name);
+        contentValues.put(COL_3, surname);
+        contentValues.put(COL_4, marks);
+
+        long result = db.insert(TABLE_NAME, null, contentValues);
+        if(result == -1){
+            return  false;
+        }else{
+            return true;
+        }
+    }
+
+
+
+================ WITHIN MAIN ACTIVITY.JAVA ============
+
+        et_name = findViewById(R.id.et_name);
+        et_surname = findViewById(R.id.et_surname);
+        et_marks = findViewById(R.id.et_marks);
+        btn_add = findViewById(R.id.btn_add);
+
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String et_name_text = et_name.getText().toString().trim();
+                String et_surname_text = et_surname.getText().toString().trim();
+                String et_marks_text = et_marks.getText().toString().trim();
+
+                boolean isInserted =  myDb.insertData(et_name_text, et_surname_text, et_marks_text);
+                if(isInserted == true){
+                    Toast.makeText(MainActivity.this, "Entries Added", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Failed to add entries", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
+------ ALTERNATIVELY -------------
+
+        et_name = findViewById(R.id.et_name);
+        et_surname = findViewById(R.id.et_surname);
+        et_marks = findViewById(R.id.et_marks);
+        btn_add = findViewById(R.id.btn_add);
+
+        addData();
+
+    public void addData(){
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String et_name_text = et_name.getText().toString().trim();
+                String et_surname_text = et_surname.getText().toString().trim();
+                String et_marks_text = et_marks.getText().toString().trim();
+
+                boolean isInserted =  myDb.insertData(et_name_text, et_surname_text, et_marks_text);
+                if(isInserted == true){
+                    Toast.makeText(MainActivity.this, "Data inserted", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }

@@ -1,0 +1,171 @@
+============== Passing a list or array of objects ============
+
+public class Address {
+    @SerializedName("country")
+    private String country;
+    @SerializedName("city")
+    private String city;
+
+    public Address(String country, String city) {
+        this.country = country;
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
+}
+
+
+public class FamilyMember {
+    @SerializedName("role")
+    private String role;
+    @SerializedName("age")
+    private int age;
+
+    public FamilyMember(String role, int age) {
+        this.role = role;
+        this.age = age;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+
+
+public class Employee {
+    @SerializedName("firstName")
+    private String firstName;
+    @SerializedName("age")
+    private int age;
+    @SerializedName("mail")
+    private String mail;
+    @SerializedName("address")
+    private Address address;
+    @SerializedName("family")
+    private ArrayList<FamilyMember> familyMember;
+
+    public Employee(String firstName, int age, String mail, Address address, ArrayList<FamilyMember> familyMember) {
+        this.firstName = firstName;
+        this.age = age;
+        this.mail = mail;
+        this.address = address;
+        this.familyMember = familyMember;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public ArrayList<FamilyMember> getFamilyMember() {
+        return familyMember;
+    }
+
+    public void setFamilyMember(ArrayList<FamilyMember> familyMember) {
+        this.familyMember = familyMember;
+    }
+}
+
+
+---- Main.java -----
+
+        Gson gson = new Gson();
+        ArrayList<FamilyMember> family = new ArrayList<>();
+        family.add(new FamilyMember("Husband", 41));
+        family.add(new FamilyMember("Wife", 35));
+        family.add(new FamilyMember("Son", 15));
+
+        Address address = new Address("Nigeria", "Abuja");
+
+        Employee emp3 = new Employee("Alex", 34, "Alex@email.com", address, family);
+        String emp3jsonString = gson.toJson(emp3);
+        Log.d("emp3jsonString", emp3jsonString);
+
+OUTPUT:
+{
+  "address": {
+    "city": "Abuja",
+    "country": "Nigeria"
+  },
+  "age": 34,
+  "family": [
+    {
+      "age": 41,
+      "role": "Husband"
+    },
+    {
+      "age": 35,
+      "role": "Wife"
+    },
+    {
+      "age": 15,
+      "role": "Son"
+    }
+  ],
+  "firstName": "Alex",
+  "mail": "Alex@email.com"
+}
+
+
+========================== DESERIALIZATION CAN BE DONE SIMILARLY ======================

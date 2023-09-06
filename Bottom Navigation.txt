@@ -40,6 +40,8 @@ NB: To prevent selecting, within onItemselect, return false for the item you don
 
 ---------------- OnItem Selected ----------------------
 
+        bottom_navigation_menu.setSelectedItemId(R.id.item_search);  // Sets the default navigatoion bar item.
+
         bottom_navigation_menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

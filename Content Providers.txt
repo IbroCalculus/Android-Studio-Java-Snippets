@@ -1,6 +1,8 @@
 A content provider manages access to a central repository of data (SOURCE: android documentation).
 Content provider is a component of android architecture that we need to use whenever we want to access the data from one application to another application.
 
+Content providers can help an application manage access to data stored by itself, stored by other apps, and provide a way to share data with other apps.
+
 === e.g: Read the contact details from the "Contact" app into this app ===
 
   --- IN MANIFEST ---

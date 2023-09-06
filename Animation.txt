@@ -133,7 +133,7 @@ IN JAVA:
 
 
         fade_animation = AnimationUtils.loadAnimation(this, R.anim.fade_animation);
-        translate_animation = AnimationUtils.loadAnimation(this, R.anim.translate_to_left); 0100717607
+        translate_animation = AnimationUtils.loadAnimation(this, R.anim.translate_to_left);
         scale_animation = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
         rotate_animation = AnimationUtils.loadAnimation(this, R.anim.rotate_animation);
 

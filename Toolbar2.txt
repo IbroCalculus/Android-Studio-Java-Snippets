@@ -1,0 +1,3 @@
+
+==================== CUSTOM TOOLBAR ========================
+NB: The single png icon size for the toolbar is 96 x 96 

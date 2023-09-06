@@ -1,0 +1,194 @@
+
+MULTIPLE METHODS 
+
+================================ METHOD 1 ============================================
+
+============= CREATE A MODEL CLASS ===============
+id is auto incremented by the API, reason why it is not in the constructor, also its wrapper class Integer was used.
+
+public class Post {
+    @SerializedName("userId")
+    private int userId;
+    @SerializedName("id")
+    private Integer id;
+    @SerializedName("title")
+    private String title;
+    @SerializedName("body")
+    private String body;
+
+    public Post(int userId, String title, String body) {
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "userId=" + userId +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                '}';
+    }
+}
+
+
+=========== WITHIN THE API INTERFACE =========
+
+interface JsonPlaceHolderApi {
+    @POST("posts")
+    Call<Post> createPost(@Body Post post);
+}
+
+=========== IN Main.java ============
+
+        createPost()
+
+    private void createPost() {
+        Post post1 = new Post(20, "New title", "New Text");
+        Call<Post> call = jsonPlaceHolderApi.createPost(post1);
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+
+            }
+        });
+    }
+
+--------------------------------- More within the call.enque(new ... -------------------------------------------
+
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if(response.isSuccessful()){
+                    Post post1 = response.body();
+                    String content = "";
+                    String response_code = "CODE: " + response.code() + "\n";
+                    String id = "ID: " + post1.getId() + "\n";
+                    String user_id = "User ID: " + post1.getUserId() + "\n";
+                    String title = "Title: " + post1.getTitle() + "\n";
+                    String body = "Body: " + post1.getBody();
+                    content = response_code + id + user_id + title + body + "\n\n";
+                    text_view_result.append(content);
+                }else {
+                    text_view_result.setText(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Error " + t.toString() , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+NB: Code 201 means successful,
+    Also, while using jsonplaceholder, it only fakes the response, the data is not stored on the api
+
+
+================================ METHOD 2 (FormURLEncoded) ============================================
+
+=========== WITHIN THE API INTERFACE =========
+
+interface JsonPlaceHolderApi {
+    @FormUrlEncoded
+    @POST("post")
+    Call<Post> createPost(
+            @Field("userId") int userId,
+            @Field("title") String title,
+            @Field("body") String body 
+    );
+}
+
+
+=========== IN Main.java ============
+
+        createPost()
+
+    private void createPost() {
+        
+        Call<Post> call = jsonPlaceHolderApi.createPost(25, "New title 3", "New Text 3");
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if(response.isSuccessful()){
+                    Post post1 = response.body();
+                    String content = "";
+                    String response_code = "CODE: " + response.code() + "\n";
+                    String id = "ID: " + post1.getId() + "\n";
+                    String user_id = "User ID: " + post1.getUserId() + "\n";
+                    String title = "Title: " + post1.getTitle() + "\n";
+                    String body = "Body: " + post1.getBody();
+                    content = response_code + id + user_id + title + body + "\n\n";
+                    text_view_result.append(content);
+                }else {
+                    text_view_result.setText(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Error " + t.toString() , Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+================================ METHOD 3 (Using map to pass contents more dynamically) ============================================
+
+-------------- WITHIN THE API INTERFACE --------------
+
+    @FormUrlEncoded
+    @POST("post")
+    Call<Post> createPost(@FieldMap Map<String, String> fields);
+
+
+---- WITHIN Main.java ----
+
+
+    private void createPost() {
+
+        Map<String, String> fields = new HashMap<>();
+        fields.put("userId", "66");
+        fields.put("title", "new title");
+        fields.put("body", "New text body");
+
+        Call<Post> call = jsonPlaceHolderApi.createPost(fields);

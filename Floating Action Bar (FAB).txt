@@ -1,4 +1,4 @@
-
+NB: There's also Extended floating action button. research!
  CHECK: 'Material Design' for latest dependency version, or google it.
 
     implementation 'com.google.android.material:material:1.0.0'

@@ -1,0 +1,465 @@
+Retrofit basically converts an HTTP api into an interface we can use in our application.
+It allows for both synchronous and asynchronous communication.
+ - Synchronous: Wait for a response after sending a request before proceeding. Synchronous network communication are handled on a background thread.
+ - Asynchronus: Continue other functions after sending requesti. On request result returned, Call a funtion to handle that. Asynchronous communication can be done on the main thread, because this calls a backend API.
+It facilitates data conversion into objects.
+It handles network retries, errors, caching, etc
+
+3 main components (2 mandatory)
+	- 1. POJO (data class)
+	- 2. Interface (which end point we want to communicate, and how)
+	- 3. Service (optional) 
+
+------------ DEPENDENCY -----------
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+
+
+--------------- ADD INTERNET PERMISSION ------------
+    <uses-permission android:name="android.permission.INTERNET" />
+NB: For projects, write code to check if app is connected to the internet, within the kotlin file
+
+-------------- STILL WITHIN MANIFEST ----------
+
+        android:theme="@style/Theme.RetrofitPractice"        
+        android:usesCleartextTraffic="true"           // This line of code
+        tools:targetApi="31">
+
+------------------------------------------------------------------------------------
+The json is an array of these object:
+[
+  {
+    "userId": 1,
+    "id": 1,
+    "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+    "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+  },
+.
+.
+.
+]
+
+======================== CREATE A MODEL CLASS ====================
+
+public class Post {
+    @SerializedName("userId")
+    private int userId;
+    @SerializedName("id")
+    private int id;
+    @SerializedName("title")
+    private String title;
+    @SerializedName("body")
+    private String body;
+
+
+    public Post(int userId, int id, String title, String body) {
+        this.userId = userId;
+        this.id = id;
+        this.title = title;
+        this.body = body;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "userId=" + userId +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                '}';
+    }
+}
+
+
+======================= CREATE AN INTERFACE THAT REPRESENTS THE API ==================
+
+public interface JsonPlaceHolderApi {
+    @GET("posts")
+    Call<List<Post>> getPost();
+}
+
+==================== WITHIN Main.java =====================
+    TextView text_view_result;
+    JsonPlaceHolderApi jsonPlaceHolderApi;
+
+        text_view_result = findViewById(R.id.text_view_result);
+        
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://jsonplaceholder.typicode.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+        retrievePosts();
+
+
+    private void retrievePosts() {
+        Call<List<Post>> call = jsonPlaceHolderApi.getPost();
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+
+            }
+        });
+    }
+
+--------------------------------- More within the call.enque(new ... -------------------------------------------
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if(response.isSuccessful()){
+                    List<Post> posts = response.body();
+                    for(Post post: posts) {
+                        String content = "";
+                        String id = "ID: " + post.getId() + "\n";
+                        String user_id = "User ID: " + post.getUserId() + "\n";
+                        String title = "Title: " + post.getTitle() + "\n";
+                        String body = "Body: " + post.getBody() + "\n";
+                        content = id + user_id + title + body + "\n\n";
+                        text_view_result.append(content);
+                    }
+                }else{
+                        text_view_result.setText(response.code());
+                    }
+                }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Error " + t.toString() , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+======================================================================================================================
+============================ SIMILARLY (https://jsonplaceholder.typicode.com/posts/1/comments) =======================
+Where the value 1 in "/posts/1/comments" is for a particular id and can be changed.
+
+
+------ METHOD 1 (Not much different from the method 2, just do this and change later for method 2 which is dynamic) -----
+
+- Using same interface
+
+------------------------------------------------------------------------------------
+The json is an array of these object:
+[
+  {
+    "postId": 1,
+    "id": 1,
+    "name": "id labore ex et quam laborum",
+    "email": "Eliseo@gardner.biz",
+    "body": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium"
+  },
+.
+.
+.
+]
+
+
+======================== CREATE A MODEL CLASS ====================
+
+public class Comment {
+    @SerializedName("postId")
+    private int postId;
+    @SerializedName("id")
+    private int id;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("email")
+    private String email;
+    @SerializedName("body")
+    private String body;
+
+    public Comment(int postId, int id, String name, String email, String body) {
+        this.postId = postId;
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.body = body;
+    }
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "postId=" + postId +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", body='" + body + '\'' +
+                '}';
+    }
+}
+
+
+======================= WITHIN THE INTERFACE THAT REPRESENTS THE API ==================
+
+    @GET("posts")
+    Call<List<Post>> getPost();
+
+    @GET("posts/1/comments")
+    Call<List<Comment>> getComments();
+
+
+==================== WITHIN Main.Java =====================
+
+    TextView text_view_result;
+    JsonPlaceHolderApi jsonPlaceHolderApi;
+
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://jsonplaceholder.typicode.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+        retrieveComments();
+
+    private void retrieveComments() {
+        Call<List<Comment>> call = jsonPlaceHolderApi.getComments();
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+
+            }
+        });
+    }
+
+--------------------------------- More within the call.enque(new ... -------------------------------------------
+
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                if(response.isSuccessful()){
+                    List<Comment> comments = response.body();
+                    for(Comment comment: comments) {
+                        String content = "";
+                        String postId = "Post ID: " + comment.getPostId() + "\n";
+                        String id = "ID: " + comment.getId() + "\n";
+                        String name = "Name: " + comment.getName() + "\n";
+                        String email = "Email: " + comment.getEmail() + "\n";
+                        String body = "Body: " + comment.getBody() + "\n";
+                        content = postId + id + name + email + body + "\n\n";
+                        text_view_result.append(content);
+                    }
+                }else {
+                    text_view_result.setText(response.code());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Error " + t.toString() , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+----------------- METHOD 2 (This makes changing the value 1 dynamic by passing the value as a function parameter) ----------------------
+All thesame as above method 1, except the stated below:
+
+======================= WITHIN THE INTERFACE THAT REPRESENTS THE API ==================
+
+    @GET("posts")
+    Call<List<Post>> getPost();
+
+ ---- INSTEAD OF: ----
+    @GET("posts/1/comments")
+    Call<List<Comment>> getComments();
+
+    fun getComments(@Path("postId") postId: Int): Call<MutableList<Comment>>
+
+---- DO: ----
+    @GET("posts/{postId}/comments")
+    Call<List<Comment>> getComments(@Path("postId") int postId);
+
+
+==================== WITHIN Main.java =====================
+    private void retrieveComments() {
+        Call<List<Comment>> call = jsonPlaceHolderApi.getComments(4);		// Added the parameter, 4 in this instance.
+
+
+
+
+======================= GETTING DATA USING QUERY STRING ==================
+Using the api; https://jsonplaceholder.typicode.com/posts/, to get data for userId 4;
+
+https://jsonplaceholder.typicode.com/posts/?userId=4    WHERE ?userId=4 is the query
+
+To use this in code;
+
+---- WITHIN THE INTERFACE ----
+
+    @GET("posts")
+    Call<List<Post>> getPost(@Query("userId") int userId);
+
+
+---- WITHIN Main.Java ----
+    private void retrievePosts() {
+        Call<List<Post>> call = jsonPlaceHolderApi.getPost(6);
+
+
+
+======================= PASSING MORE THAN 1 QUERY PARAMETER ==================
+https://jsonplaceholder.typicode.com/posts/?userId=6&_sort=id&_order=desc	sort by id in descending order
+
+
+---- WITHIN THE INTERFACE ----
+
+    @GET("posts")
+    Call<List<Post>> getPost(
+            @Query("userId") int userId,
+            @Query("_sort") String sort,
+            @Query("_order") String order
+    );
+
+---- WITHIN Main.Java ----
+    private void retrievePosts() {
+        Call<List<Post>> call = jsonPlaceHolderApi.getPost(6,"id","desc");
+        Call<List<Post>> call = jsonPlaceHolderApi.getPost(4, null, null);	//Assuming decided not to use _sort and _order
+ 
+NB: Primitive value, ie int userId cannot be nullable, to make nullable, use the wrapper instead. ie @Query("userId") Integer userId,
+
+
+
+======================= GETTING DATA FOR MORE THAN 1 userId (any number, variable argument)  ==================
+
+    @GET("posts")
+    Call<List<Post>> getPost(
+            @Query("userId") int userId,
+            @Query("userId") int userId2,
+            @Query("_sort") String sort,
+            @Query("_order") String order
+    );
+
+---- WITHIN Main.Java ----
+    private void retrievePosts() {
+        Call<List<Post>> call = jsonPlaceHolderApi.getPost(6, 3, "id","desc");
+
+
+======================= GETTING DATA FOR MORE THAN 1 userId (any number, variable argument)  ==================
+
+---- WITHIN THE INTERFACE ----
+    @GET("posts")
+    Call<List<Post>> getPost(
+            @Query("_sort") String sort,
+            @Query("_order") String order,
+            @Query("userId") Integer... userId		//This implies varags of integers (Must be last). Alternatively; Integer[] userId (Must not be last)
+    );
+
+---- WITHIN main.Java ----
+    private void retrievePosts() {
+        Call<List<Post>> call = jsonPlaceHolderApi.getPost("id","desc",2,3,4);
+
+
+
+=================== TO PASS QUERY PARAMETERS USING QUERYMAP (Cannot pass multiple values like userId) =================
+
+---- WITHIN THE INTERFACE ----
+    @GET("posts")
+    Call<List<Post>> getPost(@QueryMap Map<String, String> parameters);
+
+---- WITHIN Main.Java ----
+    private void retrievePosts() {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("userId","1");
+        parameters.put("_sort","id");
+        parameters.put("_order","desc");
+        Call<List<Post>> call = jsonPlaceHolderApi.getPost(parameters);
+
+
+
+=================== TO PASS THE END POINT OR ENTIRE URL IN RUNTIME =================
+
+---- WITHIN THE INTERFACE ----
+    @GET	//NB: This is not a mistake, it is simple @GET
+    Call<List<Comment>> getComments(@Url String url);
+
+---- WITHIN Main.java ----
+    private void retrieveComments() {
+        Call<List<Comment>> call = jsonPlaceHolderApi.getComments("posts/2/comments");
+//        Call<List<Comment>> call = jsonPlaceHolderApi.getComments("https://jsonplaceholder.typicode.com/posts/2/comments");

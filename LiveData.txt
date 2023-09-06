@@ -34,10 +34,22 @@ public class MainActivity extends AppCompatActivity {
             stringLiveData.setValue("TWO");
         });
 
-        stringLiveData.observe(this, new Observer<String>() {
+        stringLiveData.observe(this, new Observer<String>() {			//this -> Lifecycle owner. CHECK BELOW FOR MORE ON THIS
             @Override
             public void onChanged(String s) {
                 txt_view.setText(s);		//where s is the value in stringLiveData.setValue
             }
         });
+
+
+
+
+===================== LIFE CYCLE OWNER =========================
+This -> Implies that the mutable livedata object will be lifecycle aware of this activity.
+
+
+
+
+
+
 

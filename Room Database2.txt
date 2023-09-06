@@ -1,0 +1,37 @@
+===== WHAT IS ROOM & WHY TO USE IT =========
+Room provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite.
+
+
+
+===== 3 STEPS TO IMPLEMENT ROOM DATABASE =======
+You will need the following:
+1- Database class
+2- An Entity (an object representing a table)
+3- DAO Interface ((DAO: Data Access Object) contains methods for accessing the database)
+
+
+======== 5 major components of Database class =========
+It should:
+1. Be annotated with @Database
+2. Be an abstract class
+3. Extend RoomDatabase
+4. include the list of entities (called tables in sqlite) associated with that database.
+5. Contain an abstract method that has "0" arguments and returns an interface (which is annotated with @Dao) through which you access the methods required to communicate with your database.
+
+========================================= WORKING WITH ROOM DATABASE ====================================
+
+-------- Depedencies --------------
+
+    // Room
+    def room_version = "2.5.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    def lifecycle_version = "2.6.1"
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    // Annotation processor
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"

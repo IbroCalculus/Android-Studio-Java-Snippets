@@ -1,1 +1,1 @@
-Custom Progress Bar
+CHECK: Custom Progress Bar
