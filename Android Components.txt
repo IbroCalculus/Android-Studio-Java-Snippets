@@ -1,0 +1,7 @@
+Android components are the building blocks of an android application
+
+There are 4 main components in android:
+1. Activity
+2. Services (Componenents that run in the background)
+3. Broadcase Receivers
+4. Content Providers

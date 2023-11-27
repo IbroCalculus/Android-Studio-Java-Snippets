@@ -1,0 +1,66 @@
+
+    FirebaseAuth firebaseAuth;
+    PhoneAuthOptions phoneAuthOptions;
+    String receivedOTPCode;
+
+
+========================== Send OTP ========================================================================
+
+        btn_sendSMS.setOnClickListener(view -> {
+            String phoneNumber = et_phonenumber.getText().toString();
+            sendOTP(phoneNumber);
+        });
+
+
+    private void sendOTP(String phoneNumber) {
+        phoneAuthOptions = PhoneAuthOptions.newBuilder(firebaseAuth)
+                .setPhoneNumber(phoneNumber)
+                .setTimeout(60L, TimeUnit.SECONDS)			// 60L means validity period of 60. (Value is TimeUnit.Anything (ie SECONDS, MINUTES, HOURS, etc)
+                .setActivity(MainActivity.this)
+                .setCallbacks(mCallbacks)				// mCallbacks value is created below to reduce the code complexity. Can be done directly if desired. ie new PhoneAuthProvider.onVer...
+                .build();
+        PhoneAuthProvider.verifyPhoneNumber(phoneAuthOptions);
+    }
+
+    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        @Override
+        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+
+        }
+
+        @Override
+        public void onVerificationFailed(@NonNull FirebaseException e) {
+
+        }
+
+        @Override
+        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            super.onCodeSent(s, forceResendingToken);       // s = otp code sent by firebase
+
+            receivedOTPCode = s;
+        }
+    };
+
+
+
+========================== Verify & Signin with OTP ========================================================================
+
+        btn_signinOTP.setOnClickListener(view -> {
+            String entered_OTP = et_otpcode.getText().toString();
+            signInOTP(entered_OTP);
+        });
+
+    private void signInOTP(String entered_OTP) {
+        PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(receivedOTPCode, entered_OTP);
+        firebaseAuth.signInWithCredential(phoneAuthCredential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(MainActivity.this, "Failed to login", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }

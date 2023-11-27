@@ -1,7 +1,9 @@
 
 
 private void StoredDataUsingSharedPreferences(String usernameEntered, String passwordEntered, Boolean checkboxState) {
-        SharedPreferences.Editor editor = getSharedPreferences(FILE_NAME, MODE_PRIVATE).edit();
+    	SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+    	SharedPreferences.Editor editor = sharedPreferences.edit();
+
         editor.putString("usernameToStore", usernameEntered);
         editor.putString("passwordToStore", passwordEntered);
         editor.putBoolean("checkboxMode", checkboxState);
@@ -85,7 +87,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void StoredDataUsingSharedPreferences(String usernameEntered, String passwordEntered, Boolean checkboxState) {
-        SharedPreferences.Editor editor = getSharedPreferences(FILE_NAME, MODE_PRIVATE).edit();
+
+    	SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+    	SharedPreferences.Editor editor = sharedPreferences.edit();
+
         editor.putString("usernameToStore", usernameEntered);
         editor.putString("passwordToStore", passwordEntered);
         editor.putBoolean("checkboxMode", checkboxState);

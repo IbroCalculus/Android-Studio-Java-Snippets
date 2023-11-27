@@ -1,9 +1,10 @@
-An Adapter object acts as a bridge between an AdapterView and the underlying data for that view. The Adapter provides access to the data items.
+- An Adapter object acts as a bridge between an AdapterView and the underlying data for that view. The Adapter provides access to the data items.
 
-The Adapter is also responsible for making a View for each item in the data set.
+- The Adapter is also responsible for making a View for each item in the data set.
 
-Whenever we want to bind some data which we get from any data source(e.g ArrayList, HashMap, SQLite, etc.) with a UI component (e.g ListView, GridView, etc), then Adapter comes into the picture.
+- Whenever we want to bind some data which we get from any data source(e.g ArrayList, HashMap, SQLite, etc.) with a UI component (e.g ListView, GridView, etc), then Adapter comes into the picture.
 
+CHECK: ListView.txt to see how to work with custom adapter using it in the listview
 
 ============ Types of Adapters ============
 * BaseAdapter - It is the parent adapter for all other adapters.
@@ -27,6 +28,7 @@ Whenever we have a list of single itmes which is backed by an Array, we can use 
 E.g: List of phone numbers, countries or names.
 
 
+CHECK: ListView.txt to see how to work with custom adapter using it in the listview
 
 ======== ADAPTER VIEW ==========
 An AdapterView is a view whose children are determined by an Adapter.

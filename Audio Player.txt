@@ -11,6 +11,7 @@ Create directory of type raw and place sound files inside.
         if(mediaPlayer == null)
         {
             mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+            //mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_UIR));	//This will play the default ringtone of the application.
             //mediaPlayer = MediaPlayer.create(this, Uri.parse("http://www.music.com/m1.mp3"));
             //mediaPlayer.setLooping(true);
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

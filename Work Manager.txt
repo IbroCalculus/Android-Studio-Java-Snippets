@@ -4,7 +4,7 @@ Work Manager is used to carry out background processes. More powerful than servi
 Types of persistent work
 WorkManager handles three types of persistent work:
 
-Immediate: Tasks that must begin immediately and complete soon. May be expedited.
+Immediate: Tasks that must begin immediately and complete soon. May be expedited. (Expedited means to accelerate a process)
 Long Running: Tasks which might run for longer, potentially longer than 10 minutes.
 Deferrable: Scheduled tasks that start at a later time and can run periodically.
 
@@ -19,9 +19,14 @@ Deferrable: Scheduled tasks that start at a later time and can run periodically.
 ====== CREATE A CLASS TO HANDLE TO WORKMANAGER PROCESS ie WorkManagerClass, extend Worker, implement doWork method & create constructor =====
 
 public class WorkManagerClass extends Worker {
+
     public WorkManagerClass(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
+
+
+//    The doWork method runs asynchronously on a background thread provided by WorkManager
+//    Do the work within this method
 
     @NonNull
     @Override
@@ -81,7 +86,7 @@ NB: You can schedule the WorkManager to run only once or periodically over an in
             }
         });
 
-   --------- This line -----------------
+   --------- This block -----------------
         WorkManager.getInstance(getApplicationContext()).getWorkInfoByIdLiveData(countWorkRequest.getId())
                 .observe(this, new Observer<WorkInfo>() {
                     @Override
@@ -97,7 +102,7 @@ OUTPUT: It will toast; "ENCQUEUED", "RUNNING", then "SUCCEEDED"
 
 =================== WORKING WITH CONSTRAINTS =================================
 
-ie; running the worker under certain conditions. E.g: Connected to WIFI, battery charging, battery percent above 50, etc.
+ie; running the worker under certain conditions. E.g: Device is connected to WIFI, battery is charging, battery percent above 50, etc.
 
         btnWorkManager = findViewById(R.id.btnWorkManager);
 
@@ -129,7 +134,7 @@ E.g Send the data for the number of iteration from the MainActivity to the Worke
     public static final String KEY_COUNTER_VALUE = "key_count";
 
 
-        Data data = new Data.Builder().putInt(KEY_COUNTER_VALUE, 200).build();
+        Data data1 = new Data.Builder().putInt(KEY_COUNTER_VALUE, 200).build();
 
         WorkRequest countWorkRequest = new OneTimeWorkRequest
                 .Builder(WorkManagerClass.class)

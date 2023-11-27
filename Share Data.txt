@@ -15,6 +15,18 @@
 
                 if(intent.resolveActivity(getPackageManager()) != null){
                     startActivity(intent);
-                }
+                } 
             }
         });
+
+----------- Example 2-------------------------------
+
+    private void shareData(String title1, int id){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+
+//        Additional information
+        intent.putExtra(Intent.EXTRA_SUBJECT, title1);  // If share via email, this will be header
+        intent.putExtra(Intent.EXTRA_TEXT, "sample email content with id, " + id);	// Main content to be shared
+        startActivity(Intent.createChooser(intent, "Choose a platform"));
+    }

@@ -8,73 +8,71 @@
 
 ----------------- Add this method for inserting data ---------------
 
-    public boolean insertData(String name, String surname, String marks){
+NB: COL_1 is not included because it is unique and autoincrement.
+
+    public boolean insertData(String name, String email){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(COL_2, name);
-        contentValues.put(COL_3, surname);
-        contentValues.put(COL_4, marks);
+        contentValues.put(COL_3, email);
 
-        long result = db.insert(TABLE_NAME, null, contentValues);
-        if(result == -1){
-            return  false;
-        }else{
+        long var = db.insert(TABLE_NAME, null, contentValues);
+        if(var == -1){
+            return false;
+        }else {
             return true;
         }
     }
 
 
 
+
 ================ WITHIN MAIN ACTIVITY.JAVA ============
 
-        et_name = findViewById(R.id.et_name);
-        et_surname = findViewById(R.id.et_surname);
-        et_marks = findViewById(R.id.et_marks);
-        btn_add = findViewById(R.id.btn_add);
+    EditText et_Id, et_Name, et_Email;
+    Button btn_Add, btn_ShowData, btn_UpdateData, btn_DeleteData, btn_ShowAllData, btn_DeleteAllData;
+    ListView listView1;
 
-        btn_add.setOnClickListener(new View.OnClickListener() {
+    ArrayList<String> detailsList;
+    ArrayAdapter<String> detailsListAdapter;
+
+    DatabaseHelper databaseHelper;
+    Cursor cursor;
+
+        databaseHelper = new DatabaseHelper(this);
+
+        et_Id = findViewById(R.id.et_Id);
+        et_Name = findViewById(R.id.et_Name);
+        et_Email = findViewById(R.id.et_Email);
+
+        btn_Add = findViewById(R.id.btn_AddData);
+        btn_ShowData = findViewById(R.id.btn_ShowData);
+        btn_UpdateData = findViewById(R.id.btn_UpdateData);
+        btn_DeleteData = findViewById(R.id.btn_DeleteData);
+        btn_ShowAllData = findViewById(R.id.btn_ShowAllData);
+        btn_DeleteAllData = findViewById(R.id.btn_DeleteAllData);
+        listView1 = findViewById(R.id.listView1);
+        detailsList = new ArrayList<>();
+        detailsListAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, detailsList);
+
+
+        btn_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String et_name_text = et_name.getText().toString().trim();
-                String et_surname_text = et_surname.getText().toString().trim();
-                String et_marks_text = et_marks.getText().toString().trim();
-
-                boolean isInserted =  myDb.insertData(et_name_text, et_surname_text, et_marks_text);
-                if(isInserted == true){
-                    Toast.makeText(MainActivity.this, "Entries Added", Toast.LENGTH_SHORT).show();
+                boolean result = addData(name, email);
+                if(result){
+                    Toast.makeText(getApplicationContext(), "Data inserted", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(MainActivity.this, "Failed to add entries", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Failed to insert", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
-
-
------- ALTERNATIVELY -------------
-
-        et_name = findViewById(R.id.et_name);
-        et_surname = findViewById(R.id.et_surname);
-        et_marks = findViewById(R.id.et_marks);
-        btn_add = findViewById(R.id.btn_add);
-
-        addData();
-
-    public void addData(){
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String et_name_text = et_name.getText().toString().trim();
-                String et_surname_text = et_surname.getText().toString().trim();
-                String et_marks_text = et_marks.getText().toString().trim();
-
-                boolean isInserted =  myDb.insertData(et_name_text, et_surname_text, et_marks_text);
-                if(isInserted == true){
-                    Toast.makeText(MainActivity.this, "Data inserted", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+-----------------------		-----------------------------------
+    private boolean addData(String name, String email) {
+        boolean isInserted = databaseHelper.insertData(name, email);
+        return isInserted;
     }

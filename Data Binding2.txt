@@ -18,13 +18,15 @@ android {
 	.
 
     buildFeatures {
-        dataBinding true
+        dataBinding = true
     }
 
 ---- Within XML ----
 Assume 2 buttons and a textview with ids; btnPlus, btnMinus, and tv_disp;
 
 - Surround the root layout with <layout></layout>, also cut the namespaces from the root layout and paste into the <layout> tag, ie
+
+<?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -3,14 +3,13 @@ For more on fonts: CHECK: Android Development for Beginners: 10:30:00
 
 =================== USING LOCAL FONTS =============================
 
+NB: font name must not contain space or capital letters, underscore is ok 
+
 create new font resource directory. ie: resource type: font
-
-NB: font name must not contain space or capital letters, underscore is ok
-NB: Dragging font into the fonts directory, cuts and paste instead of copy and paste. Always make a copy
-
 drag & drop fonts into the directory
-
 use android:fontFamily="@font/font_name" OR from design view, select option from 'fontFamily'
+
+
 
 
 =================== USING GOOGLE FONTS (Need internet to preview) =============================
@@ -31,3 +30,72 @@ NB: Seem not to work though, Google
 
             }
         });
+
+
+
+================= Font Family ============================
+Assuming a font (Lobster Two), with family; 'Regular','Regular Italic', 'Bold', 'Bold Italic'.
+Save all 4 fonts within fonts folder, giving appropriate names. ie;
+- lobster_two_regular
+- lobster_two_bold
+- lobster_two_bold_italic
+- lobster_two_italic
+ 
+
+Either of these can still be assigned individually using the android:fontFamily attribute,
+
+But to create a font family of these 4, do;
+
+- Create a font resource file, ie lobster_two
+
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <font
+        android:font="@font/lobster_two_regular"	// app:font="@font/lobster_two_regular"
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        />
+
+    <font
+        android:font="@font/lobster_two_italic"
+        android:fontStyle="italic"
+        android:fontWeight="400"
+        />
+
+    <font
+        android:font="@font/lobster_two_bold"
+        android:fontStyle="normal"
+        android:fontWeight="700"
+        />
+
+    <font
+        android:font="@font/lobster_two_bold_italic"
+        android:fontStyle="italic"
+        android:fontWeight="700"
+        />
+
+</font-family>
+
+---- Usage ----
+	android:fontFamily="@font/lobster_two"
+	android:textStyle="bold"			// This will pick lobster_two_bold
+
+	android:fontFamily="@font/lobster_two"
+	android:textStyle="bold|italic"			// This will pick lobster_two_bold_italic
+
+	android:fontFamily="@font/lobster_two"
+	android:textStyle="normal|italic"		// This will pick lobster_two_italic
+
+NB: fontWeight definitions:
+ 100 - thin (Minimum thickness)
+ 200 - Extra-light
+ 300 - Light
+ 400 - normal/regular/plain
+ 500 - Medium
+ 600 - Semi-bold
+ 700 - bold
+ 800 - Extra-bold
+ 900 - Black (Maximum thickness)
+ 
+

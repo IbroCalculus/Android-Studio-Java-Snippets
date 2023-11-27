@@ -29,6 +29,7 @@ Android JetPack is compossed of 4 main sections, ie:
  - AppCompat
  - Android KTX
  - Test
+ - Multidex
 
 4. THE BEHAVIOUR: This consists of:
  - Download Manager

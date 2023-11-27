@@ -6,8 +6,8 @@ Room provides an abstraction layer over SQLite to allow fluent database access w
 ===== 3 STEPS TO IMPLEMENT ROOM DATABASE =======
 You will need the following:
 1- Database class
-2- An Entity (an object representing a table)
-3- DAO Interface ((DAO: Data Access Object) contains methods for accessing the database)
+2- An Entity (an object representing a table with its corresponding columns)
+3- DAO Interface ((DAO: Data Access Object) contains methods for accessing the database). Similar to DatabaseHelper class and defining the CRUD operations.
 
 
 ======== 5 major components of Database class =========
@@ -23,15 +23,13 @@ It should:
 -------- Depedencies --------------
 
     // Room
-    def room_version = "2.5.1"
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation("androidx.room:room-runtime:2.5.2")
+    annotationProcessor("androidx.room:room-compiler:2.5.2")
 
-    def lifecycle_version = "2.6.1"
     // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 
     // Annotation processor
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.6.2")

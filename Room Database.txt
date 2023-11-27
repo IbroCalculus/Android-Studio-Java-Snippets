@@ -7,9 +7,9 @@
 
 
  The room database has 3 main components, ie
- 1- Entity: It represents the data in a single row of the table in the database. 
- 2- DAO (Data Access Object): It is a method that is used to access the database
- 3- Database: It is a class that holds entities and database versions.
+ 1- Entity: It represents the table and its correspoding columns.
+ 2- DAO (Data Access Object): It is a method that is used to access the database. (Similar to DatabaseHelper class)
+ 3- Database: It is a class that holds entities and database version. This class content also describe the list of DAOs
 
 ====== Architectural Room Database ========
  Room database does not work alone, it works with auxiliary components known as "Architectural Components".

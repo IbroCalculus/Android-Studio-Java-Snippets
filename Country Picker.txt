@@ -3,10 +3,31 @@ https://github.com/hbb20/CountryCodePickerProject
 (Wiki, for detail on usage) https://github.com/hbb20/CountryCodePickerProject/wiki
 
 
-          implementation 'com.hbb20:ccp:X.Y.Z'    // implementation 'com.hbb20:ccp:2.6.1'
+          implementation 'com.hbb20:ccp:X.Y.Z'    // implementation 'com.hbb20:ccp:2.7.1'
 
     <com.hbb20.CountryCodePicker
         android:id="@+id/ccp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+
+
+------------------ Example ------------
+Assume the country code picker, with id: ccp_login_countrycode, AND 
+		    an edittext with id: et_login_mobile_number
+---
+        ccp_login_countrycode.registerCarrierNumberEditText(et_login_mobile_number);
+
+---
+        btn_send_otp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!ccp_login_countrycode.isValidFullNumber()){
+                    et_login_mobile_number.setError("Invalid phone number");
+                    return;
+                }
+                Intent intent = new Intent(getApplicationContext(), LoginOTPActivity.class);
+                intent.putExtra("phoneNumber", ccp_login_countrycode.getFullNumberWithPlus());
+                startActivity(intent);
+            }
+        });

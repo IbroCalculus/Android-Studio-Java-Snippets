@@ -1,0 +1,108 @@
+
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+================ 1. VIEWPAGER WITHOUT TAB OR BUTTON, JUST SWIPE ====================
+
+- Create 3 fragments, ie Frag1, Frag2 and Frag3. (Perhaps check Fragments reference)
+
+--- Create an adapter for the ViewPager (ie MyViewPagerAdapter), extend FragmentStateAdapter, implement the 2 methods and constructor ---
+    Also create an arrayList of fragments as seen
+
+public class MyViewPagerAdapter extends FragmentStateAdapter {
+
+    private ArrayList<Fragment> fragmentList = new ArrayList<>();
+
+    public MyViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+        super(fragmentManager, lifecycle);
+    }
+
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
+        return null;
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+}
+
+--- More on the adapter class ---
+- Modify createFragmen(int position):
+
+    public Fragment createFragment(int position) {
+        return fragmentList.get(position);
+    }
+
+
+- Modify getItemCount():
+
+    public int getItemCount() {
+        return fragmentList.size();
+
+--- Create method for adding fragments still within the adapter ---
+
+
+    public void addFragment(Fragment fragment){
+        fragmentList.add(fragment);
+    }
+
+--------- Adapter class in full ---------
+
+public class MyViewPagerAdapter extends FragmentStateAdapter {
+    private ArrayList<Fragment> fragmentList = new ArrayList<>();
+
+    public MyViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+        super(fragmentManager, lifecycle);
+    }
+
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
+        return fragmentList.get(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return fragmentList.size();
+    }
+
+    public void addFragment(Fragment fragment){
+        fragmentList.add(fragment);
+    }
+}
+
+
+============= Within Main.java ================
+
+    ViewPager2 viewPager2;
+    MyViewPagerAdapter myViewPagerAdapter;
+
+        viewPager2 = findViewById(R.id.viewPager2);
+        viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);	// ORIENTATION_VERTICAL
+
+        myViewPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager(), getLifecycle());
+
+        myViewPagerAdapter.addFragment(new Frag1());
+        myViewPagerAdapter.addFragment(new Frag2());
+        myViewPagerAdapter.addFragment(new Frag3());
+
+        viewPager2.setAdapter(myViewPagerAdapter);
+
+
+
+================ 2. VIEWPAGER WITH TAB ====================
+CHECK: Tab Layout to insert tablayout and tab Items.
+
+- In addition to the above, also after initializing tabLayout (tabitems IDs seem unnecessary)
+//        Connecting TabLayout with ViewPager
+        new TabLayoutMediator(tabLayout, viewPager2,
+                new TabLayoutMediator.TabConfigurationStrategy() {
+                    @Override
+                    public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                        tab.setText("Fragment: " + (position + 1));	// Will be displayed as the title of each tab item
+                    }
+                }
+        ).attach();
+

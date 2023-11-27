@@ -36,9 +36,14 @@ REFERENCE: CodingSTUFF
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    Toast.makeText(getApplicationContext(), "Registered successfully", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                                    startActivity(intent);
+                        		if(task.isSuccessful()){
+                                    		Toast.makeText(getApplicationContext(), "Registered successfully", Toast.LENGTH_SHORT).show();
+                                    		Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+                                    		startActivity(intent);
+
+                                		}else{
+                                    		Toast.makeText(getApplicationContext(), "Failed to signup", Toast.LENGTH_SHORT).show();
+						}
 
                                 }
                             })
@@ -60,7 +65,7 @@ REFERENCE: CodingSTUFF
         });
 
 
-2. ============== LOGIN/SIGN IN  ============== 
+2. ============== LOGIN  ============== 
 
     FirebaseAuth firebaseAuth;
 
@@ -74,7 +79,7 @@ REFERENCE: CodingSTUFF
             @Override
             public void onClick(View view) {
 
-                String et_EmailLoginText = et_EmailLogin.getText().toString();
+                String et_EmailLoginText = et_EmailLogin.getText().toString();		//!Patterns.EMAIL_ADDRESS.matcher(email).matches(). To validate email.
                 String et_pswdLoginText = et_pswdLogin.getText().toString();
 
                 firebaseAuth.signInWithEmailAndPassword(et_EmailLoginText, et_pswdLoginText)
@@ -99,7 +104,18 @@ REFERENCE: CodingSTUFF
         });
 
 
-3. ============== LOG OUT ==============
+3. ============== CHECK IF USER IS LOGGED IN ==============
+firebaseAuth = FirebaseAuth.getInstance();
+
+FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+if (currentUser != null) {
+    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+} else {
+    UiUtil.showToast(this, "No user logged in");
+}
+
+
+4. ============== LOG OUT ==============
 
     FirebaseAuth firebaseAuth;
 
@@ -118,5 +134,22 @@ REFERENCE: CodingSTUFF
         });
 
 
+4. ============== RESET PASSWORD (By sending link to email) ==============
+     
+        btn_resetPassword.setOnClickListener(view -> {
 
+            String et_EmailText = et_email.getText().toString();
+            firebaseAuth.sendPasswordResetEmail(et_EmailText)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(MainActivity.this, "Reset email sent", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(MainActivity.this, "An error occurred", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+        });
 

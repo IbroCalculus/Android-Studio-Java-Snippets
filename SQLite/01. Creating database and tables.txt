@@ -6,15 +6,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 ==== DEFINE VALUES AS REQUIRED (e.g) ======
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private Context context;
-    private static final String DATABASE_NAME = "student.db";
-    private static final int DATABASE_VERSION = 1;
-
-    public static final String TABLE_NAME = "student_table";
-    public static final String COL_1 = "ID";
-    public static final String COL_2 = "NAME";
-    public static final String COL_3 = "SURNAME";
-    public static final String COL_4 = "MARKS";
+    Context context;
+    public static final String DATABASE_NAME = "student_record.db";
+    public static final int DATABASE_VERISON = 1;
+    
+    public static final String TABLE_NAME = "student_data";
+    public static final String COL_1 = "id";
+    public static final String COL_2 = "name";
+    public static final String COL_3 = "email";
 
 }
 
@@ -50,10 +49,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " (" +
                 COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_2 + " TEXT, " +
-                COL_3 + " TEXT, " +
-                COL_4 + " INTEGER" +
-                ");"
-                ;
+                COL_3 + " TEXT" +
+                ")";
         db.execSQL(queryString);
     }
 
@@ -69,8 +66,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 ============= WITHIN MAIN.JAVA =====================
 
-    DatabaseHelper myDb;
+    DatabaseHelper databaseHelper;
 
         setContentView(R.layout.activity_main);
 
-        myDb = new DatabaseHelper(this);
+        databaseHelper = new DatabaseHelper(this);

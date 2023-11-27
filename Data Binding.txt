@@ -4,6 +4,7 @@
  - No findViewById codes required to work with this.
  - It prevents the Null Pointer Exception Problem.
 
+
  =========== CODE ==================
  Assume 3 textViews, ie textView1, textView2 and textView3 for this reference example.
 
@@ -16,6 +17,22 @@ android {
     buildFeatures{
         dataBinding true
     }
+
+
+--- Add the 'constraints' block within gradle (copy and paste) ---
+dependencies {
+
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0"){
+            because("kotlin-stdlib-jdk7 is now part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0"){
+            because("kotlin-stdlib-jdk8 is now part of kotlin-stdlib")
+        }
+    }
+
+
+    implementation("androidx.appcompat:appcompat:1.6.1")
 
  === Create a modal class ie Info, from which data will be gotten to bind with the textViews, generate constructor, getters and setters. ===
 

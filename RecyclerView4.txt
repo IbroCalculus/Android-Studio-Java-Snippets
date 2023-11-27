@@ -24,6 +24,12 @@ IN MAIN JAVA CLASS
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        StaggeredGridLayoutManager staggeredGridlayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridlayoutManager);
+
 
 
 CREATE LAYOUT RESOURCE FILE FOR RECYCLERVIEW i.e recycler_layout. Contains: imageView, tv_firstName, tv_surName.
@@ -146,6 +152,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        int clickedPosition = holder.getAdapterPosition();
         RecyclerModel recyclerModel = arrayList.get(position);
         holder.tv_firstName.setText(recyclerModel.getFirstNameM());
         holder.tv_Surname.setText(recyclerModel.getSurNameM());
@@ -214,10 +221,11 @@ int[] image = new int[]{R.drawable.ic_home, R.drawable.ic_home, R.drawable.ic_ho
 
 ---- STEP 2 ---- WITHIN public void onBindViewHolder(@NonNull ViewHolder holder, int position) {;
 
+        int clickedPosition = holder.getAdapterPosition();
         holder.recycler_layout_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Clicked on: " + recyclerModel.getSurNameM() + " " + position,Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Clicked on: " + recyclerModel.getSurNameM() + " " + clickedPosition,Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -225,6 +233,54 @@ NOTE THAT:  '... int position)' within 'public void onBindViewHolder...' will ha
 
 
 
+=============== DELETE ITEM ON ITEM CLICKED =====================
+
+---- WITHIN public void onBindViewHolder(@NonNull ViewHolder holder, int position) {;
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        int clickedPosition = holder.getAdapterPosition();
+        RecyclerModel recyclerModel = arrayList.get(position);
+        holder.tv_1.setText(recyclerModel.getTv_1M());
+        holder.recycler_layout_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Remove the item from the list
+                arrayList.remove(clickedPosition);
+
+                // Notify the adapter that an item has been removed
+                notifyItemRemoved(clickedPosition);
+
+                // Notify the adapter that the data set has changed,
+                // which will trigger item animations
+                notifyItemRangeChanged(clickedPosition, arrayList.size());
+            }
+        });
+    }
+
+----- Assuming there's a textView title tv_SizeCount on the MainActivity that needs to update the count when Item is deleted ---
+
+	-- Within Adapter (onBindViewHolder) --
+        holder.recycler_layout_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arrayList.remove(clickedPosition);
+                notifyItemRemoved(clickedPosition);
+                notifyItemRangeChanged(clickedPosition, arrayList.size());
+
+		//NB: updateTextView is a method defined with MainActivity. Check below
+                if(context instanceof MainActivity){
+                    ((MainActivity) context).updateTextView(arrayList.size());
+                }
+            }
+        });
+
+	-- Within MainActivity (Define this method) --
+
+    public void updateTextView(int newSize) {
+        // Update the TextView with the new size of arrayList
+        tv_sizeCount.setText(String.valueOf(newSize));
+    }
 
 
 ============== TO PASS DATA FROM RECYCLERVIEW TO ANOTHER ACTIVITY ONCLICK EVENT ===============
@@ -265,19 +321,3 @@ Create intent to pass data from present activity to activity MainActivity2.class
         tv_firstName2.setText(tv_firstName);
         tv_firstName2.setText(tv_surName);
         imageView2.setImageResource(imageView);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

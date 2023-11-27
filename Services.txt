@@ -98,6 +98,7 @@ public class AndroidServices extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         playAlarm();
         return START_STICKY;
+    }
 
 
     private void playAlarm() {
@@ -159,7 +160,7 @@ public class ServicesClass extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;   // We live this empty because we are not going to create a bound service
+        return null;   // We leave this empty because we are not going to create a bound service
     }
 }
 

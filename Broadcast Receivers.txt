@@ -10,6 +10,8 @@
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+------------------ Method A. (Very similar to method B, just how code is optimized, B seems shorter) --------------------------------
+
 ========== 1. CREATE A BROADCAST RECEIVER CLASS, ie BroadcastReceiverClass, extend BroadCastReceiver and implement the method; ========
 
 public class BroadcastReceiverClass extends BroadcastReceiver {
@@ -73,3 +75,42 @@ public class BroadcastReceiverClass extends BroadcastReceiver {
         }
 
     }
+
+
+------------------ Method B. (Very similar to method B, just how code is optimized, B seems shorter) --------------------------------
+
+========== 1. CREATE A BROADCAST RECEIVER CLASS, ie AirplaneModeReceiver, extend BroadCastReceiver and implement the method; ========
+
+public class AirplaneModeReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        if(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_AIRPLANE_MODE_CHANGED)){
+            boolean isAirplaneModeOn = intent.getBooleanExtra("state", false);
+            String msg = isAirplaneModeOn ? "Airplane mode is ON": "Airplane mode is OFF";
+            Toast.makeText(context,  msg, Toast.LENGTH_LONG).show();
+        }
+
+    }
+}
+
+
+========= 2. WITHIN JAVA CLASS ============
+    AirplaneModeReceiver airplaneModeReceiver;
+
+
+        IntentFilter intentFilter = new IntentFilter("android.intent.action.AIRPLANE_MODE");
+        airplaneModeReceiver = new AirplaneModeReceiver();
+        registerReceiver(airplaneModeReceiver,intentFilter);
+
+
+
+
+
+
+
+
+
+
+

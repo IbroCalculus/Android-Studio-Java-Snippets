@@ -1,0 +1,81 @@
+
+NB: IF error, within the Project build.gradle, this has helped:
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.google.gms:google-services:4.3.10'
+
+----------------------------------------
+ Tools -> Firebase -> Realtime database -> Add realtime database
+ Go to firebase console -> Realtime Database -> Create database -> Location (I used US) -> Start in test mode (if test)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Data is stored in realtime as json data. (noSQL)
+
+
+1. ======================= Save data to database ================
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+//      databaseReference = firebaseDatabase.getReference();		// This is referencing the root database. ie if data is added, it will be added directly to the root, not in a child.
+        databaseReference = firebaseDatabase.getReference().child("users");  //This will be added within this child (users), which is directly under the root. Creates if not exists, write to if.
+
+
+        btn_firebaseSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+ ------- FOR SAVING SINGLE DATA -----------
+
+                String et_fullNameText = et_fullName.getText().toString();
+        	databaseReference.child("Fullname: ").setValue(et_fullNameText);	//child("Fullname: ") is the key, while et_fullName will be its value. ie Fullname = et_fullNameText
+                //databaseReference.push().setValue(et_fullNameText);      //Generate a unique key everytime data is saved. Without this, "Fullname: " value will override everytime.
+
+
+ ------- FOR SAVING MULTIPPLE DATA INSTEAD OF ie et_fullNameText, USE HASHMAP -----------
+
+                String et_fullNameText = et_fullName.getText().toString();
+                String et_emailAddressText = et_emailAddress.getText().toString();
+                String et_phoneText = et_phone.getText().toString();
+
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("et_fullNameText", et_fullNameText);
+                hashMap.put("et_emailAddressText", et_emailAddressText);
+                hashMap.put("et_phoneText", et_phoneText);
+
+                databaseReference.setValue(hashMap);
+                //databaseReference.push().setValue(hashMap);   //Generate a unique key everytime data is saved
+            }
+        });
+
+
+
+
+1. ======================= Retrieve data from database ================
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference2 = firebaseDatabase.getReference();  //Decide to create a database reference from the root. The .child("users") may still be used if preferred.
+
+
+    private void retrieveData() {
+        databaseReference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String fullName = (String) snapshot.child("users").child("Fullname: ").getValue();	// String because in this instance I am retrieve a string.
+                tv_retrieveData.setText(fullName);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Operation cancelled", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+

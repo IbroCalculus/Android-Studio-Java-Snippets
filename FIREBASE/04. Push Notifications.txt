@@ -1,0 +1,5 @@
+Also known as Firebase Cloud Message (FCM)
+
+
+- Add Firebase Cloud Messaging on Android Studio -> Tools -> Firebase -> Cloud Messaging
+- On Firebase website, find cloud messaging under Engage (NOT Build)

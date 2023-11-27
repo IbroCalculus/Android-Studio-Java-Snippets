@@ -1,3 +1,7 @@
+NB: If using online pojo generator, to enable @Generated("jsonschema2pojo"), add javax dependency
+    // JAVAX
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
+
 Retrofit basically converts an HTTP api into an interface we can use in our application.
 It allows for both synchronous and asynchronous communication.
  - Synchronous: Wait for a response after sending a request before proceeding. Synchronous network communication are handled on a background thread.

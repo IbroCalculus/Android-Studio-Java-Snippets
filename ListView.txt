@@ -1,7 +1,7 @@
 
 CHECK: "Android App Development Tutorial For Beginners 2021" for simpler implementation. 00:50:00. SIMILAR TO METHOD 2
 
-NB: There's also custom listview below; CHECK: "codingSTUFF": Lecture 18
+NB: There's also custom listview below; CHECK: below within METHOD 1.
 
 NOTE: ListView is Lagacy, better RecyclerView
 CONS: 	Not customizeable, Low performance
@@ -59,14 +59,107 @@ NB: There are multiple types of adapters. But we work with arrayAdapter in this 
 
 
 
-============================= 	2. CUSTOM LISTVIEW	==========================================
- CHECK: "codingSTUFF": Lecture 18
+============================= CREATING AND USING CUSTOM ADAPTER ==========================================
+
+        listView = findViewById(R.id.listView);
+
+- create the custom layout(my_list_item.xml) with a textView (id=textView1), then:
+
+- Create a class for the custom adapter (ie MyCustomAdapter) and extend BaseAdapter and implement the 4 required methods.  
+  (CHECK: Adapter for the definition and usage of the 4 implemented methods; getCount(), getItem(int position), getItemId(int position), getView(.... ))
+
+public class MyCustomAdapter extends BaseAdapter {
+    @Override
+    public int getCount() {
+        return 0;   // Returns the number of items in your data source
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;    // Returns the data item at the given position
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;   // Returns a unique identifier for the item at the given position
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        return null;    // Displays the data at a position in the data set
+    }
+}
+
+--- Within the class --- 
+- Create the two variables (Context context, and ArrayList<String> countries) and genereate constructor for both.
+
+    private Context context;
+    private ArrayList<String> countries;
+
+    public MyCustomAdapter(Context context, ArrayList<String> countries) {
+        this.context = context;
+        this.countries = countries;
+    }
+
+- Create ViewHolder class (It holds reference to the views within an item layout)
+
+    static class ViewHolder{
+        TextView text_view1;
+    }
 
 
 
+-------------- Class in whole --------------
 
+public class MyCustomAdapter extends BaseAdapter {
 
+    private Context context;
+    private ArrayList<String> countries;
 
+    public MyCustomAdapter(Context context, ArrayList<String> countries) {
+        this.context = context;
+        this.countries = countries;
+    }
+
+    @Override
+    public int getCount() {
+        return countries.size();   // Returns the number of items in your data source
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return countries.get(position);    // Returns the data item at the given position
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;   // Returns a unique identifier for the item at the given position
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // Displays the data at a position in the data set
+        ViewHolder holder;
+
+        if(convertView == null){
+            // convertView is a recycled View that can be reused to improve the performance of your list.
+            convertView = LayoutInflater.from(context).inflate(R.layout.my_list_item, parent, false);
+            holder = new ViewHolder();
+            holder.text_view1 = convertView.findViewById(R.id.text_view1);
+            convertView.setTag(holder);
+        }else {
+            // Reusing the View that is recycled
+            holder = (ViewHolder) convertView.getTag();
+        }
+        holder.text_view1.setText(countries.get(position));
+
+        return convertView;
+    }
+
+    static class ViewHolder{
+        TextView text_view1;
+    }
+}
 
 
 

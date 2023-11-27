@@ -24,6 +24,7 @@
                 Toast.makeText(MainActivity.this, "DATE: "+ dateCharSequence, Toast.LENGTH_LONG).show();
             }
         }, YEAR, MONTH, DATE);
+    	datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());	//NOT to exceed current date
         datePickerDialog.show();
     }
 
