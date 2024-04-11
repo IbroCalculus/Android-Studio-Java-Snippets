@@ -1,0 +1,152 @@
+
+-------- Visit the documentation website () ------------
+There are two dependencies, use one at a time; ie: 
+	* implementation("com.google.mlkit:face-detection:16.1.6") (For bundling the model with your app. I USED THIS)
+	* implementation("com.google.android.gms:play-services-mlkit-face-detection:17.1.0") (For using the model in Google Play Services, ie: You don't want the model bundled with the app.)
+
+
+============= .JAVA ==============
+
+------- 1. Initial setup ----------
+
+public class RegisterActivity extends AppCompatActivity {
+
+    FaceDetector detector;
+    InputImage image;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+----- From the documentation ( This code is used for images, while the other you will find below it in the documentation is to be used with live footage) -----
+
+FaceDetectorOptions highAccuracyOpts =
+        new FaceDetectorOptions.Builder()
+                .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+                .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_NONE)
+                .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_NONE)
+                .build();
+----
+
+detector = FaceDetection.getClient(highAccuracyOpts);
+
+------ 2. Detecting faces -----------
+
+* i. Create a function that does the face detection, it accepts a bitmap image. (Check: Gallery or Pick Image from Gallery.txt to see how to read and convert image to bitmap.
+	ALSO NB: This function should be called after the imageview has shown the image. ie, it should be placed below imageView.setImageBitmap(bitmap);
+	ALSO NB: YOU MAY SIMPLY COPY THE ONE AT below this one. ie: More on the above
+
+    private void performFaceDetection(Bitmap bitmap) {
+        int rotationDegree = 0;
+        image = InputImage.fromBitmap(bitmap, rotationDegree);
+        Task<List<Face>> result =
+                detector.process(image)
+                        .addOnSuccessListener(
+                                new OnSuccessListener<List<Face>>() {
+                                    @Override
+                                    public void onSuccess(List<Face> faces) {
+                                        // Task completed successfully
+                                        // ...
+                                        System.out.println("Number of faces: " + faces.size());
+                                        for (Face face : faces) {
+                                            Rect bounds = face.getBoundingBox();
+                                        }
+                                    }
+                                })
+                        .addOnFailureListener(
+                                new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Task failed with an exception
+                                        // ...
+                                    }
+                                });
+    }
+
+
+
+--------- More on the above (Modify the function above to draw rectangle over the face) --------------
+	ALSO NB: YOU MAY SIMPLY COPY THE ONE AT below this one. ie: More on the above
+
+    private void performFaceDetection(Bitmap bitmap) {
+        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas canvas = new Canvas(mutableBitmap);
+        int rotationDegree = 0;
+        image = InputImage.fromBitmap(bitmap, rotationDegree);
+        Task<List<Face>> result =
+                detector.process(image)
+                        .addOnSuccessListener(
+                                new OnSuccessListener<List<Face>>() {
+                                    @Override
+                                    public void onSuccess(List<Face> faces) {
+                                        // Task completed successfully
+                                        // ...
+                                        System.out.println("Number of faces: " + faces.size());
+                                        if(faces.size() <= 0){
+                                            Toast.makeText(RegisterActivity.this, "No faces detected in the photo", Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            Toast.makeText(RegisterActivity.this, "There are " + faces.size() + " number of faces present", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        for (Face face : faces) {
+                                            Rect bounds = face.getBoundingBox();
+                                            Paint paint = new Paint();
+                                            paint.setColor(Color.RED);
+                                            paint.setStyle(Paint.Style.STROKE);
+                                            paint.setStrokeWidth(5);
+                                            canvas.drawRect(bounds, paint);
+                                        }
+                                        imageView.setImageBitmap(mutableBitmap);
+                                    }
+                                })
+                        .addOnFailureListener(
+                                new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Task failed with an exception
+                                        // ...
+                                    }
+                                });
+    }
+
+
+
+--------- More on the above (Cropping the detected faces) --------------
+NB: This function is useful when to be used with Tensorflow. May ignore. The above does the basic that is needed.
+
+-1. Create this function below:
+
+    private void performFaceRecognition(Rect bound, Bitmap bitmap) {
+        if(bound.top < 0){
+            bound.top = 0;
+        }
+        if(bound.left < 0){
+            bound.left = 0;
+        }
+        if(bound.right > bitmap.getWidth()){
+            bound.right = bitmap.getWidth()-1;
+        }
+        if(bound.bottom > bitmap.getHeight()){
+            bound.bottom = bitmap.getHeight()-1;
+        }
+        Bitmap croppedFace = Bitmap.createBitmap(bitmap,bound.left, bound.top,bound.width(), bound.height());
+        imageView.setImageBitmap(croppedFace);
+    }
+
+
+-2. Call this method in the above function; private void performFaceDetection(Bitmap bitmap) {, this section as shown: 
+
+                                    public void onSuccess(List<Face> faces) {
+                                        // Task completed successfully
+                                        // ...
+                                        System.out.println("Number of faces: " + faces.size());
+                                        for (Face face : faces) {
+                                            Rect bounds = face.getBoundingBox();
+                                            Paint paint = new Paint();
+                                            paint.setColor(Color.RED);
+                                            paint.setStyle(Paint.Style.STROKE);
+                                            paint.setStrokeWidth(5);
+                                            performFaceRecognition(bounds, bitmap);			// HERE
+                                            canvas.drawRect(bounds, paint);
+                                        }
+                                        //imageView.setImageBitmap(mutableBitmap);			// NOTE THAT THIS HAS NOW BEEN COMMENTED
+                                    }

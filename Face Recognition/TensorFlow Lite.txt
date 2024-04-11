@@ -1,0 +1,17 @@
+TensorFlow Lite is an open source framework for on-device machine learning. It lets you run machine-learned models on mobile devices with low latency.
+We can take advantage of them to do classification, regression or anything else you might want done locally.
+
+TensorFlow Lite converter is used to converted trained TensorFlow model to .tflite which is usable on mobile devices (Android ans iOS).
+Within the application, there will be a Tensorflow Lite interpreter that runs the converted models on many different devices. ie phones, embedded Linux devices and microcontrollers.
+
+---- Advantages ------
+1. Latency: There's no round trip to a server
+2. Privacy: No data needs to leave the device
+3. Connectivity: An internet connection is not required
+4. Power consumption: Network connections are power hungry
+
+
+======================= QUANTIZATION ================
+One of the most useful optimizations that TFLite uses is called quantization.
+Quantization is using lower-bit representations than higher bits for a given real-values number.
+Quantized model is usually 4 times smaller than the original model

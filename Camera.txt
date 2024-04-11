@@ -2,7 +2,7 @@
 CHECK: Saving Files.txt; to see how to save images and other files on device
 
 
-NB: The permissions is not correctly implemented, although will run, CHECK: Permissions.txt
+NB: The permissions is not correctly implemented, although will run, CHECK: Permissions2.txt
 
 ========= RUN TIME CAMERA PERMISSION ====
 

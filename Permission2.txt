@@ -1,0 +1,191 @@
+TO BE CLEANED AND WELL DOCUMENTED LATER:
+
+=======================
+
+-------- In AndroidManifest ------------
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>		// NOTE: This is not the modern way of implementing write external storage anymore, it does not work. Check: External Storage.txt
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+
+------------
+
+    private static final int REQUEST_CAMERA_PERMISSION = 1;
+    private static final int REQUEST_CODE_FOR_ALL_PERMISSIONS = 2;
+
+
+======================== SECTION 1 (Single permission)  ===============================
+
+--------------------- Part A ----------------------
+
+    /** Check if this device has a camera */
+    private boolean checkCameraHardware(Context context) {
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+    }
+
+    /** Ask for runtime camera permissions */
+    private void requestCameraAndWriteStoragePermission() {
+        if (!checkCameraHardware(this)) {
+            Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        }
+    }
+
+--------------------- Part B ----------------------
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // CAMERA permission granted
+                Toast.makeText(this, "Camera permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                // CAMERA permission denied
+                Toast.makeText(this, "Camera permission is required to use the camera.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+======================== SECTION 2 (Multiple Permissions)  ===============================
+
+--------------------- Part A ----------------------
+
+    /** Check if this device has a camera */
+    private boolean checkCameraHardware(Context context) {
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+    }
+
+    /** Ask for runtime camera permissions */
+    private void requestRuntimePermission() {
+        if (!checkCameraHardware(this)) {
+            Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        List<String> permissionsToRequest = new ArrayList<>();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.CAMERA);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)!= PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.READ_SMS);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.READ_CONTACTS);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)!= PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.ACCESS_NETWORK_STATE);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG)!= PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.READ_CALL_LOG);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.SEND_SMS);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.READ_PHONE_STATE);
+        }
+
+        if (!permissionsToRequest.isEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionsToRequest.toArray(new String[0]), REQUEST_CODE_FOR_ALL_PERMISSIONS);
+        }
+    }
+
+
+--------------------- Part B ----------------------
+
+@Override
+public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    if (requestCode == REQUEST_CODE_FOR_ALL_PERMISSIONS) {
+        // Iterate through the permissions and check the corresponding results
+        for (int i = 0; i < permissions.length; i++) {
+            String permission = permissions[i];
+            int grantResult = grantResults[i];
+
+            switch (permission) {
+                case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Storage permission granted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Storage permission is required to access storage.", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case Manifest.permission.CAMERA:
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Camera permission granted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Camera permission is required to use the camera.", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case Manifest.permission.READ_SMS:
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Read SMS permission granted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Read SMS permission is required to read SMS.", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case Manifest.permission.READ_CONTACTS:
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Read contacts permission granted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Read contacts is required to access storage.", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case Manifest.permission.ACCESS_NETWORK_STATE:
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Access network state permission granted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Access network state permission is required to use the camera.", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case Manifest.permission.READ_CALL_LOG:
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Read call log permission granted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Read call log permission is required to read SMS.", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case Manifest.permission.READ_PHONE_STATE:
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Read phone state permission granted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Read phone state permission is required to read SMS.", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+        }
+    }
+}

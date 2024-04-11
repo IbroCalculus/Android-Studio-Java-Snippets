@@ -1,0 +1,38 @@
+NB: Check also: Pick Image from Gallery.txt, although, this is more recent and better compared to that at Pick Image from Gallery.txt
+
+================= PICK IMAGE FROM GALLERY ==============
+
+    ImageView imageView;
+    Button btn_gallery;
+
+        btn_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickImagefromGallery();
+            }
+        });
+
+
+    private void pickImagefromGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryActivityResultLauncher.launch(galleryIntent);
+    }
+
+    ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Uri image_uri = result.getData().getData();
+                        //imageView.setImageURI(image_uri);
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), image_uri);
+                            imageView.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            });

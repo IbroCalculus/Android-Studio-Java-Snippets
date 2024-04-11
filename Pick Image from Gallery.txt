@@ -24,7 +24,14 @@
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null){
             Uri imageUri = data.getData();  // path of the selected object is stored in imageUri
-            imageView2.setImageURI(imageUri);  // If this does not work, use picasso library to load the image as shown below.
+            //imageView2.setImageURI(imageUri);  // If this does not work, use picasso library to load the image as shown below.
+
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), image_uri);
+                            imageView.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
             --- Using Picasso library to load image ----
               implementation 'com.squareup.picasso:picasso:2.71828'
